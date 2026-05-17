@@ -14,10 +14,10 @@
       --surface: #0e0e0e;
       --surface-2: #161616;
       --border: rgba(192,0,26,0.2);
-      --border-soft: rgba(255,255,255,0.04);
+      --border-soft: rgba(255,255,255,0.06);
       --text: #ede8e3;
-      --text-muted: #5a5450;
-      --text-mid: #9a9490;
+      --text-muted: #848078;
+      --text-mid: #b8b2ac;
       --pixel: 'Press Start 2P', monospace;
       --vt: 'VT323', monospace;
     }
@@ -44,13 +44,14 @@
     #cur { position: fixed; width: 8px; height: 8px; background: var(--red); pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
     #cur-r { position: fixed; width: 24px; height: 24px; border: 1px solid var(--red); pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: 0.45; transition: left 0.18s cubic-bezier(.16,1,.3,1), top 0.18s cubic-bezier(.16,1,.3,1); }
 
+    /* ── NAV ── */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; justify-content: space-between; align-items: center;
       padding: 1.4rem 5rem;
       background: rgba(7,7,7,0.94);
       border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(4px);
+      backdrop-filter: blur(8px);
     }
     .nav-logo { font-family: var(--pixel); font-size: 0.65rem; text-decoration: none; color: var(--text); letter-spacing: 0.04em; }
     .nav-logo em { color: var(--red); font-style: normal; }
@@ -60,180 +61,299 @@
     .nav-btn { font-family: var(--vt); font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 1.2rem; border: 1px solid var(--red); color: var(--red); background: transparent; text-decoration: none; transition: background 0.15s, color 0.15s; }
     .nav-btn:hover { background: var(--red); color: #fff; }
 
+    /* Hamburger */
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.3rem; background: none; border: none; }
+    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); transition: transform 0.3s, opacity 0.3s; }
+    .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+    .hamburger.open span:nth-child(2) { opacity: 0; }
+    .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+    /* Mobile menu */
+    .mobile-menu {
+      display: none;
+      position: fixed; inset: 0;
+      background: var(--black);
+      z-index: 600;
+      flex-direction: column;
+      overflow-y: auto;
+    }
+    .mobile-menu.open { display: flex; }
+    .mm-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      flex-shrink: 0;
+    }
+    .mm-logo { font-family: var(--pixel); font-size: 0.6rem; text-decoration: none; color: var(--text); letter-spacing: 0.04em; }
+    .mm-logo em { color: var(--red); font-style: normal; }
+    .mm-close {
+      position: fixed;
+      top: 1rem; right: 1.4rem;
+      z-index: 700;
+      background: var(--surface-2);
+      border: 1px solid var(--border);
+      cursor: pointer;
+      width: 44px; height: 44px;
+      display: none;
+      align-items: center; justify-content: center;
+      color: var(--text); font-family: var(--vt); font-size: 1.8rem; line-height: 1;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .mm-close.visible { display: flex; }
+    .mm-close:hover { border-color: var(--red); color: var(--red); }
+    .mm-links {
+      flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
+      align-items: flex-start; padding: 5rem 1.8rem 0; gap: 0;
+    }
+    .mm-link {
+      font-family: var(--vt); font-size: 2.6rem; letter-spacing: 0.08em;
+      text-transform: uppercase; text-decoration: none; color: var(--text-muted);
+      border-bottom: 1px solid var(--border-soft);
+      width: 100%; padding: 1.2rem 0;
+      display: flex; align-items: center; justify-content: space-between;
+      transition: color 0.15s;
+    }
+    .mm-link::after { content: '>>'; font-size: 1.2rem; color: var(--border); transition: color 0.15s; }
+    .mm-link:hover { color: var(--text); }
+    .mm-link:hover::after { color: var(--red); }
+    .mm-footer { padding: 1.8rem 1.8rem 2.5rem; border-top: 1px solid var(--border-soft); }
+    .mm-cta {
+      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 1rem 1.8rem;
+      background: var(--red); color: #fff; text-decoration: none;
+      display: block; text-align: center; transition: background 0.15s;
+    }
+    .mm-cta:hover { background: var(--red-dark); }
+
+    /* ── HERO ── */
     #hero {
       position: relative; min-height: 100vh;
       display: flex; flex-direction: column; justify-content: center;
       padding: 0 5rem; overflow: hidden;
     }
-
-    .hero-dots {
+    .hero-video-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
+    .hero-video-wrap video { width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
+    .hero-video-overlay {
       position: absolute; inset: 0;
-      background-image: radial-gradient(circle, rgba(192,0,26,0.18) 1px, transparent 1px);
-      background-size: 32px 32px;
-      mask-image: radial-gradient(ellipse 75% 80% at 65% 45%, black 0%, transparent 75%);
+      background: linear-gradient(to right, rgba(7,7,7,1) 0%, rgba(7,7,7,0.92) 20%, rgba(7,7,7,0.65) 38%, rgba(7,7,7,0.25) 60%, rgba(7,7,7,0.05) 100%);
+      z-index: 1;
     }
-
-    .hero-corner {
-      position: absolute; top: 0; right: 0;
-      width: 320px; height: 320px;
-      border-bottom: 1px solid var(--border);
-      border-left: 1px solid var(--border);
-      background: linear-gradient(135deg, rgba(192,0,26,0.06) 0%, transparent 60%);
-      pointer-events: none;
-    }
+    .hero-video-noise { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); z-index: 2; pointer-events: none; opacity: 0.6; }
+    .hero-dots { position: absolute; inset: 0; z-index: 3; background-image: radial-gradient(circle, rgba(192,0,26,0.18) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse 75% 80% at 65% 45%, black 0%, transparent 75%); }
+    .hero-corner { position: absolute; top: 0; right: 0; z-index: 3; width: 320px; height: 320px; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); background: linear-gradient(135deg, rgba(192,0,26,0.06) 0%, transparent 60%); pointer-events: none; }
     .hero-corner::before { content: ''; position: absolute; top: 30px; right: 30px; width: 8px; height: 8px; background: var(--red); }
-
-    .hero-content { position: relative; max-width: 900px; }
-
-    .hero-eyebrow {
-      font-family: var(--vt); font-size: 1.2rem; letter-spacing: 0.22em;
-      text-transform: uppercase; color: var(--red);
-      display: flex; align-items: center; gap: 1rem;
-      margin-bottom: 2.5rem;
-      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
-    }
+    .hero-content { position: relative; z-index: 4; max-width: 900px; }
+    .hero-eyebrow { font-family: var(--vt); font-size: 1.2rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
     .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--red); }
-
-    .hero-title {
-      font-family: var(--pixel);
-      font-size: clamp(1.6rem, 4.5vw, 3.8rem);
-      font-weight: 400; line-height: 1.2;
-      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
-    }
+    .hero-title { font-family: var(--pixel); font-size: clamp(1.6rem, 4.5vw, 3.8rem); font-weight: 400; line-height: 1.2; opacity: 0; animation: fadeUp 0.7s 0.25s forwards; }
     .hero-title .line2 { color: var(--red); display: block; margin-top: 0.2em; text-shadow: 0 0 40px rgba(192,0,26,0.35); }
-
-    .hero-sub {
-      font-family: var(--vt); font-size: 1.35rem; line-height: 1.65; color: var(--text-mid);
-      max-width: 540px; margin-top: 2rem;
-      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
-    }
+    .hero-sub { font-family: var(--vt); font-size: 1.55rem; line-height: 1.65; color: var(--text-mid); max-width: 540px; margin-top: 2rem; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
     .cursor-blink { color: var(--red); animation: blink 1s step-end infinite; }
 
-    .hero-ctas {
-      display: flex; gap: 1rem; align-items: center; margin-top: 3.2rem;
-      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
-    }
+    /* ── COUNTDOWN ── */
+    .hero-countdown-wrap { margin-top: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
+    .countdown-label { font-family: var(--vt); font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
+    .countdown-label::before { content: '//'; color: var(--red); font-family: var(--vt); }
+    .countdown-grid { display: flex; gap: 0; align-items: stretch; }
+    .cd-block { border: 1px solid var(--border); padding: 1rem 1.4rem; text-align: center; background: rgba(7,7,7,0.7); backdrop-filter: blur(4px); position: relative; }
+    .cd-block + .cd-block { border-left: none; }
+    .cd-block::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
+    .countdown-grid:hover .cd-block::after { transform: scaleX(1); }
+    .cd-num { font-family: var(--pixel); font-size: clamp(1.2rem, 3vw, 2rem); color: var(--text); display: block; min-width: 3ch; text-align: center; }
+    .cd-sep { display: flex; align-items: center; font-family: var(--pixel); font-size: 1.4rem; color: var(--red); padding: 0 0.3rem; align-self: center; margin-top: -0.5rem; }
+    .cd-unit { font-family: var(--vt); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); display: block; margin-top: 0.3rem; }
+    .countdown-note { font-family: var(--vt); font-size: 1rem; letter-spacing: 0.12em; color: var(--text-muted); margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
+    .countdown-note::before { content: '//'; color: var(--red); font-family: var(--vt); }
 
-    .btn-red {
-      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 1rem 1.8rem;
-      background: var(--red); color: #fff; text-decoration: none;
-      transition: background 0.15s, transform 0.12s;
-      position: relative; display: inline-block;
-    }
+    /* ── CTAs ── */
+    .hero-ctas-row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; margin-top: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.65s forwards; }
+    .hero-ctas-sub { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
+    .btn-red { font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 1rem 1.8rem; background: var(--red); color: #fff; text-decoration: none; transition: background 0.15s, transform 0.12s; position: relative; display: inline-block; }
     .btn-red:hover { background: var(--red-dark); transform: translateY(-2px); }
     .btn-red::after { content: ''; position: absolute; bottom: -4px; right: -4px; width: 100%; height: 100%; background: rgba(192,0,26,0.25); z-index: -1; }
-
-    .btn-ghost {
-      font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.1em;
-      text-transform: uppercase; padding: 0.7rem 1.5rem;
-      background: transparent; color: var(--text-muted); text-decoration: none;
-      border: 1px solid var(--border-soft);
-      transition: color 0.15s, border-color 0.15s; display: inline-block;
-    }
+    .btn-ghost { font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: transparent; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border-soft); transition: color 0.15s, border-color 0.15s; display: inline-block; }
     .btn-ghost:hover { color: var(--text); border-color: rgba(192,0,26,0.3); }
     .btn-ghost::after { content: ' >>'; }
 
-    .btn-platform {
-      font-family: var(--pixel); font-size: 0.52rem; letter-spacing: 0.07em;
-      text-transform: uppercase; padding: 1.1rem 2.2rem;
-      background: transparent; color: var(--text); text-decoration: none;
-      border: 2px solid var(--text);
-      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.12s;
-      display: inline-flex; align-items: center; gap: 0.7rem;
-      position: relative;
-    }
-    .btn-platform::before { content: '[ '; color: var(--red); }
-    .btn-platform::after { content: ' ]'; color: var(--red); }
-    .btn-platform:hover { background: var(--text); color: var(--black); border-color: var(--text); transform: translateY(-2px); }
-    .hero-ctas-row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; margin-top: 3.2rem; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
-    .hero-ctas-sub { display: flex; gap: 1rem; align-items: center; }
-
-    .hero-badges {
-      position: absolute; bottom: 3rem; left: 5rem;
-      display: flex; gap: 0.8rem; align-items: center;
-      opacity: 0; animation: fadeUp 0.7s 0.75s forwards;
-    }
+    .hero-badges { position: absolute; bottom: 3rem; left: 5rem; z-index: 4; display: flex; gap: 0.8rem; align-items: center; opacity: 0; animation: fadeUp 0.7s 0.75s forwards; }
     .badge { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--text-muted); background: var(--surface); }
     .badge.hot { border-color: var(--red); color: var(--red); }
-
-    .hero-stats {
-      position: absolute; right: 5rem; bottom: 3rem;
-      display: flex; gap: 3rem;
-      opacity: 0; animation: fadeUp 0.7s 0.85s forwards;
-    }
+    .hero-stats { position: absolute; right: 5rem; bottom: 3rem; z-index: 4; display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.7s 0.85s forwards; }
     .s-item { text-align: right; }
     .s-num { font-family: var(--pixel); font-size: 1.6rem; color: var(--text); }
     .s-num b { color: var(--red); font-weight: 400; }
     .s-lbl { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem; }
 
+    /* ── TICKER ── */
     .ticker { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 0.7rem 0; background: var(--surface); }
     .ticker-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
     .ticker-item { font-family: var(--vt); font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 2rem; }
     .ticker-item .sep { color: var(--red); }
 
-    #about { background: var(--surface); padding: 8rem 5rem; }
-    .about-wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 7rem; align-items: start; }
-
-    .sec-tag { font-family: var(--vt); font-size: 0.95rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; }
-    .sec-tag::before { content: '//'; }
-
-    h2.sec-title { font-family: var(--pixel); font-size: clamp(1.1rem, 2.5vw, 1.9rem); font-weight: 400; line-height: 1.35; }
-
-    .about-body p { font-family: var(--vt); font-size: 1.15rem; line-height: 1.85; color: var(--text-mid); margin-top: 1.6rem; }
-
-    .about-divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0; }
-    .about-divider::before { content: ''; flex: 1; height: 1px; background: var(--border); }
-    .about-divider-dot { width: 6px; height: 6px; background: var(--red); flex-shrink: 0; }
-    .about-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
-
-    .about-stats { display: flex; gap: 0; margin-top: 2.5rem; border: 1px solid var(--border); }
-    .a-stat { flex: 1; padding: 1.4rem 1.6rem; border-right: 1px solid var(--border); }
-    .a-stat:last-child { border-right: none; }
-    .a-stat-num { font-family: var(--pixel); font-size: 1.1rem; color: var(--red); }
-    .a-stat-lbl { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.5rem; }
-
-    .values-panel { display: flex; flex-direction: column; gap: 0; }
-    .val-item {
-      padding: 2rem 2rem 2rem 0;
-      border-bottom: 1px solid var(--border-soft);
-      display: grid; grid-template-columns: 90px 1fr;
-      gap: 1.5rem; align-items: start;
-      transition: background 0.2s, padding-left 0.2s;
-      cursor: default;
+    /* ── ABOUT — redesigned ── */
+    #about {
+      background: var(--black);
+      padding: 10rem 5rem;
     }
-    .val-item:hover { background: rgba(255,255,255,0.015); padding-left: 0.5rem; }
-    .val-item:last-child { border-bottom: none; }
-    .val-code { font-family: var(--pixel); font-size: 0.38rem; letter-spacing: 0.06em; color: var(--red); line-height: 1.6; padding-top: 0.2rem; }
-    .val-title { font-family: var(--pixel); font-size: 0.55rem; letter-spacing: 0.06em; margin-bottom: 0.7rem; }
-    .val-desc { font-family: var(--vt); font-size: 1.05rem; line-height: 1.75; color: var(--text-muted); }
 
+    .about-header {
+      margin-bottom: 5rem;
+    }
+    .sec-tag {
+      font-family: var(--vt); font-size: 1rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--red);
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      margin-bottom: 1.2rem;
+    }
+    .sec-tag::before { content: '//'; }
+    h2.sec-title {
+      font-family: var(--pixel);
+      font-size: clamp(1.1rem, 2.5vw, 1.9rem);
+      font-weight: 400; line-height: 1.35;
+    }
+
+    /* Mission block — light, airy */
+    .about-mission {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6rem;
+      align-items: start;
+      margin-bottom: 7rem;
+    }
+    .about-mission-text p {
+      font-family: var(--vt);
+      font-size: 1.35rem;
+      line-height: 2;
+      color: var(--text-mid);
+      margin-top: 1.4rem;
+    }
+    .about-mission-text p:first-child { margin-top: 0; }
+
+    /* Stats — clean line, no box */
+    .about-stats {
+      display: flex;
+      flex-direction: column;
+      gap: 2.5rem;
+      padding-top: 0.4rem;
+    }
+    .a-stat { display: flex; align-items: baseline; gap: 1.2rem; }
+    .a-stat-num {
+      font-family: var(--pixel); font-size: 1.3rem; color: var(--red);
+      flex-shrink: 0;
+    }
+    .a-stat-lbl {
+      font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.12em;
+      text-transform: uppercase; color: var(--text-muted);
+      border-bottom: 1px solid var(--border-soft);
+      flex: 1; padding-bottom: 0.6rem;
+    }
+
+    /* Values — card grid, spacious */
+    .values-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 2px;
+    }
+    .val-card {
+      background: var(--surface);
+      padding: 2.5rem 2rem;
+      position: relative;
+      overflow: hidden;
+      transition: background 0.25s;
+    }
+    .val-card:hover { background: var(--surface-2); }
+    .val-card::before {
+      content: '';
+      position: absolute; top: 0; left: 0; right: 0;
+      height: 2px;
+      background: var(--red);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.3s cubic-bezier(.16,1,.3,1);
+    }
+    .val-card:hover::before { transform: scaleX(1); }
+    .val-index {
+      font-family: var(--pixel); font-size: 0.38rem; color: var(--border);
+      letter-spacing: 0.06em; margin-bottom: 1.8rem;
+      display: block;
+    }
+    .val-title {
+      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
+      color: var(--text); margin-bottom: 1.2rem; display: block;
+    }
+    .val-tag {
+      font-family: var(--vt); font-size: 0.85rem; letter-spacing: 0.18em;
+      text-transform: uppercase; color: var(--red);
+      display: block; margin-bottom: 1rem;
+    }
+    .val-desc {
+      font-family: var(--vt); font-size: 1.15rem; line-height: 1.85;
+      color: var(--text-muted);
+    }
+
+    /* ── JOIN — redesigned ── */
     #join {
-      background: var(--black); padding: 9rem 5rem;
+      background: var(--surface);
+      padding: 10rem 5rem;
       position: relative; overflow: hidden;
     }
     #join::before {
-      content: 'JOIN'; position: absolute;
-      font-family: var(--pixel); font-size: 14rem; font-weight: 400;
-      color: rgba(192,0,26,0.035); letter-spacing: -0.04em;
-      bottom: -2rem; right: -1rem; pointer-events: none; line-height: 1;
-      white-space: nowrap;
+      content: 'JOIN';
+      position: absolute; font-family: var(--pixel); font-size: 14rem;
+      color: rgba(192,0,26,0.03); bottom: -2rem; right: -1rem;
+      pointer-events: none; line-height: 1; white-space: nowrap;
     }
-    .join-wrap { max-width: 680px; }
-    .join-wrap h2 { font-family: var(--pixel); font-size: clamp(1.1rem, 2.8vw, 2.1rem); font-weight: 400; line-height: 1.3; }
-    .join-wrap p { font-family: var(--vt); font-size: 1.2rem; line-height: 1.85; color: var(--text-mid); margin-top: 1.8rem; max-width: 560px; }
-    .join-ctas { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; }
 
-    .terminal-box { margin-top: 4rem; background: var(--surface); border: 1px solid var(--border); padding: 1.8rem 2rem; max-width: 500px; }
-    .terminal-bar { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
-    .t-dot { width: 10px; height: 10px; background: var(--text-muted); }
+    .join-layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8rem;
+      align-items: start;
+    }
+    .join-left {}
+    .join-left h2 {
+      font-family: var(--pixel);
+      font-size: clamp(1.1rem, 2.8vw, 2.1rem);
+      font-weight: 400; line-height: 1.35;
+      margin-top: 1.5rem;
+    }
+    .join-left p {
+      font-family: var(--vt); font-size: 1.3rem; line-height: 1.95;
+      color: var(--text-mid); margin-top: 1.8rem; max-width: 480px;
+    }
+    .join-ctas {
+      display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; align-items: center;
+    }
+    .btn-discord {
+      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 1rem 1.8rem;
+      background: #5865F2; color: #fff; text-decoration: none;
+      transition: background 0.15s, transform 0.12s;
+      position: relative; display: inline-flex; align-items: center; gap: 0.7rem;
+    }
+    .btn-discord:hover { background: #4752c4; transform: translateY(-2px); }
+    .btn-discord::after { content: ''; position: absolute; bottom: -4px; right: -4px; width: 100%; height: 100%; background: rgba(88,101,242,0.25); z-index: -1; }
+    .discord-svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+
+    /* Terminal — right column */
+    .join-right {}
+    .terminal-box {
+      background: var(--black);
+      border: 1px solid var(--border);
+      padding: 2rem 2.2rem;
+    }
+    .terminal-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
+    .t-dot { width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%; }
     .t-dot.r { background: var(--red); }
-    .terminal-line { font-family: var(--vt); font-size: 1.05rem; line-height: 1.9; color: var(--text-muted); }
+    .terminal-line {
+      font-family: var(--vt); font-size: 1.25rem; line-height: 2.1; color: var(--text-mid);
+    }
     .terminal-line .c-red { color: var(--red); }
     .terminal-line .c-wht { color: var(--text); }
 
+    /* ── FOOTER ── */
     footer {
-      background: var(--surface); border-top: 1px solid var(--border);
+      background: var(--black); border-top: 1px solid var(--border);
       padding: 2.5rem 5rem;
       display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;
     }
@@ -244,22 +364,157 @@
     .f-links a:hover { color: var(--red); }
     .f-copy { font-family: var(--vt); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-muted); }
 
+    /* ── ANIMATIONS ── */
     @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
-
     .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s, transform 0.65s cubic-bezier(.16,1,.3,1); }
     .reveal.on { opacity: 1; transform: none; }
 
+    /* ── RESPONSIVE ── */
+    @media (max-width: 1100px) {
+      .values-grid { grid-template-columns: 1fr 1fr; }
+    }
+
     @media (max-width: 900px) {
-      nav { padding: 1.2rem 2rem; }
-      .nav-links { display: none; }
-      #hero { padding: 0 2rem; }
-      .hero-stats, .hero-badges { display: none; }
-      #about { padding: 5rem 2rem; }
-      .about-wrap { grid-template-columns: 1fr; gap: 3.5rem; }
-      #join { padding: 5rem 2rem; }
-      footer { flex-direction: column; align-items: flex-start; padding: 2rem; }
+      /* Nav */
+      nav { padding: 1.1rem 1.4rem; }
+      .nav-links, .nav-btn { display: none; }
+      .hamburger { display: flex; }
+
+      /* Cursor off on touch */
+      #cur, #cur-r { display: none; }
+      body { cursor: auto; }
+
+      /* Hero */
+      #hero {
+        padding: 0 1.4rem;
+        padding-top: 5rem;
+        min-height: 100svh;
+        justify-content: center;
+      }
+      .hero-video-overlay {
+        background: linear-gradient(
+          to bottom,
+          rgba(7,7,7,0.96) 0%,
+          rgba(7,7,7,0.82) 60%,
+          rgba(7,7,7,0.96) 100%
+        );
+      }
+      .hero-dots { display: none; }
+      .hero-corner { width: 120px; height: 120px; }
+      .hero-badges, .hero-stats { display: none; }
+
+      .hero-eyebrow { font-size: 0.95rem; margin-bottom: 1.5rem; }
+
+      .hero-title {
+        font-size: clamp(1.05rem, 5.5vw, 1.6rem);
+        line-height: 1.35;
+      }
+
+      .hero-sub {
+        font-size: 1.35rem;
+        margin-top: 1.2rem;
+        max-width: 100%;
+      }
+
+      /* Countdown — compact */
+      .hero-countdown-wrap { margin-top: 2rem; }
+      .countdown-label { font-size: 0.8rem; }
+      .countdown-grid { gap: 0; }
+      .cd-block { padding: 0.7rem 0.8rem; flex: 1; }
+      .cd-num { font-size: 1rem; min-width: 2ch; }
+      .cd-unit { font-size: 0.65rem; }
+      .cd-sep { font-size: 1rem; padding: 0 0.15rem; }
+      .countdown-note { font-size: 0.9rem; margin-top: 0.8rem; }
+
+      /* CTAs */
+      .hero-ctas-row { margin-top: 2rem; }
+      .hero-ctas-sub {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+        width: 100%;
+      }
+      .btn-red {
+        font-size: 0.45rem;
+        padding: 1rem 1.4rem;
+        text-align: center;
+        display: block;
+      }
+      .btn-ghost {
+        font-size: 1rem;
+        padding: 0.8rem 1.2rem;
+        text-align: center;
+        display: block;
+        width: 100%;
+      }
+
+      /* Ticker */
+      .ticker-item { font-size: 0.88rem; }
+
+      /* About */
+      #about { padding: 5rem 1.4rem 4rem; }
+      .about-header { margin-bottom: 3rem; }
+      .about-mission {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+        margin-bottom: 4rem;
+      }
+      .about-mission-text p { font-size: 1.2rem; line-height: 1.85; }
+      .about-stats { gap: 1.8rem; }
+      .a-stat-num { font-size: 1.1rem; }
+      .a-stat-lbl { font-size: 1rem; }
+      .values-grid {
+        grid-template-columns: 1fr;
+        gap: 2px;
+      }
+      .val-card { padding: 2rem 1.4rem; }
+      .val-desc { font-size: 1.1rem; }
+
+      /* Join */
+      #join { padding: 5rem 1.4rem 4rem; }
+      #join::before { display: none; }
+      .join-layout {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+      }
+      .join-left h2 { font-size: clamp(1rem, 5vw, 1.5rem); }
+      .join-left p { font-size: 1.2rem; max-width: 100%; }
+      .join-ctas {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.75rem;
+      }
+      .btn-discord {
+        font-size: 0.45rem;
+        padding: 1rem 1.4rem;
+        width: 100%;
+        justify-content: center;
+      }
+      .join-ctas .btn-ghost {
+        font-size: 1rem;
+        text-align: center;
+        display: block;
+        width: 100%;
+      }
+      .terminal-box { padding: 1.4rem 1.4rem; }
+      .terminal-line { font-size: 1.1rem; line-height: 1.9; }
+
+      /* Footer */
+      footer {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 2rem 1.4rem;
+        gap: 1.2rem;
+      }
+      .f-links { gap: 1.2rem; }
+    }
+
+    @media (max-width: 400px) {
+      .hero-title { font-size: 1rem; }
+      .cd-num { font-size: 0.85rem; }
+      .val-card { padding: 1.5rem 1.2rem; }
     }
   </style>
 </head>
@@ -268,37 +523,97 @@
 <div id="cur"></div>
 <div id="cur-r"></div>
 
+<!-- ── NAVIGATION ── -->
 <nav>
-  <a href="#" class="nav-logo">Wolf<em>.</em>defansy</a>
+  <a href="#" class="nav-logo"><em>Wolf</em>Defansy</a>
   <ul class="nav-links">
     <li><a href="#about">À propos</a></li>
     <li><a href="#join">Rejoindre</a></li>
   </ul>
   <a href="#join" class="nav-btn">Rejoindre</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
+    <span></span><span></span><span></span>
+  </button>
 </nav>
 
+<!-- Mobile menu -->
+<div class="mobile-menu" id="mobileMenu">
+  <div class="mm-header">
+    <a href="#" class="mm-logo"><em>Wolf</em>Defansy</a>
+    <button class="mm-close" id="mmClose" aria-label="Fermer">✕</button>
+  </div>
+  <nav class="mm-links">
+    <a href="#about" class="mm-link mobile-link">À propos</a>
+    <a href="#join" class="mm-link mobile-link">Rejoindre</a>
+  </nav>
+  <div class="mm-footer">
+    <a href="#join" class="mm-cta mobile-link">Nous rejoindre</a>
+  </div>
+</div>
+
+<!-- ── HERO ── -->
 <section id="hero">
+  <div class="hero-video-wrap">
+    <video autoplay muted loop playsinline poster="">
+      <source src="https://www.pexels.com/fr-fr/download/video/7272375/" type="video/mp4">
+    </video>
+  </div>
+  <div id="videofallback" style="
+    position:absolute;inset:0;z-index:0;
+    background: radial-gradient(ellipse at 70% 50%, rgba(192,0,26,0.08) 0%, transparent 60%),
+                repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(192,0,26,0.015) 40px, rgba(192,0,26,0.015) 41px);
+    animation: bgShift 12s ease-in-out infinite alternate;
+  "></div>
+  <style>
+    @keyframes bgShift {
+      0%   { opacity: 1; filter: hue-rotate(0deg); }
+      100% { opacity: 0.7; filter: hue-rotate(15deg); }
+    }
+  </style>
+  <div class="hero-video-overlay"></div>
+  <div class="hero-video-noise"></div>
   <div class="hero-dots"></div>
   <div class="hero-corner"></div>
+
   <div class="hero-content">
-    <div class="hero-eyebrow">Association CTF · Cybersécurité</div>
+    <div class="hero-eyebrow">Apprendre sans limites</div>
     <h1 class="hero-title">
       Bienvenue chez
       <span class="line2">WolfDefansy</span>
     </h1>
     <p class="hero-sub">Plateforme communautaire dédiée à la cybersécurité<span class="cursor-blink">_</span></p>
+
+    <!-- Countdown -->
+    <div class="hero-countdown-wrap">
+      <div class="countdown-label">Lancement de la plateforme</div>
+      <div class="countdown-grid">
+        <div class="cd-block">
+          <span class="cd-num" id="cd-days">--</span>
+          <span class="cd-unit">Jours</span>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="cd-block">
+          <span class="cd-num" id="cd-hours">--</span>
+          <span class="cd-unit">Heures</span>
+        </div>
+        <div class="cd-sep">:</div>
+        <div class="cd-block">
+          <span class="cd-num" id="cd-mins">--</span>
+          <span class="cd-unit">Minutes</span>
+        </div>
+      </div>
+      <div class="countdown-note">Date de sortie non définie</div>
+    </div>
+
+    <!-- CTAs -->
     <div class="hero-ctas-row">
-      <a href="#" class="btn-platform">Accéder à la plateforme</a>
       <div class="hero-ctas-sub">
-        <a href="#join" class="btn-red">Nous rejoindre</a>
+        <a href="https://discord.gg/aXywbBkpf8" class="btn-red">Nous rejoindre</a>
         <a href="#about" class="btn-ghost">En savoir plus</a>
       </div>
     </div>
   </div>
-  <div class="hero-badges">
-    <span class="badge hot">100% Gratuit</span>
-    <span class="badge">Open Source</span>
-  </div>
+
   <div class="hero-stats">
     <div class="s-item">
       <div class="s-num">100<b>%</b></div>
@@ -311,6 +626,7 @@
   </div>
 </section>
 
+<!-- Ticker -->
 <div class="ticker">
   <div class="ticker-track">
     <div class="ticker-item">
@@ -340,95 +656,147 @@
   </div>
 </div>
 
+<!-- ── ABOUT ── -->
 <section id="about">
-  <div class="about-wrap">
-    <div class="about-body reveal">
-      <div class="sec-tag">À propos</div>
-      <h2 class="sec-title">Notre mission</h2>
+
+  <!-- Mission -->
+  <div class="about-header reveal">
+    <div class="sec-tag">À propos</div>
+    <h2 class="sec-title">Notre mission</h2>
+  </div>
+
+  <div class="about-mission">
+    <div class="about-mission-text reveal">
       <p>WolfDefansy est une association qui vise principalement à aider les lycéens et les jeunes étudiants du monde entier à accéder gratuitement à l'apprentissage de la cybersécurité.</p>
       <p>Notre objectif est de fournir une plateforme de formation et de CTF accessible à tous, en construisant un environnement polyvalent, centralisé et bienveillant.</p>
       <p>Aucun objectif commercial : notre mission est de partager notre passion pour faire émerger de nouveaux passionnés.</p>
-      <div class="about-divider"><div class="about-divider-dot"></div></div>
-      <div class="about-stats">
-        <div class="a-stat">
-          <div class="a-stat-num">25+</div>
-          <div class="a-stat-lbl">Bénévoles</div>
-        </div>
-        <div class="a-stat">
-          <div class="a-stat-num">100%</div>
-          <div class="a-stat-lbl">Gratuit</div>
-        </div>
-        <div class="a-stat">
-          <div class="a-stat-num">5</div>
-          <div class="a-stat-lbl">Équipes</div>
-        </div>
-      </div>
     </div>
 
-    <div class="values-panel reveal">
-      <div class="val-item">
-        <div class="val-code">[01]<br/>SOLIDARITY</div>
-        <div>
-          <div class="val-title">Solidarité</div>
-          <p class="val-desc">WolfDefansy rend l'apprentissage accessible et gratuit pour tous. Notre mission est d'accompagner les étudiants avec un parcours complet et un soutien humain.</p>
-        </div>
+    <div class="about-stats reveal">
+      <div class="a-stat">
+        <div class="a-stat-num">25+</div>
+        <div class="a-stat-lbl">Bénévoles engagés</div>
       </div>
-      <div class="val-item">
-        <div class="val-code">[02]<br/>PASSION</div>
-        <div>
-          <div class="val-title">Passion</div>
-          <p class="val-desc">Porté par plus de 25 bénévoles engagés — développeurs, pentesters, designers — tous unis par la volonté de construire quelque chose d'utile et d'innovant.</p>
-        </div>
+      <div class="a-stat">
+        <div class="a-stat-num">100%</div>
+        <div class="a-stat-lbl">Gratuit, toujours</div>
       </div>
-      <div class="val-item">
-        <div class="val-code">[03]<br/>RIGOR</div>
-        <div>
-          <div class="val-title">Rigueur</div>
-          <p class="val-desc">Cinq équipes encadrées par des responsables expérimentés. La qualité est au cœur de notre démarche, portée par des méthodes précises et des outils adaptés.</p>
-        </div>
-      </div>
-      <div class="val-item">
-        <div class="val-code">[04]<br/>AMBITION</div>
-        <div>
-          <div class="val-title">Ambition</div>
-          <p class="val-desc">Amélioration continue, technique et opérationnelle. Notre ambition à long terme : s'étendre à l'international et permettre aux étudiants de progresser ensemble.</p>
-        </div>
+      <div class="a-stat">
+        <div class="a-stat-num">5</div>
+        <div class="a-stat-lbl">Équipes actives</div>
       </div>
     </div>
   </div>
+
+  <!-- Values grid -->
+  <div class="values-grid">
+    <div class="val-card reveal">
+      <span class="val-index">[01]</span>
+      <span class="val-tag">Solidarity</span>
+      <span class="val-title">Solidarité</span>
+      <p class="val-desc">WolfDefansy rend l'apprentissage accessible et gratuit pour tous. Notre mission est d'accompagner les étudiants avec un parcours complet et un soutien humain.</p>
+    </div>
+    <div class="val-card reveal">
+      <span class="val-index">[02]</span>
+      <span class="val-tag">Passion</span>
+      <span class="val-title">Passion</span>
+      <p class="val-desc">Porté par plus de 25 bénévoles engagés — développeurs, pentesters, designers — tous unis par la volonté de construire quelque chose d'utile et d'innovant.</p>
+    </div>
+    <div class="val-card reveal">
+      <span class="val-index">[03]</span>
+      <span class="val-tag">Rigor</span>
+      <span class="val-title">Rigueur</span>
+      <p class="val-desc">Cinq équipes encadrées par des responsables expérimentés. La qualité est au cœur de notre démarche, portée par des méthodes précises et des outils adaptés.</p>
+    </div>
+    <div class="val-card reveal">
+      <span class="val-index">[04]</span>
+      <span class="val-tag">Ambition</span>
+      <span class="val-title">Ambition</span>
+      <p class="val-desc">Amélioration continue, technique et opérationnelle. Notre ambition à long terme : s'étendre à l'international et permettre aux étudiants de progresser ensemble.</p>
+    </div>
+  </div>
+
 </section>
 
+<!-- ── JOIN ── -->
 <section id="join">
-  <div class="join-wrap">
-    <div class="sec-tag reveal">Rejoindre</div>
-    <h2 class="reveal">Prêt à<br/>chasser ?</h2>
-    <p class="reveal">Que tu sois débutant curieux ou expert aguerri, Wolfdefansy t'accueille. Rejoins le Discord, présente-toi, et plonge dans tes premiers challenges.</p>
-    <div class="join-ctas reveal">
-      <a href="#" class="btn-red">Discord &gt;&gt; Rejoindre</a>
-      <a href="mailto:contact@wolfdefansy.fr" class="btn-ghost">Nous contacter</a>
+  <div class="join-layout">
+
+    <div class="join-left">
+      <div class="sec-tag reveal">Rejoindre</div>
+      <h2 class="reveal">Prêt à<br/>chasser ?</h2>
+      <p class="reveal">Que tu sois débutant curieux ou expert aguerri, Wolfdefansy t'accueille. Rejoins le Discord, présente-toi, et plonge dans tes premiers challenges.</p>
+      <div class="join-ctas reveal">
+        <a href="https://discord.gg/aXywbBkpf8" class="btn-discord">
+          <svg class="discord-svg" viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
+            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
+          </svg>
+          Discord — Rejoindre
+        </a>
+        <a href="mailto:wolfdefansy@proton.me" class="btn-ghost">Nous contacter</a>
+      </div>
     </div>
-    <div class="terminal-box reveal">
-      <div class="terminal-bar"><div class="t-dot r"></div><div class="t-dot"></div><div class="t-dot"></div></div>
-      <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">whoami</span></div>
-      <div class="terminal-line"><span class="c-red">&gt;</span> Un passionné de cybersécurité</div>
-      <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">join wolfdefansy --free</span></div>
-      <div class="terminal-line"><span class="c-red">&gt;</span> Bienvenue, Wolf.<span class="cursor-blink"> _</span></div>
+
+    <div class="join-right reveal">
+      <div class="terminal-box">
+        <div class="terminal-bar">
+          <div class="t-dot r"></div>
+          <div class="t-dot"></div>
+          <div class="t-dot"></div>
+        </div>
+        <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">whoami</span></div>
+        <div class="terminal-line"><span class="c-red">&gt;</span> Un passionné de cybersécurité</div>
+        <div class="terminal-line">&nbsp;</div>
+        <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">join wolfdefansy --free</span></div>
+        <div class="terminal-line"><span class="c-red">&gt;</span> Bienvenue, Wolf.<span class="cursor-blink"> _</span></div>
+      </div>
     </div>
+
   </div>
 </section>
 
+<!-- ── FOOTER ── -->
 <footer>
-  <div class="f-logo">Wolf<em>.</em>defansy</div>
+  <div class="f-logo"><em>Wolf</em>defansy</div>
   <ul class="f-links">
     <li><a href="#about">À propos</a></li>
-    <li><a href="#join">Rejoindre</a></li>
-    <li><a href="#">GitHub</a></li>
-    <li><a href="#">Discord</a></li>
+    <li><a href="https://discord.gg/aXywbBkpf8">Discord</a></li>
+    <li><a href="#" id="rgpdBtn">RGPD</a></li>
   </ul>
   <div class="f-copy">© 2026 Wolfdefansy · All flags reserved</div>
 </footer>
 
+<!-- ── RGPD POPUP ── -->
+<div id="rgpdOverlay" style="display:none; position:fixed; inset:0; background:rgba(7,7,7,0.85); backdrop-filter:blur(6px); z-index:9000; align-items:center; justify-content:center; padding:1.5rem;">
+  <div style="background:var(--surface); border:1px solid var(--border); max-width:520px; width:100%; position:relative;">
+    <!-- top bar -->
+    <div style="display:flex; justify-content:space-between; align-items:center; padding:1.2rem 1.5rem; border-bottom:1px solid var(--border-soft);">
+      <span style="font-family:var(--vt); font-size:1rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--red);">// RGPD</span>
+      <button id="rgpdClose" style="background:none; border:1px solid var(--border-soft); color:var(--text-muted); font-family:var(--vt); font-size:1.4rem; width:36px; height:36px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color 0.15s, color 0.15s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='var(--text-muted)'">✕</button>
+    </div>
+    <!-- content -->
+    <div style="padding:2rem 1.5rem; display:flex; flex-direction:column; gap:1.4rem;">
+      <div style="display:flex; gap:1rem; align-items:flex-start;">
+        <span style="font-family:var(--pixel); font-size:0.38rem; color:var(--red); flex-shrink:0; padding-top:0.3rem;">[01]</span>
+        <div>
+          <div style="font-family:var(--pixel); font-size:0.45rem; color:var(--text); margin-bottom:0.6rem;">Données personnelles</div>
+          <p style="font-family:var(--vt); font-size:1.15rem; line-height:1.8; color:var(--text-mid);">Nous ne collectons aucune donnée personnelle. Aucun cookie de tracking, aucune analytics, aucun formulaire d'inscription. Votre visite est entièrement anonyme.</p>
+        </div>
+      </div>
+      <div style="height:1px; background:var(--border-soft);"></div>
+      <div style="display:flex; gap:1rem; align-items:flex-start;">
+        <span style="font-family:var(--pixel); font-size:0.38rem; color:var(--red); flex-shrink:0; padding-top:0.3rem;">[02]</span>
+        <div>
+          <div style="font-family:var(--pixel); font-size:0.45rem; color:var(--text); margin-bottom:0.6rem;">Hébergement</div>
+          <p style="font-family:var(--vt); font-size:1.15rem; line-height:1.8; color:var(--text-mid);">Le code source est hébergé sur <strong style="color:var(--text);">GitHub</strong>. Le site est déployé et servi via <strong style="color:var(--text);">Vercel</strong>. Ces plateformes peuvent collecter des logs techniques basiques (IP, user-agent) conformément à leurs propres politiques de confidentialité.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
+  /* ── Cursor ── */
   const cur = document.getElementById('cur');
   const curR = document.getElementById('cur-r');
   document.addEventListener('mousemove', e => {
@@ -436,6 +804,48 @@
     curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px';
   });
 
+  /* ── Hamburger / Mobile menu ── */
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  const mmClose = document.getElementById('mmClose');
+  const mainNav = document.querySelector('nav');
+
+  function openMenu() {
+    mobileMenu.classList.add('open');
+    hamburger.classList.add('open');
+    hamburger.setAttribute('aria-expanded', true);
+    document.body.style.overflow = 'hidden';
+    mainNav.style.display = 'none';
+    mmClose.classList.add('visible');
+  }
+  function closeMenu() {
+    mobileMenu.classList.remove('open');
+    hamburger.classList.remove('open');
+    hamburger.setAttribute('aria-expanded', false);
+    document.body.style.overflow = '';
+    mainNav.style.display = '';
+    mmClose.classList.remove('visible');
+  }
+
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  });
+  mmClose.addEventListener('click', closeMenu);
+  document.querySelectorAll('.mobile-link').forEach(link => {
+    link.addEventListener('click', closeMenu);
+  });
+
+  /* ── Countdown ── */
+  const LAUNCH_DATE = null;
+  function pad(n) { return String(n).padStart(2, '0'); }
+  function updateCountdown() {
+    document.getElementById('cd-days').textContent  = '--';
+    document.getElementById('cd-hours').textContent = '--';
+    document.getElementById('cd-mins').textContent  = '--';
+  }
+  updateCountdown();
+
+  /* ── Scroll reveals ── */
   const obs = new IntersectionObserver((entries) => {
     entries.forEach((e, i) => {
       if (e.isIntersecting) {
@@ -446,9 +856,27 @@
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  document.querySelectorAll('.val-item').forEach((el, i) => {
-    el.style.transitionDelay = (i * 0.08) + 's';
+  /* ── RGPD popup ── */
+  const rgpdOverlay = document.getElementById('rgpdOverlay');
+  document.getElementById('rgpdBtn').addEventListener('click', e => {
+    e.preventDefault();
+    rgpdOverlay.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
   });
+  document.getElementById('rgpdClose').addEventListener('click', () => {
+    rgpdOverlay.style.display = 'none';
+    document.body.style.overflow = '';
+  });
+  rgpdOverlay.addEventListener('click', e => {
+    if (e.target === rgpdOverlay) {
+      rgpdOverlay.style.display = 'none';
+      document.body.style.overflow = '';
+    }
+  });
+  const vid = document.querySelector('#hero video');
+  if (vid && vid.readyState > 0) {
+    document.getElementById('videofallback').style.display = 'none';
+  }
 </script>
 </body>
 </html>
