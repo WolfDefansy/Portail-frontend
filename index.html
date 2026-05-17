@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Wolfdefansy — CTF Association</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --red: #c0001a;
+      --red-dark: #8a0012;
+      --black: #070707;
+      --surface: #0e0e0e;
+      --surface-2: #161616;
+      --border: rgba(192,0,26,0.2);
+      --border-soft: rgba(255,255,255,0.04);
+      --text: #ede8e3;
+      --text-muted: #5a5450;
+      --text-mid: #9a9490;
+      --pixel: 'Press Start 2P', monospace;
+      --vt: 'VT323', monospace;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--text);
+      font-family: var(--pixel);
+      overflow-x: hidden;
+      cursor: none;
+    }
+
+    body::after {
+      content: '';
+      position: fixed; inset: 0;
+      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
+      pointer-events: none;
+      z-index: 9990;
+    }
+
+    #cur { position: fixed; width: 8px; height: 8px; background: var(--red); pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
+    #cur-r { position: fixed; width: 24px; height: 24px; border: 1px solid var(--red); pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: 0.45; transition: left 0.18s cubic-bezier(.16,1,.3,1), top 0.18s cubic-bezier(.16,1,.3,1); }
+
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 500;
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.4rem 5rem;
+      background: rgba(7,7,7,0.94);
+      border-bottom: 1px solid var(--border);
+      backdrop-filter: blur(4px);
+    }
+    .nav-logo { font-family: var(--pixel); font-size: 0.65rem; text-decoration: none; color: var(--text); letter-spacing: 0.04em; }
+    .nav-logo em { color: var(--red); font-style: normal; }
+    .nav-links { display: flex; gap: 2.5rem; list-style: none; }
+    .nav-links a { font-family: var(--vt); font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--text-muted); transition: color 0.15s; }
+    .nav-links a:hover { color: var(--red); }
+    .nav-btn { font-family: var(--vt); font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 1.2rem; border: 1px solid var(--red); color: var(--red); background: transparent; text-decoration: none; transition: background 0.15s, color 0.15s; }
+    .nav-btn:hover { background: var(--red); color: #fff; }
+
+    #hero {
+      position: relative; min-height: 100vh;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 0 5rem; overflow: hidden;
+    }
+
+    .hero-dots {
+      position: absolute; inset: 0;
+      background-image: radial-gradient(circle, rgba(192,0,26,0.18) 1px, transparent 1px);
+      background-size: 32px 32px;
+      mask-image: radial-gradient(ellipse 75% 80% at 65% 45%, black 0%, transparent 75%);
+    }
+
+    .hero-corner {
+      position: absolute; top: 0; right: 0;
+      width: 320px; height: 320px;
+      border-bottom: 1px solid var(--border);
+      border-left: 1px solid var(--border);
+      background: linear-gradient(135deg, rgba(192,0,26,0.06) 0%, transparent 60%);
+      pointer-events: none;
+    }
+    .hero-corner::before { content: ''; position: absolute; top: 30px; right: 30px; width: 8px; height: 8px; background: var(--red); }
+
+    .hero-content { position: relative; max-width: 900px; }
+
+    .hero-eyebrow {
+      font-family: var(--vt); font-size: 1.2rem; letter-spacing: 0.22em;
+      text-transform: uppercase; color: var(--red);
+      display: flex; align-items: center; gap: 1rem;
+      margin-bottom: 2.5rem;
+      opacity: 0; animation: fadeUp 0.6s 0.1s forwards;
+    }
+    .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--red); }
+
+    .hero-title {
+      font-family: var(--pixel);
+      font-size: clamp(1.6rem, 4.5vw, 3.8rem);
+      font-weight: 400; line-height: 1.2;
+      opacity: 0; animation: fadeUp 0.7s 0.25s forwards;
+    }
+    .hero-title .line2 { color: var(--red); display: block; margin-top: 0.2em; text-shadow: 0 0 40px rgba(192,0,26,0.35); }
+
+    .hero-sub {
+      font-family: var(--vt); font-size: 1.35rem; line-height: 1.65; color: var(--text-mid);
+      max-width: 540px; margin-top: 2rem;
+      opacity: 0; animation: fadeUp 0.7s 0.4s forwards;
+    }
+    .cursor-blink { color: var(--red); animation: blink 1s step-end infinite; }
+
+    .hero-ctas {
+      display: flex; gap: 1rem; align-items: center; margin-top: 3.2rem;
+      opacity: 0; animation: fadeUp 0.7s 0.55s forwards;
+    }
+
+    .btn-red {
+      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
+      text-transform: uppercase; padding: 1rem 1.8rem;
+      background: var(--red); color: #fff; text-decoration: none;
+      transition: background 0.15s, transform 0.12s;
+      position: relative; display: inline-block;
+    }
+    .btn-red:hover { background: var(--red-dark); transform: translateY(-2px); }
+    .btn-red::after { content: ''; position: absolute; bottom: -4px; right: -4px; width: 100%; height: 100%; background: rgba(192,0,26,0.25); z-index: -1; }
+
+    .btn-ghost {
+      font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.1em;
+      text-transform: uppercase; padding: 0.7rem 1.5rem;
+      background: transparent; color: var(--text-muted); text-decoration: none;
+      border: 1px solid var(--border-soft);
+      transition: color 0.15s, border-color 0.15s; display: inline-block;
+    }
+    .btn-ghost:hover { color: var(--text); border-color: rgba(192,0,26,0.3); }
+    .btn-ghost::after { content: ' >>'; }
+
+    .btn-platform {
+      font-family: var(--pixel); font-size: 0.52rem; letter-spacing: 0.07em;
+      text-transform: uppercase; padding: 1.1rem 2.2rem;
+      background: transparent; color: var(--text); text-decoration: none;
+      border: 2px solid var(--text);
+      transition: background 0.15s, color 0.15s, border-color 0.15s, transform 0.12s;
+      display: inline-flex; align-items: center; gap: 0.7rem;
+      position: relative;
+    }
+    .btn-platform::before { content: '[ '; color: var(--red); }
+    .btn-platform::after { content: ' ]'; color: var(--red); }
+    .btn-platform:hover { background: var(--text); color: var(--black); border-color: var(--text); transform: translateY(-2px); }
+    .hero-ctas-row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; margin-top: 3.2rem; opacity: 0; animation: fadeUp 0.7s 0.55s forwards; }
+    .hero-ctas-sub { display: flex; gap: 1rem; align-items: center; }
+
+    .hero-badges {
+      position: absolute; bottom: 3rem; left: 5rem;
+      display: flex; gap: 0.8rem; align-items: center;
+      opacity: 0; animation: fadeUp 0.7s 0.75s forwards;
+    }
+    .badge { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--text-muted); background: var(--surface); }
+    .badge.hot { border-color: var(--red); color: var(--red); }
+
+    .hero-stats {
+      position: absolute; right: 5rem; bottom: 3rem;
+      display: flex; gap: 3rem;
+      opacity: 0; animation: fadeUp 0.7s 0.85s forwards;
+    }
+    .s-item { text-align: right; }
+    .s-num { font-family: var(--pixel); font-size: 1.6rem; color: var(--text); }
+    .s-num b { color: var(--red); font-weight: 400; }
+    .s-lbl { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem; }
+
+    .ticker { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 0.7rem 0; background: var(--surface); }
+    .ticker-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
+    .ticker-item { font-family: var(--vt); font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 2rem; }
+    .ticker-item .sep { color: var(--red); }
+
+    #about { background: var(--surface); padding: 8rem 5rem; }
+    .about-wrap { display: grid; grid-template-columns: 1fr 1.1fr; gap: 7rem; align-items: start; }
+
+    .sec-tag { font-family: var(--vt); font-size: 0.95rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 0.7rem; margin-bottom: 1.4rem; }
+    .sec-tag::before { content: '//'; }
+
+    h2.sec-title { font-family: var(--pixel); font-size: clamp(1.1rem, 2.5vw, 1.9rem); font-weight: 400; line-height: 1.35; }
+
+    .about-body p { font-family: var(--vt); font-size: 1.15rem; line-height: 1.85; color: var(--text-mid); margin-top: 1.6rem; }
+
+    .about-divider { display: flex; align-items: center; gap: 1rem; margin: 2.5rem 0; }
+    .about-divider::before { content: ''; flex: 1; height: 1px; background: var(--border); }
+    .about-divider-dot { width: 6px; height: 6px; background: var(--red); flex-shrink: 0; }
+    .about-divider::after { content: ''; flex: 1; height: 1px; background: var(--border); }
+
+    .about-stats { display: flex; gap: 0; margin-top: 2.5rem; border: 1px solid var(--border); }
+    .a-stat { flex: 1; padding: 1.4rem 1.6rem; border-right: 1px solid var(--border); }
+    .a-stat:last-child { border-right: none; }
+    .a-stat-num { font-family: var(--pixel); font-size: 1.1rem; color: var(--red); }
+    .a-stat-lbl { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.5rem; }
+
+    .values-panel { display: flex; flex-direction: column; gap: 0; }
+    .val-item {
+      padding: 2rem 2rem 2rem 0;
+      border-bottom: 1px solid var(--border-soft);
+      display: grid; grid-template-columns: 90px 1fr;
+      gap: 1.5rem; align-items: start;
+      transition: background 0.2s, padding-left 0.2s;
+      cursor: default;
+    }
+    .val-item:hover { background: rgba(255,255,255,0.015); padding-left: 0.5rem; }
+    .val-item:last-child { border-bottom: none; }
+    .val-code { font-family: var(--pixel); font-size: 0.38rem; letter-spacing: 0.06em; color: var(--red); line-height: 1.6; padding-top: 0.2rem; }
+    .val-title { font-family: var(--pixel); font-size: 0.55rem; letter-spacing: 0.06em; margin-bottom: 0.7rem; }
+    .val-desc { font-family: var(--vt); font-size: 1.05rem; line-height: 1.75; color: var(--text-muted); }
+
+    #join {
+      background: var(--black); padding: 9rem 5rem;
+      position: relative; overflow: hidden;
+    }
+    #join::before {
+      content: 'JOIN'; position: absolute;
+      font-family: var(--pixel); font-size: 14rem; font-weight: 400;
+      color: rgba(192,0,26,0.035); letter-spacing: -0.04em;
+      bottom: -2rem; right: -1rem; pointer-events: none; line-height: 1;
+      white-space: nowrap;
+    }
+    .join-wrap { max-width: 680px; }
+    .join-wrap h2 { font-family: var(--pixel); font-size: clamp(1.1rem, 2.8vw, 2.1rem); font-weight: 400; line-height: 1.3; }
+    .join-wrap p { font-family: var(--vt); font-size: 1.2rem; line-height: 1.85; color: var(--text-mid); margin-top: 1.8rem; max-width: 560px; }
+    .join-ctas { display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; }
+
+    .terminal-box { margin-top: 4rem; background: var(--surface); border: 1px solid var(--border); padding: 1.8rem 2rem; max-width: 500px; }
+    .terminal-bar { display: flex; gap: 0.5rem; margin-bottom: 1.2rem; }
+    .t-dot { width: 10px; height: 10px; background: var(--text-muted); }
+    .t-dot.r { background: var(--red); }
+    .terminal-line { font-family: var(--vt); font-size: 1.05rem; line-height: 1.9; color: var(--text-muted); }
+    .terminal-line .c-red { color: var(--red); }
+    .terminal-line .c-wht { color: var(--text); }
+
+    footer {
+      background: var(--surface); border-top: 1px solid var(--border);
+      padding: 2.5rem 5rem;
+      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;
+    }
+    .f-logo { font-family: var(--pixel); font-size: 0.55rem; letter-spacing: 0.04em; }
+    .f-logo em { color: var(--red); font-style: normal; }
+    .f-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+    .f-links a { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--text-muted); transition: color 0.15s; }
+    .f-links a:hover { color: var(--red); }
+    .f-copy { font-family: var(--vt); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-muted); }
+
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
+
+    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s, transform 0.65s cubic-bezier(.16,1,.3,1); }
+    .reveal.on { opacity: 1; transform: none; }
+
+    @media (max-width: 900px) {
+      nav { padding: 1.2rem 2rem; }
+      .nav-links { display: none; }
+      #hero { padding: 0 2rem; }
+      .hero-stats, .hero-badges { display: none; }
+      #about { padding: 5rem 2rem; }
+      .about-wrap { grid-template-columns: 1fr; gap: 3.5rem; }
+      #join { padding: 5rem 2rem; }
+      footer { flex-direction: column; align-items: flex-start; padding: 2rem; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="cur"></div>
+<div id="cur-r"></div>
+
+<nav>
+  <a href="#" class="nav-logo">Wolf<em>.</em>defansy</a>
+  <ul class="nav-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#join">Rejoindre</a></li>
+  </ul>
+  <a href="#join" class="nav-btn">Rejoindre</a>
+</nav>
+
+<section id="hero">
+  <div class="hero-dots"></div>
+  <div class="hero-corner"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Association CTF · Cybersécurité</div>
+    <h1 class="hero-title">
+      Bienvenue chez
+      <span class="line2">WolfDefansy</span>
+    </h1>
+    <p class="hero-sub">Plateforme communautaire dédiée à la cybersécurité<span class="cursor-blink">_</span></p>
+    <div class="hero-ctas-row">
+      <a href="#" class="btn-platform">Accéder à la plateforme</a>
+      <div class="hero-ctas-sub">
+        <a href="#join" class="btn-red">Nous rejoindre</a>
+        <a href="#about" class="btn-ghost">En savoir plus</a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-badges">
+    <span class="badge hot">100% Gratuit</span>
+    <span class="badge">Open Source</span>
+  </div>
+  <div class="hero-stats">
+    <div class="s-item">
+      <div class="s-num">100<b>%</b></div>
+      <div class="s-lbl">Gratuit</div>
+    </div>
+    <div class="s-item">
+      <div class="s-num"><b>∞</b></div>
+      <div class="s-lbl">Passion</div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <div class="ticker-item">
+      <span>Web Exploitation</span><span class="sep">&gt;&gt;</span>
+      <span>Reverse Engineering</span><span class="sep">&gt;&gt;</span>
+      <span>Binary Exploitation</span><span class="sep">&gt;&gt;</span>
+      <span>Cryptographie</span><span class="sep">&gt;&gt;</span>
+      <span>Forensics</span><span class="sep">&gt;&gt;</span>
+      <span>OSINT</span><span class="sep">&gt;&gt;</span>
+      <span>Stéganographie</span><span class="sep">&gt;&gt;</span>
+      <span>Pwn</span><span class="sep">&gt;&gt;</span>
+      <span>Réseau</span><span class="sep">&gt;&gt;</span>
+      <span>Hardware</span><span class="sep">&gt;&gt;</span>
+    </div>
+    <div class="ticker-item" aria-hidden="true">
+      <span>Web Exploitation</span><span class="sep">&gt;&gt;</span>
+      <span>Reverse Engineering</span><span class="sep">&gt;&gt;</span>
+      <span>Binary Exploitation</span><span class="sep">&gt;&gt;</span>
+      <span>Cryptographie</span><span class="sep">&gt;&gt;</span>
+      <span>Forensics</span><span class="sep">&gt;&gt;</span>
+      <span>OSINT</span><span class="sep">&gt;&gt;</span>
+      <span>Stéganographie</span><span class="sep">&gt;&gt;</span>
+      <span>Pwn</span><span class="sep">&gt;&gt;</span>
+      <span>Réseau</span><span class="sep">&gt;&gt;</span>
+      <span>Hardware</span><span class="sep">&gt;&gt;</span>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="about-wrap">
+    <div class="about-body reveal">
+      <div class="sec-tag">À propos</div>
+      <h2 class="sec-title">Notre mission</h2>
+      <p>WolfDefansy est une association qui vise principalement à aider les lycéens et les jeunes étudiants du monde entier à accéder gratuitement à l'apprentissage de la cybersécurité.</p>
+      <p>Notre objectif est de fournir une plateforme de formation et de CTF accessible à tous, en construisant un environnement polyvalent, centralisé et bienveillant.</p>
+      <p>Aucun objectif commercial : notre mission est de partager notre passion pour faire émerger de nouveaux passionnés.</p>
+      <div class="about-divider"><div class="about-divider-dot"></div></div>
+      <div class="about-stats">
+        <div class="a-stat">
+          <div class="a-stat-num">25+</div>
+          <div class="a-stat-lbl">Bénévoles</div>
+        </div>
+        <div class="a-stat">
+          <div class="a-stat-num">100%</div>
+          <div class="a-stat-lbl">Gratuit</div>
+        </div>
+        <div class="a-stat">
+          <div class="a-stat-num">5</div>
+          <div class="a-stat-lbl">Équipes</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="values-panel reveal">
+      <div class="val-item">
+        <div class="val-code">[01]<br/>SOLIDARITY</div>
+        <div>
+          <div class="val-title">Solidarité</div>
+          <p class="val-desc">WolfDefansy rend l'apprentissage accessible et gratuit pour tous. Notre mission est d'accompagner les étudiants avec un parcours complet et un soutien humain.</p>
+        </div>
+      </div>
+      <div class="val-item">
+        <div class="val-code">[02]<br/>PASSION</div>
+        <div>
+          <div class="val-title">Passion</div>
+          <p class="val-desc">Porté par plus de 25 bénévoles engagés — développeurs, pentesters, designers — tous unis par la volonté de construire quelque chose d'utile et d'innovant.</p>
+        </div>
+      </div>
+      <div class="val-item">
+        <div class="val-code">[03]<br/>RIGOR</div>
+        <div>
+          <div class="val-title">Rigueur</div>
+          <p class="val-desc">Cinq équipes encadrées par des responsables expérimentés. La qualité est au cœur de notre démarche, portée par des méthodes précises et des outils adaptés.</p>
+        </div>
+      </div>
+      <div class="val-item">
+        <div class="val-code">[04]<br/>AMBITION</div>
+        <div>
+          <div class="val-title">Ambition</div>
+          <p class="val-desc">Amélioration continue, technique et opérationnelle. Notre ambition à long terme : s'étendre à l'international et permettre aux étudiants de progresser ensemble.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="join">
+  <div class="join-wrap">
+    <div class="sec-tag reveal">Rejoindre</div>
+    <h2 class="reveal">Prêt à<br/>chasser ?</h2>
+    <p class="reveal">Que tu sois débutant curieux ou expert aguerri, Wolfdefansy t'accueille. Rejoins le Discord, présente-toi, et plonge dans tes premiers challenges.</p>
+    <div class="join-ctas reveal">
+      <a href="#" class="btn-red">Discord &gt;&gt; Rejoindre</a>
+      <a href="mailto:contact@wolfdefansy.fr" class="btn-ghost">Nous contacter</a>
+    </div>
+    <div class="terminal-box reveal">
+      <div class="terminal-bar"><div class="t-dot r"></div><div class="t-dot"></div><div class="t-dot"></div></div>
+      <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">whoami</span></div>
+      <div class="terminal-line"><span class="c-red">&gt;</span> Un passionné de cybersécurité</div>
+      <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">join wolfdefansy --free</span></div>
+      <div class="terminal-line"><span class="c-red">&gt;</span> Bienvenue, Wolf.<span class="cursor-blink"> _</span></div>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="f-logo">Wolf<em>.</em>defansy</div>
+  <ul class="f-links">
+    <li><a href="#about">À propos</a></li>
+    <li><a href="#join">Rejoindre</a></li>
+    <li><a href="#">GitHub</a></li>
+    <li><a href="#">Discord</a></li>
+  </ul>
+  <div class="f-copy">© 2026 Wolfdefansy · All flags reserved</div>
+</footer>
+
+<script>
+  const cur = document.getElementById('cur');
+  const curR = document.getElementById('cur-r');
+  document.addEventListener('mousemove', e => {
+    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
+    curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px';
+  });
+
+  const obs = new IntersectionObserver((entries) => {
+    entries.forEach((e, i) => {
+      if (e.isIntersecting) {
+        setTimeout(() => e.target.classList.add('on'), i * 90);
+        obs.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('.val-item').forEach((el, i) => {
+    el.style.transitionDelay = (i * 0.08) + 's';
+  });
+</script>
+</body>
+</html>
