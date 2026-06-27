@@ -3,880 +3,987 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Wolfdefansy — CTF Association</title>
+  <title>Wolfdefansy — CTF</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=VT323:wght@400&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
   <style>
     :root {
       --red: #c0001a;
       --red-dark: #8a0012;
       --black: #070707;
-      --surface: #0e0e0e;
-      --surface-2: #161616;
-      --border: rgba(192,0,26,0.2);
-      --border-soft: rgba(255,255,255,0.06);
-      --text: #ede8e3;
-      --text-muted: #848078;
-      --text-mid: #b8b2ac;
+      --surface: #0d0d0d;
+      --surface-2: #121212;
+      --border: rgba(192,0,26,0.18);
+      --border-soft: rgba(255,255,255,0.07);
+      --text: #eae5e0;
+      --text-muted: #7a7570;
+      --text-mid: #b0ab a5;
       --pixel: 'Press Start 2P', monospace;
-      --vt: 'VT323', monospace;
+      --mono: 'Space Mono', monospace;
+      --sans: 'Inter', system-ui, sans-serif;
     }
-
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
     html { scroll-behavior: smooth; }
+    body { background: #070707; color: #eae5e0; font-family: 'Inter', system-ui, sans-serif; overflow-x: hidden; }
+    ::-webkit-scrollbar { width: 3px; }
+    ::-webkit-scrollbar-track { background: #070707; }
+    ::-webkit-scrollbar-thumb { background: #8a0012; }
 
-    body {
-      background: var(--black);
-      color: var(--text);
-      font-family: var(--pixel);
-      overflow-x: hidden;
-      cursor: none;
-    }
-
-    body::after {
-      content: '';
-      position: fixed; inset: 0;
-      background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(0,0,0,0.04) 3px, rgba(0,0,0,0.04) 4px);
-      pointer-events: none;
-      z-index: 9990;
-    }
-
-    #cur { position: fixed; width: 8px; height: 8px; background: var(--red); pointer-events: none; z-index: 9999; transform: translate(-50%,-50%); }
-    #cur-r { position: fixed; width: 24px; height: 24px; border: 1px solid var(--red); pointer-events: none; z-index: 9998; transform: translate(-50%,-50%); opacity: 0.45; transition: left 0.18s cubic-bezier(.16,1,.3,1), top 0.18s cubic-bezier(.16,1,.3,1); }
-
-    /* ── NAV ── */
+    /* NAV */
     nav {
       position: fixed; top: 0; left: 0; right: 0; z-index: 500;
       display: flex; justify-content: space-between; align-items: center;
-      padding: 1.4rem 5rem;
+      padding: 1.2rem 4rem;
       background: rgba(7,7,7,0.94);
-      border-bottom: 1px solid var(--border);
-      backdrop-filter: blur(8px);
+      border-bottom: 1px solid rgba(192,0,26,0.18);
+      backdrop-filter: blur(12px);
+      transition: padding 0.3s;
     }
-    .nav-logo { font-family: var(--pixel); font-size: 0.65rem; text-decoration: none; color: var(--text); letter-spacing: 0.04em; }
-    .nav-logo em { color: var(--red); font-style: normal; }
+    nav.scrolled { padding: 0.8rem 4rem; }
+    .nav-logo { font-family: 'Press Start 2P', monospace; font-size: 0.58rem; text-decoration: none; color: #eae5e0; letter-spacing: 0.04em; }
+    .nav-logo em { color: #c0001a; font-style: normal; }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-family: var(--vt); font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--text-muted); transition: color 0.15s; }
-    .nav-links a:hover { color: var(--red); }
-    .nav-btn { font-family: var(--vt); font-size: 1.05rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.45rem 1.2rem; border: 1px solid var(--red); color: var(--red); background: transparent; text-decoration: none; transition: background 0.15s, color 0.15s; }
-    .nav-btn:hover { background: var(--red); color: #fff; }
-
-    /* Hamburger */
-    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; padding: 0.3rem; background: none; border: none; }
-    .hamburger span { display: block; width: 24px; height: 2px; background: var(--text); transition: transform 0.3s, opacity 0.3s; }
+    .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.2s; }
+    .nav-links a:hover { color: #eae5e0; }
+    .nav-cta { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 1.2rem; border: 1px solid #c0001a; color: #c0001a; background: transparent; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .nav-cta:hover { background: #c0001a; color: #fff; }
+    .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0.3rem; }
+    .hamburger span { display: block; width: 22px; height: 2px; background: #eae5e0; transition: transform 0.3s, opacity 0.3s; }
     .hamburger.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
     .hamburger.open span:nth-child(2) { opacity: 0; }
     .hamburger.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
-
-    /* Mobile menu */
-    .mobile-menu {
-      display: none;
-      position: fixed; inset: 0;
-      background: var(--black);
-      z-index: 600;
-      flex-direction: column;
-      overflow-y: auto;
-    }
+    .mobile-menu { display: none; position: fixed; inset: 0; background: #070707; z-index: 600; flex-direction: column; }
     .mobile-menu.open { display: flex; }
-    .mm-header {
-      display: flex; justify-content: space-between; align-items: center;
-      padding: 1.1rem 1.4rem;
-      border-bottom: 1px solid var(--border);
-      flex-shrink: 0;
-    }
-    .mm-logo { font-family: var(--pixel); font-size: 0.6rem; text-decoration: none; color: var(--text); letter-spacing: 0.04em; }
-    .mm-logo em { color: var(--red); font-style: normal; }
-    .mm-close {
-      position: fixed;
-      top: 1rem; right: 1.4rem;
-      z-index: 700;
-      background: var(--surface-2);
-      border: 1px solid var(--border);
-      cursor: pointer;
-      width: 44px; height: 44px;
-      display: none;
-      align-items: center; justify-content: center;
-      color: var(--text); font-family: var(--vt); font-size: 1.8rem; line-height: 1;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .mm-close.visible { display: flex; }
-    .mm-close:hover { border-color: var(--red); color: var(--red); }
-    .mm-links {
-      flex: 1; display: flex; flex-direction: column; justify-content: flex-start;
-      align-items: flex-start; padding: 5rem 1.8rem 0; gap: 0;
-    }
-    .mm-link {
-      font-family: var(--vt); font-size: 2.6rem; letter-spacing: 0.08em;
-      text-transform: uppercase; text-decoration: none; color: var(--text-muted);
-      border-bottom: 1px solid var(--border-soft);
-      width: 100%; padding: 1.2rem 0;
-      display: flex; align-items: center; justify-content: space-between;
-      transition: color 0.15s;
-    }
-    .mm-link::after { content: '>>'; font-size: 1.2rem; color: var(--border); transition: color 0.15s; }
-    .mm-link:hover { color: var(--text); }
-    .mm-link:hover::after { color: var(--red); }
-    .mm-footer { padding: 1.8rem 1.8rem 2.5rem; border-top: 1px solid var(--border-soft); }
-    .mm-cta {
-      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 1rem 1.8rem;
-      background: var(--red); color: #fff; text-decoration: none;
-      display: block; text-align: center; transition: background 0.15s;
-    }
-    .mm-cta:hover { background: var(--red-dark); }
+    .mm-header { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; border-bottom: 1px solid rgba(192,0,26,0.18); }
+    .mm-logo { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; text-decoration: none; color: #eae5e0; }
+    .mm-logo em { color: #c0001a; font-style: normal; }
+    .mm-close { background: none; border: 1px solid rgba(255,255,255,0.07); color: #7a7570; font-size: 1.2rem; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .mm-links { flex: 1; display: flex; flex-direction: column; padding: 3rem 1.8rem 0; }
+    .mm-link { font-family: 'Space Mono', monospace; font-size: 1.3rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #7a7570; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.2rem 0; display: flex; justify-content: space-between; }
+    .mm-link::after { content: '→'; color: #c0001a; }
+    .mm-footer { padding: 2rem 1.8rem; }
+    .mm-cta-b { font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 1rem 1.4rem; background: #c0001a; color: #fff; text-decoration: none; display: block; text-align: center; }
 
-    /* ── HERO ── */
-    #hero {
-      position: relative; min-height: 100vh;
-      display: flex; flex-direction: column; justify-content: center;
-      padding: 0 5rem; overflow: hidden;
+    /* HERO */
+    #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 4rem; overflow: hidden; }
+    #hero-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
+    #hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0; transition: opacity 1.4s ease; pointer-events: none; }
+    #hero-video.active { opacity: 0.2; }
+    .hero-vignette {
+      position: absolute; inset: 0; z-index: 1; pointer-events: none;
+      background: linear-gradient(to right, rgba(7,7,7,0.98) 0%, rgba(7,7,7,0.75) 45%, rgba(7,7,7,0.15) 100%);
     }
-    .hero-video-wrap { position: absolute; inset: 0; z-index: 0; overflow: hidden; }
-    .hero-video-wrap video { width: 100%; height: 100%; object-fit: cover; opacity: 0.45; }
-    .hero-video-overlay {
-      position: absolute; inset: 0;
-      background: linear-gradient(to right, rgba(7,7,7,1) 0%, rgba(7,7,7,0.92) 20%, rgba(7,7,7,0.65) 38%, rgba(7,7,7,0.25) 60%, rgba(7,7,7,0.05) 100%);
-      z-index: 1;
-    }
-    .hero-video-noise { position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E"); z-index: 2; pointer-events: none; opacity: 0.6; }
-    .hero-dots { position: absolute; inset: 0; z-index: 3; background-image: radial-gradient(circle, rgba(192,0,26,0.18) 1px, transparent 1px); background-size: 32px 32px; mask-image: radial-gradient(ellipse 75% 80% at 65% 45%, black 0%, transparent 75%); }
-    .hero-corner { position: absolute; top: 0; right: 0; z-index: 3; width: 320px; height: 320px; border-bottom: 1px solid var(--border); border-left: 1px solid var(--border); background: linear-gradient(135deg, rgba(192,0,26,0.06) 0%, transparent 60%); pointer-events: none; }
-    .hero-corner::before { content: ''; position: absolute; top: 30px; right: 30px; width: 8px; height: 8px; background: var(--red); }
-    .hero-content { position: relative; z-index: 4; max-width: 900px; }
-    .hero-eyebrow { font-family: var(--vt); font-size: 1.2rem; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); display: flex; align-items: center; gap: 1rem; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.6s 0.1s forwards; }
-    .hero-eyebrow::before { content: ''; width: 36px; height: 1px; background: var(--red); }
-    .hero-title { font-family: var(--pixel); font-size: clamp(1.6rem, 4.5vw, 3.8rem); font-weight: 400; line-height: 1.2; opacity: 0; animation: fadeUp 0.7s 0.25s forwards; }
-    .hero-title .line2 { color: var(--red); display: block; margin-top: 0.2em; text-shadow: 0 0 40px rgba(192,0,26,0.35); }
-    .hero-sub { font-family: var(--vt); font-size: 1.55rem; line-height: 1.65; color: var(--text-mid); max-width: 540px; margin-top: 2rem; opacity: 0; animation: fadeUp 0.7s 0.4s forwards; }
-    .cursor-blink { color: var(--red); animation: blink 1s step-end infinite; }
+    .hero-corner { position: absolute; top: 0; right: 0; z-index: 3; width: 260px; height: 260px; border-bottom: 1px solid rgba(192,0,26,0.18); border-left: 1px solid rgba(192,0,26,0.18); pointer-events: none; }
+    .hero-corner::after { content: ''; position: absolute; top: 22px; right: 22px; width: 6px; height: 6px; background: #c0001a; animation: dot-pulse 2.4s ease-in-out infinite; }
+    .hero-content { position: relative; z-index: 4; max-width: 780px; }
+    .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; opacity: 0; animation: up 0.6s 0.1s forwards; }
+    .hero-tag::before { content: ''; width: 26px; height: 1px; background: #c0001a; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: clamp(1.3rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.28; opacity: 0; animation: up 0.7s 0.22s forwards; color: #eae5e0; }
+    .hero-title .accent { color: #c0001a; display: block; margin-top: 0.18em; text-shadow: 0 0 28px rgba(192,0,26,0.28); }
+    .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.75; color: #aaA5a0; max-width: 480px; margin-top: 1.6rem; opacity: 0; animation: up 0.7s 0.38s forwards; }
+    .cursor-blink { color: #c0001a; animation: blink 1s step-end infinite; }
+    .hero-stats-row { display: flex; gap: 2.5rem; margin-top: 2.2rem; align-items: baseline; opacity: 0; animation: up 0.7s 0.5s forwards; }
+    .hs { display: flex; flex-direction: column; gap: 0.25rem; }
+    .hs-n { font-family: 'Press Start 2P', monospace; font-size: 1rem; color: #eae5e0; }
+    .hs-n b { color: #c0001a; font-weight: 400; }
+    .hs-l { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
+    .hs-div { width: 1px; height: 34px; background: rgba(255,255,255,0.07); align-self: center; }
+    .hero-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; align-items: center; flex-wrap: wrap; opacity: 0; animation: up 0.7s 0.65s forwards; }
+    .btn-primary { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #c0001a; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-block; }
+    .btn-primary:hover { background: #8a0012; transform: translateY(-2px); }
+    .btn-outline { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.4rem; background: transparent; color: #7a7570; border: 1px solid rgba(255,255,255,0.07); text-decoration: none; transition: color 0.18s, border-color 0.18s; display: inline-block; }
+    .btn-outline:hover { color: #eae5e0; border-color: rgba(192,0,26,0.3); }
+    .btn-outline::after { content: ' →'; }
+    .game-hint { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); z-index: 5; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 0.7rem; background: rgba(7,7,7,0.8); border: 1px solid rgba(192,0,26,0.18); padding: 0.4rem 1rem; animation: hint-fade 3s ease-in-out infinite; }
+    .hint-key { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid rgba(192,0,26,0.4); font-family: 'Press Start 2P', monospace; font-size: 0.28rem; color: #c0001a; background: rgba(192,0,26,0.07); }
+    .hint-sep { color: rgba(255,255,255,0.15); }
+    .hint-goal { color: #c0001a; }
+    .replay-btn { position: absolute; bottom: 5rem; right: 4rem; z-index: 10; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.42rem 0.85rem; border: 1px solid rgba(192,0,26,0.18); color: #7a7570; background: rgba(7,7,7,0.7); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: border-color 0.15s, color 0.15s; }
+    .replay-btn:hover { border-color: #c0001a; color: #c0001a; }
+    .replay-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
 
-    /* ── COUNTDOWN ── */
-    .hero-countdown-wrap { margin-top: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.5s forwards; }
-    .countdown-label { font-family: var(--vt); font-size: 0.88rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.9rem; display: flex; align-items: center; gap: 0.6rem; }
-    .countdown-label::before { content: '//'; color: var(--red); font-family: var(--vt); }
-    .countdown-grid { display: flex; gap: 0; align-items: stretch; }
-    .cd-block { border: 1px solid var(--border); padding: 1rem 1.4rem; text-align: center; background: rgba(7,7,7,0.7); backdrop-filter: blur(4px); position: relative; }
-    .cd-block + .cd-block { border-left: none; }
-    .cd-block::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px; background: var(--red); transform: scaleX(0); transition: transform 0.3s; }
-    .countdown-grid:hover .cd-block::after { transform: scaleX(1); }
-    .cd-num { font-family: var(--pixel); font-size: clamp(1.2rem, 3vw, 2rem); color: var(--text); display: block; min-width: 3ch; text-align: center; }
-    .cd-sep { display: flex; align-items: center; font-family: var(--pixel); font-size: 1.4rem; color: var(--red); padding: 0 0.3rem; align-self: center; margin-top: -0.5rem; }
-    .cd-unit { font-family: var(--vt); font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: var(--text-muted); display: block; margin-top: 0.3rem; }
-    .countdown-note { font-family: var(--vt); font-size: 1rem; letter-spacing: 0.12em; color: var(--text-muted); margin-top: 1rem; display: flex; align-items: center; gap: 0.5rem; }
-    .countdown-note::before { content: '//'; color: var(--red); font-family: var(--vt); }
-
-    /* ── CTAs ── */
-    .hero-ctas-row { display: flex; flex-direction: column; gap: 1rem; align-items: flex-start; margin-top: 2.5rem; opacity: 0; animation: fadeUp 0.7s 0.65s forwards; }
-    .hero-ctas-sub { display: flex; gap: 1rem; align-items: center; flex-wrap: wrap; }
-    .btn-red { font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 1rem 1.8rem; background: var(--red); color: #fff; text-decoration: none; transition: background 0.15s, transform 0.12s; position: relative; display: inline-block; }
-    .btn-red:hover { background: var(--red-dark); transform: translateY(-2px); }
-    .btn-red::after { content: ''; position: absolute; bottom: -4px; right: -4px; width: 100%; height: 100%; background: rgba(192,0,26,0.25); z-index: -1; }
-    .btn-ghost { font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.7rem 1.5rem; background: transparent; color: var(--text-muted); text-decoration: none; border: 1px solid var(--border-soft); transition: color 0.15s, border-color 0.15s; display: inline-block; }
-    .btn-ghost:hover { color: var(--text); border-color: rgba(192,0,26,0.3); }
-    .btn-ghost::after { content: ' >>'; }
-
-    .hero-badges { position: absolute; bottom: 3rem; left: 5rem; z-index: 4; display: flex; gap: 0.8rem; align-items: center; opacity: 0; animation: fadeUp 0.7s 0.75s forwards; }
-    .badge { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.3rem 0.8rem; border: 1px solid var(--border); color: var(--text-muted); background: var(--surface); }
-    .badge.hot { border-color: var(--red); color: var(--red); }
-    .hero-stats { position: absolute; right: 5rem; bottom: 3rem; z-index: 4; display: flex; gap: 3rem; opacity: 0; animation: fadeUp 0.7s 0.85s forwards; }
-    .s-item { text-align: right; }
-    .s-num { font-family: var(--pixel); font-size: 1.6rem; color: var(--text); }
-    .s-num b { color: var(--red); font-weight: 400; }
-    .s-lbl { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--text-muted); margin-top: 0.3rem; }
-
-    /* ── TICKER ── */
-    .ticker { border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); overflow: hidden; padding: 0.7rem 0; background: var(--surface); }
+    /* TICKER */
+    .ticker { border-top: 1px solid rgba(192,0,26,0.18); border-bottom: 1px solid rgba(192,0,26,0.18); overflow: hidden; padding: 0.55rem 0; background: #0d0d0d; }
     .ticker-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
-    .ticker-item { font-family: var(--vt); font-size: 1rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--text-muted); white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 2rem; }
-    .ticker-item .sep { color: var(--red); }
+    .ticker-item { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7570; white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; }
+    .ticker-item .sep { color: #c0001a; opacity: 0.7; }
 
-    /* ── ABOUT — redesigned ── */
-    #about {
-      background: var(--black);
-      padding: 10rem 5rem;
-    }
+    /* SECTIONS COMMUNES */
+    section { padding: 8rem 4rem; }
+    .section-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+    .section-tag::before { content: '//'; }
+    .section-title { font-family: 'Press Start 2P', monospace; font-size: clamp(0.9rem, 2vw, 1.55rem); font-weight: 400; line-height: 1.42; color: #eae5e0; }
+    .section-sub { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.8; color: #aaa5a0; margin-top: 0.8rem; max-width: 580px; }
 
-    .about-header {
-      margin-bottom: 5rem;
-    }
-    .sec-tag {
-      font-family: var(--vt); font-size: 1rem; letter-spacing: 0.22em;
-      text-transform: uppercase; color: var(--red);
-      display: inline-flex; align-items: center; gap: 0.7rem;
-      margin-bottom: 1.2rem;
-    }
-    .sec-tag::before { content: '//'; }
-    h2.sec-title {
-      font-family: var(--pixel);
-      font-size: clamp(1.1rem, 2.5vw, 1.9rem);
-      font-weight: 400; line-height: 1.35;
-    }
+    /* ABOUT */
+    #about { background: #070707; }
+    .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; margin-bottom: 6rem; }
+    .about-text p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .about-text strong { color: #eae5e0; font-weight: 600; }
+    .about-stats { display: flex; flex-direction: column; }
+    .stat-row { display: flex; align-items: baseline; gap: 1.2rem; padding: 1.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .stat-row:first-child { padding-top: 0; }
+    .stat-num { font-family: 'Press Start 2P', monospace; font-size: 1.1rem; color: #c0001a; flex-shrink: 0; min-width: 4.5ch; }
+    .stat-lbl { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
 
-    /* Mission block — light, airy */
-    .about-mission {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 6rem;
-      align-items: start;
-      margin-bottom: 7rem;
-    }
-    .about-mission-text p {
-      font-family: var(--vt);
-      font-size: 1.35rem;
-      line-height: 2;
-      color: var(--text-mid);
-      margin-top: 1.4rem;
-    }
-    .about-mission-text p:first-child { margin-top: 0; }
-
-    /* Stats — clean line, no box */
-    .about-stats {
-      display: flex;
-      flex-direction: column;
-      gap: 2.5rem;
-      padding-top: 0.4rem;
-    }
-    .a-stat { display: flex; align-items: baseline; gap: 1.2rem; }
-    .a-stat-num {
-      font-family: var(--pixel); font-size: 1.3rem; color: var(--red);
-      flex-shrink: 0;
-    }
-    .a-stat-lbl {
-      font-family: var(--vt); font-size: 1.1rem; letter-spacing: 0.12em;
-      text-transform: uppercase; color: var(--text-muted);
-      border-bottom: 1px solid var(--border-soft);
-      flex: 1; padding-bottom: 0.6rem;
-    }
-
-    /* Values — card grid, spacious */
-    .values-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 2px;
-    }
-    .val-card {
-      background: var(--surface);
-      padding: 2.5rem 2rem;
-      position: relative;
-      overflow: hidden;
-      transition: background 0.25s;
-    }
-    .val-card:hover { background: var(--surface-2); }
-    .val-card::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0;
-      height: 2px;
-      background: var(--red);
-      transform: scaleX(0);
-      transform-origin: left;
-      transition: transform 0.3s cubic-bezier(.16,1,.3,1);
-    }
+    /* VALUES */
+    .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
+    .val-card { background: #0d0d0d; padding: 2.2rem 1.8rem; position: relative; overflow: hidden; transition: background 0.25s, transform 0.3s cubic-bezier(.16,1,.3,1); }
+    .val-card:hover { background: #141414; transform: translateY(-3px); }
+    .val-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #c0001a; transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(.16,1,.3,1); }
     .val-card:hover::before { transform: scaleX(1); }
-    .val-index {
-      font-family: var(--pixel); font-size: 0.38rem; color: var(--border);
-      letter-spacing: 0.06em; margin-bottom: 1.8rem;
-      display: block;
-    }
-    .val-title {
-      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
-      color: var(--text); margin-bottom: 1.2rem; display: block;
-    }
-    .val-tag {
-      font-family: var(--vt); font-size: 0.85rem; letter-spacing: 0.18em;
-      text-transform: uppercase; color: var(--red);
-      display: block; margin-bottom: 1rem;
-    }
-    .val-desc {
-      font-family: var(--vt); font-size: 1.15rem; line-height: 1.85;
-      color: var(--text-muted);
-    }
+    .val-idx { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: #7a7570; display: block; margin-bottom: 1.4rem; }
+    .val-tag-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.5rem; }
+    .val-name { font-family: 'Press Start 2P', monospace; font-size: 0.38rem; color: #eae5e0; display: block; margin-bottom: 1rem; }
+    .val-desc { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.78; color: #7a7570; }
 
-    /* ── JOIN — redesigned ── */
-    #join {
-      background: var(--surface);
-      padding: 10rem 5rem;
-      position: relative; overflow: hidden;
-    }
-    #join::before {
-      content: 'JOIN';
-      position: absolute; font-family: var(--pixel); font-size: 14rem;
-      color: rgba(192,0,26,0.03); bottom: -2rem; right: -1rem;
-      pointer-events: none; line-height: 1; white-space: nowrap;
-    }
+    /* IMG EXPAND */
+    .img-expand-wrap { position: relative; width: 100%; margin: 4rem 0 0; }
+    .img-expand { border-radius: 8px; overflow: hidden; will-change: width, margin-left; }
+    .img-expand img { width: 100%; display: block; filter: brightness(0.8) saturate(0.9); transition: filter 0.4s; }
+    .img-expand:hover img { filter: brightness(1) saturate(1); }
+    .img-placeholder { width: 100%; min-height: 240px; background: #0d0d0d; display: flex; align-items: center; justify-content: center; }
+    .img-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: #7a7570; letter-spacing: 0.1em; opacity: 0.5; }
 
-    .join-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8rem;
-      align-items: start;
-    }
-    .join-left {}
-    .join-left h2 {
-      font-family: var(--pixel);
-      font-size: clamp(1.1rem, 2.8vw, 2.1rem);
-      font-weight: 400; line-height: 1.35;
-      margin-top: 1.5rem;
-    }
-    .join-left p {
-      font-family: var(--vt); font-size: 1.3rem; line-height: 1.95;
-      color: var(--text-mid); margin-top: 1.8rem; max-width: 480px;
-    }
-    .join-ctas {
-      display: flex; gap: 1rem; margin-top: 3rem; flex-wrap: wrap; align-items: center;
-    }
-    .btn-discord {
-      font-family: var(--pixel); font-size: 0.5rem; letter-spacing: 0.06em;
-      text-transform: uppercase; padding: 1rem 1.8rem;
-      background: #5865F2; color: #fff; text-decoration: none;
-      transition: background 0.15s, transform 0.12s;
-      position: relative; display: inline-flex; align-items: center; gap: 0.7rem;
-    }
+    /* MOTEUR SECTION */
+    #engine { background: #0d0d0d; }
+    .engine-split { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
+    .engine-left p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .engine-left strong { color: #eae5e0; font-weight: 600; }
+    .engine-features { display: flex; flex-direction: column; gap: 0; }
+    .ef-row { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .ef-row:first-child { padding-top: 0; }
+    .ef-icon { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .ef-text strong { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; display: block; margin-bottom: 0.3rem; }
+    .ef-text span { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #7a7570; line-height: 1.65; }
+
+    /* PARTENARIATS */
+    #partners { background: #070707; }
+    .partners-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; margin-bottom: 5rem; }
+    .partners-intro p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .partners-intro strong { color: #eae5e0; font-weight: 600; }
+    .partners-call { background: #0d0d0d; border: 1px solid rgba(192,0,26,0.18); padding: 2.4rem 2.2rem; }
+    .pc-title { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #eae5e0; margin-bottom: 1.2rem; line-height: 1.6; }
+    .pc-body { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.8; color: #aaa5a0; }
+    .pc-body strong { color: #eae5e0; }
+
+    .partner-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
+    .pt-card { background: #0d0d0d; padding: 2rem 1.8rem; transition: background 0.22s; position: relative; }
+    .pt-card:hover { background: #141414; }
+    .pt-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #c0001a; transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
+    .pt-card:hover::before { transform: scaleX(1); }
+    .pt-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
+    .pt-title { font-family: 'Press Start 2P', monospace; font-size: 0.4rem; color: #eae5e0; display: block; margin-bottom: 0.9rem; line-height: 1.6; }
+    .pt-body { font-family: 'Inter', sans-serif; font-size: 0.88rem; line-height: 1.75; color: #7a7570; }
+
+    /* CHALL MAKERS */
+    #challmakers { background: #0d0d0d; }
+    .cm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
+    .cm-left p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .cm-left strong { color: #eae5e0; font-weight: 600; }
+    .cm-steps { display: flex; flex-direction: column; gap: 0; }
+    .cm-step { display: flex; gap: 1.4rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: flex-start; }
+    .cm-step:first-child { padding-top: 0; }
+    .cm-step-n { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .cm-step-title { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.35rem; }
+    .cm-step-body { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #7a7570; line-height: 1.65; }
+
+    /* FEATURES / PLATEFORME */
+    #features { background: #0d0d0d; }
+    .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); margin-top: 3.5rem; }
+    .feat-card { background: #070707; padding: 2.4rem 2rem; position: relative; transition: background 0.22s; }
+    .feat-card:hover { background: #0a0a0a; }
+    .feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.07); transition: background 0.3s; }
+    .feat-card:hover::before { background: #c0001a; }
+    .feat-tag { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
+    .feat-title { font-family: 'Press Start 2P', monospace; font-size: 0.4rem; color: #eae5e0; display: block; margin-bottom: 1.1rem; line-height: 1.65; }
+    .feat-body { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.8; color: #7a7570; }
+
+    /* JOIN */
+    #join { background: #0d0d0d; position: relative; overflow: hidden; }
+    #join::after { content: 'JOIN'; position: absolute; font-family: 'Press Start 2P', monospace; font-size: 11rem; color: rgba(120,0,16,0.18); bottom: -2rem; right: -1rem; pointer-events: none; line-height: 1; white-space: nowrap; }
+    .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
+    .join-left h2 { font-family: 'Press Start 2P', monospace; font-size: clamp(0.9rem, 2.3vw, 1.6rem); font-weight: 400; line-height: 1.42; color: #eae5e0; margin-top: 1.2rem; }
+    .join-left p { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.8; color: #aaa5a0; margin-top: 1.5rem; max-width: 440px; }
+    .join-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; align-items: center; }
+    .btn-discord { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #5865F2; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.6rem; }
     .btn-discord:hover { background: #4752c4; transform: translateY(-2px); }
-    .btn-discord::after { content: ''; position: absolute; bottom: -4px; right: -4px; width: 100%; height: 100%; background: rgba(88,101,242,0.25); z-index: -1; }
-    .discord-svg { width: 16px; height: 16px; fill: #fff; flex-shrink: 0; }
+    .discord-svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
+    .terminal { background: #070707; border: 1px solid rgba(192,0,26,0.18); padding: 1.8rem 2rem; }
+    .t-bar { display: flex; gap: 0.4rem; margin-bottom: 1.4rem; }
+    .t-dot { width: 9px; height: 9px; background: #7a7570; border-radius: 50%; }
+    .t-dot.red { background: #c0001a; }
+    .t-line { font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 2.15; color: #aaa5a0; }
+    .t-line .c-r { color: #c0001a; }
+    .t-line .c-w { color: #eae5e0; }
 
-    /* Terminal — right column */
-    .join-right {}
-    .terminal-box {
-      background: var(--black);
-      border: 1px solid var(--border);
-      padding: 2rem 2.2rem;
-    }
-    .terminal-bar { display: flex; gap: 0.5rem; margin-bottom: 1.5rem; }
-    .t-dot { width: 10px; height: 10px; background: var(--text-muted); border-radius: 50%; }
-    .t-dot.r { background: var(--red); }
-    .terminal-line {
-      font-family: var(--vt); font-size: 1.25rem; line-height: 2.1; color: var(--text-mid);
-    }
-    .terminal-line .c-red { color: var(--red); }
-    .terminal-line .c-wht { color: var(--text); }
+    /* FOOTER */
+    footer { background: #070707; border-top: 1px solid rgba(192,0,26,0.18); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.2rem; }
+    .f-logo { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #eae5e0; }
+    .f-logo em { color: #c0001a; font-style: normal; }
+    .f-links { display: flex; gap: 1.8rem; list-style: none; }
+    .f-links a { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.15s; }
+    .f-links a:hover { color: #c0001a; }
+    .f-copy { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #7a7570; }
 
-    /* ── FOOTER ── */
-    footer {
-      background: var(--black); border-top: 1px solid var(--border);
-      padding: 2.5rem 5rem;
-      display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.5rem;
-    }
-    .f-logo { font-family: var(--pixel); font-size: 0.55rem; letter-spacing: 0.04em; }
-    .f-logo em { color: var(--red); font-style: normal; }
-    .f-links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
-    .f-links a { font-family: var(--vt); font-size: 0.9rem; letter-spacing: 0.1em; text-transform: uppercase; text-decoration: none; color: var(--text-muted); transition: color 0.15s; }
-    .f-links a:hover { color: var(--red); }
-    .f-copy { font-family: var(--vt); font-size: 0.85rem; letter-spacing: 0.08em; color: var(--text-muted); }
+    /* RGPD */
+    #rgpd-overlay { display: none; position: fixed; inset: 0; background: rgba(7,7,7,0.9); backdrop-filter: blur(8px); z-index: 9000; align-items: center; justify-content: center; padding: 1.5rem; }
+    .rgpd-box { background: #0d0d0d; border: 1px solid rgba(192,0,26,0.18); max-width: 500px; width: 100%; }
+    .rgpd-head { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
+    .rgpd-head span { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #c0001a; }
+    .rgpd-close { background: none; border: 1px solid rgba(255,255,255,0.07); color: #7a7570; font-size: 1.1rem; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+    .rgpd-body { padding: 1.8rem 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
+    .rgpd-item { display: flex; gap: 1rem; align-items: flex-start; }
+    .rgpd-idx { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .rgpd-item-title { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.5rem; }
+    .rgpd-item p { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.7; color: #aaa5a0; }
+    .rgpd-item strong { color: #eae5e0; }
+    .rgpd-divider { height: 1px; background: rgba(255,255,255,0.07); }
 
-    /* ── ANIMATIONS ── */
-    @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: none; } }
+    /* ANIMS */
+    @keyframes up { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
     @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
     @keyframes blink { 0%,49% { opacity: 1; } 50%,100% { opacity: 0; } }
-    .reveal { opacity: 0; transform: translateY(28px); transition: opacity 0.65s, transform 0.65s cubic-bezier(.16,1,.3,1); }
-    .reveal.on { opacity: 1; transform: none; }
+    @keyframes dot-pulse { 0%,100% { opacity: 1; } 50% { opacity: 0.25; } }
+    @keyframes hint-fade { 0%,100% { opacity: 0.65; } 50% { opacity: 1; } }
+    @keyframes flag-shake { 0%,100% { transform: translateX(0); } 25% { transform: translateX(-3px); } 75% { transform: translateX(3px); } }
+    @keyframes title-flash { 0% { text-shadow: 0 0 28px rgba(192,0,26,0.28); } 40% { text-shadow: 0 0 80px rgba(192,0,26,1), 0 0 120px rgba(192,0,26,0.5); } 100% { text-shadow: 0 0 28px rgba(192,0,26,0.28); } }
+    .reveal, .reveal-l, .reveal-r { opacity: 0; transition: opacity 0.65s cubic-bezier(.16,1,.3,1), transform 0.65s cubic-bezier(.16,1,.3,1); }
+    .reveal { transform: translateY(22px); }
+    .reveal-l { transform: translateX(-30px); }
+    .reveal-r { transform: translateX(30px); }
+    .reveal.on, .reveal-l.on, .reveal-r.on { opacity: 1; transform: none; }
 
-    /* ── RESPONSIVE ── */
-    @media (max-width: 1100px) {
-      .values-grid { grid-template-columns: 1fr 1fr; }
-    }
-
+    @media (max-width: 1100px) { .values-grid { grid-template-columns: 1fr 1fr; } .features-grid { grid-template-columns: 1fr 1fr; } .partner-types { grid-template-columns: 1fr 1fr; } }
     @media (max-width: 900px) {
-      /* Nav */
-      nav { padding: 1.1rem 1.4rem; }
-      .nav-links, .nav-btn { display: none; }
-      .hamburger { display: flex; }
-
-      /* Cursor off on touch */
-      #cur, #cur-r { display: none; }
-      body { cursor: auto; }
-
-      /* Hero */
-      #hero {
-        padding: 0 1.4rem;
-        padding-top: 5rem;
-        min-height: 100svh;
-        justify-content: center;
-      }
-      .hero-video-overlay {
-        background: linear-gradient(
-          to bottom,
-          rgba(7,7,7,0.96) 0%,
-          rgba(7,7,7,0.82) 60%,
-          rgba(7,7,7,0.96) 100%
-        );
-      }
-      .hero-dots { display: none; }
-      .hero-corner { width: 120px; height: 120px; }
-      .hero-badges, .hero-stats { display: none; }
-
-      .hero-eyebrow { font-size: 0.95rem; margin-bottom: 1.5rem; }
-
-      .hero-title {
-        font-size: clamp(1.05rem, 5.5vw, 1.6rem);
-        line-height: 1.35;
-      }
-
-      .hero-sub {
-        font-size: 1.35rem;
-        margin-top: 1.2rem;
-        max-width: 100%;
-      }
-
-      /* Countdown — compact */
-      .hero-countdown-wrap { margin-top: 2rem; }
-      .countdown-label { font-size: 0.8rem; }
-      .countdown-grid { gap: 0; }
-      .cd-block { padding: 0.7rem 0.8rem; flex: 1; }
-      .cd-num { font-size: 1rem; min-width: 2ch; }
-      .cd-unit { font-size: 0.65rem; }
-      .cd-sep { font-size: 1rem; padding: 0 0.15rem; }
-      .countdown-note { font-size: 0.9rem; margin-top: 0.8rem; }
-
-      /* CTAs */
-      .hero-ctas-row { margin-top: 2rem; }
-      .hero-ctas-sub {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-        width: 100%;
-      }
-      .btn-red {
-        font-size: 0.45rem;
-        padding: 1rem 1.4rem;
-        text-align: center;
-        display: block;
-      }
-      .btn-ghost {
-        font-size: 1rem;
-        padding: 0.8rem 1.2rem;
-        text-align: center;
-        display: block;
-        width: 100%;
-      }
-
-      /* Ticker */
-      .ticker-item { font-size: 0.88rem; }
-
-      /* About */
-      #about { padding: 5rem 1.4rem 4rem; }
-      .about-header { margin-bottom: 3rem; }
-      .about-mission {
-        grid-template-columns: 1fr;
-        gap: 2.5rem;
-        margin-bottom: 4rem;
-      }
-      .about-mission-text p { font-size: 1.2rem; line-height: 1.85; }
-      .about-stats { gap: 1.8rem; }
-      .a-stat-num { font-size: 1.1rem; }
-      .a-stat-lbl { font-size: 1rem; }
-      .values-grid {
-        grid-template-columns: 1fr;
-        gap: 2px;
-      }
-      .val-card { padding: 2rem 1.4rem; }
-      .val-desc { font-size: 1.1rem; }
-
-      /* Join */
-      #join { padding: 5rem 1.4rem 4rem; }
-      #join::before { display: none; }
-      .join-layout {
-        grid-template-columns: 1fr;
-        gap: 3rem;
-      }
-      .join-left h2 { font-size: clamp(1rem, 5vw, 1.5rem); }
-      .join-left p { font-size: 1.2rem; max-width: 100%; }
-      .join-ctas {
-        flex-direction: column;
-        align-items: stretch;
-        gap: 0.75rem;
-      }
-      .btn-discord {
-        font-size: 0.45rem;
-        padding: 1rem 1.4rem;
-        width: 100%;
-        justify-content: center;
-      }
-      .join-ctas .btn-ghost {
-        font-size: 1rem;
-        text-align: center;
-        display: block;
-        width: 100%;
-      }
-      .terminal-box { padding: 1.4rem 1.4rem; }
-      .terminal-line { font-size: 1.1rem; line-height: 1.9; }
-
-      /* Footer */
-      footer {
-        flex-direction: column;
-        align-items: flex-start;
-        padding: 2rem 1.4rem;
-        gap: 1.2rem;
-      }
-      .f-links { gap: 1.2rem; }
+      nav { padding: 1rem 1.4rem; } .nav-links, .nav-cta { display: none; } .hamburger { display: flex; }
+      section { padding: 5rem 1.4rem; }
+      #hero { padding: 0 1.4rem; padding-top: 5rem; min-height: 100svh; }
+      .hero-title { font-size: clamp(0.9rem, 5vw, 1.3rem); }
+      .hero-stats-row { gap: 1.4rem; }
+      .replay-btn { bottom: 3.5rem; right: 1.4rem; } .game-hint { font-size: 0.55rem; bottom: 4rem; }
+      .about-grid, .engine-split, .partners-intro, .cm-grid, .join-grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .values-grid, .features-grid, .partner-types { grid-template-columns: 1fr; }
+      #join::after { display: none; }
+      .join-ctas { flex-direction: column; align-items: stretch; }
+      .btn-discord { justify-content: center; }
+      footer { flex-direction: column; align-items: flex-start; padding: 2rem 1.4rem; }
     }
-
-    @media (max-width: 400px) {
-      .hero-title { font-size: 1rem; }
-      .cd-num { font-size: 0.85rem; }
-      .val-card { padding: 1.5rem 1.2rem; }
-    }
+    @media (prefers-reduced-motion: reduce) { .reveal, .reveal-l, .reveal-r { transition: none; } * { animation-duration: 0.01ms !important; } }
   </style>
 </head>
 <body>
 
-<div id="cur"></div>
-<div id="cur-r"></div>
-
-<!-- ── NAVIGATION ── -->
-<nav>
+<nav id="main-nav">
   <a href="#" class="nav-logo"><em>Wolf</em>Defansy</a>
   <ul class="nav-links">
     <li><a href="#about">À propos</a></li>
+    <li><a href="#engine">Moteur</a></li>
+    <li><a href="#partners">Partenariats</a></li>
     <li><a href="#join">Rejoindre</a></li>
   </ul>
-  <a href="#join" class="nav-btn">Rejoindre</a>
-  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false">
-    <span></span><span></span><span></span>
-  </button>
+  <a href="#join" class="nav-cta">Rejoindre</a>
+  <button class="hamburger" id="hamburger" aria-label="Menu" aria-expanded="false"><span></span><span></span><span></span></button>
 </nav>
 
-<!-- Mobile menu -->
 <div class="mobile-menu" id="mobileMenu">
   <div class="mm-header">
     <a href="#" class="mm-logo"><em>Wolf</em>Defansy</a>
-    <button class="mm-close" id="mmClose" aria-label="Fermer">✕</button>
+    <button class="mm-close" id="mmClose">✕</button>
   </div>
   <nav class="mm-links">
     <a href="#about" class="mm-link mobile-link">À propos</a>
+    <a href="#engine" class="mm-link mobile-link">Moteur</a>
+    <a href="#partners" class="mm-link mobile-link">Partenariats</a>
     <a href="#join" class="mm-link mobile-link">Rejoindre</a>
   </nav>
-  <div class="mm-footer">
-    <a href="#join" class="mm-cta mobile-link">Nous rejoindre</a>
-  </div>
+  <div class="mm-footer"><a href="#join" class="mm-cta-b mobile-link">Nous rejoindre →</a></div>
 </div>
 
-<!-- ── HERO ── -->
+<video id="hero-video" muted loop playsinline>
+  <source src="https://www.pexels.com/fr-fr/download/video/7317794/" type="video/mp4">
+</video>
+
 <section id="hero">
-  <div class="hero-video-wrap">
-    <video autoplay muted loop playsinline poster="">
-      <source src="https://www.pexels.com/fr-fr/download/video/7272375/" type="video/mp4">
-    </video>
-  </div>
-  <div id="videofallback" style="
-    position:absolute;inset:0;z-index:0;
-    background: radial-gradient(ellipse at 70% 50%, rgba(192,0,26,0.08) 0%, transparent 60%),
-                repeating-linear-gradient(45deg, transparent, transparent 40px, rgba(192,0,26,0.015) 40px, rgba(192,0,26,0.015) 41px);
-    animation: bgShift 12s ease-in-out infinite alternate;
-  "></div>
-  <style>
-    @keyframes bgShift {
-      0%   { opacity: 1; filter: hue-rotate(0deg); }
-      100% { opacity: 0.7; filter: hue-rotate(15deg); }
-    }
-  </style>
-  <div class="hero-video-overlay"></div>
-  <div class="hero-video-noise"></div>
-  <div class="hero-dots"></div>
+  <canvas id="hero-canvas"></canvas>
+  <div class="hero-vignette"></div>
   <div class="hero-corner"></div>
-
   <div class="hero-content">
-    <div class="hero-eyebrow">Apprendre sans limites</div>
+    <div class="hero-tag">CTF · Cybersécurité · 100% gratuit</div>
     <h1 class="hero-title">
-      Bienvenue chez
-      <span class="line2">WolfDefansy</span>
+      L'apprentissage cyber<br>
+      <span class="accent" id="hero-accent">pour tout le monde.</span>
     </h1>
-    <p class="hero-sub">Plateforme communautaire dédiée à la cybersécurité<span class="cursor-blink">_</span></p>
-
-    <!-- Countdown -->
-    <div class="hero-countdown-wrap">
-      <div class="countdown-label">Lancement de la plateforme</div>
-      <div class="countdown-grid">
-        <div class="cd-block">
-          <span class="cd-num" id="cd-days">--</span>
-          <span class="cd-unit">Jours</span>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-block">
-          <span class="cd-num" id="cd-hours">--</span>
-          <span class="cd-unit">Heures</span>
-        </div>
-        <div class="cd-sep">:</div>
-        <div class="cd-block">
-          <span class="cd-num" id="cd-mins">--</span>
-          <span class="cd-unit">Minutes</span>
-        </div>
-      </div>
-      <div class="countdown-note">Date de sortie non définie</div>
+    <p class="hero-sub">Formation CTF de qualité, moteur de challenge maison, communauté active. Zéro barrière, zéro frais — juste la passion du hack.<span class="cursor-blink">_</span></p>
+    <div class="hero-stats-row">
+      <div class="hs"><span class="hs-n">100<b>%</b></span><span class="hs-l">Gratuit</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-n">25<b>+</b></span><span class="hs-l">Bénévoles</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-n">5</span><span class="hs-l">Équipes</span></div>
+      <div class="hs-div"></div>
+      <div class="hs"><span class="hs-n"><b>∞</b></span><span class="hs-l">Challenges</span></div>
     </div>
-
-    <!-- CTAs -->
-    <div class="hero-ctas-row">
-      <div class="hero-ctas-sub">
-        <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-red">Nous rejoindre</a>
-        <a href="#about" class="btn-ghost">En savoir plus</a>
-      </div>
+    <div class="hero-ctas">
+      <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-primary">Rejoindre le Discord</a>
+      <a href="#about" class="btn-outline">Découvrir</a>
     </div>
   </div>
-
-  <div class="hero-stats">
-    <div class="s-item">
-      <div class="s-num">100<b>%</b></div>
-      <div class="s-lbl">Gratuit</div>
-    </div>
-    <div class="s-item">
-      <div class="s-num"><b>∞</b></div>
-      <div class="s-lbl">Passion</div>
-    </div>
+  <button class="replay-btn" id="replayBtn">
+    <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
+    Rejouer
+  </button>
+  <div class="game-hint">
+    <span class="hint-key">←</span><span class="hint-key">→</span> Déplacer
+    <span class="hint-sep">|</span>
+    <span class="hint-key">↑</span> Sauter
+    <span class="hint-sep">|</span>
+    <span class="hint-goal">⚑ Capture le drapeau</span>
   </div>
 </section>
 
-<!-- Ticker -->
 <div class="ticker">
   <div class="ticker-track">
-    <div class="ticker-item">
-      <span>Web Exploitation</span><span class="sep">&gt;&gt;</span>
-      <span>Reverse Engineering</span><span class="sep">&gt;&gt;</span>
-      <span>Binary Exploitation</span><span class="sep">&gt;&gt;</span>
-      <span>Cryptographie</span><span class="sep">&gt;&gt;</span>
-      <span>Forensics</span><span class="sep">&gt;&gt;</span>
-      <span>OSINT</span><span class="sep">&gt;&gt;</span>
-      <span>Stéganographie</span><span class="sep">&gt;&gt;</span>
-      <span>Pwn</span><span class="sep">&gt;&gt;</span>
-      <span>Réseau</span><span class="sep">&gt;&gt;</span>
-      <span>Hardware</span><span class="sep">&gt;&gt;</span>
-    </div>
-    <div class="ticker-item" aria-hidden="true">
-      <span>Web Exploitation</span><span class="sep">&gt;&gt;</span>
-      <span>Reverse Engineering</span><span class="sep">&gt;&gt;</span>
-      <span>Binary Exploitation</span><span class="sep">&gt;&gt;</span>
-      <span>Cryptographie</span><span class="sep">&gt;&gt;</span>
-      <span>Forensics</span><span class="sep">&gt;&gt;</span>
-      <span>OSINT</span><span class="sep">&gt;&gt;</span>
-      <span>Stéganographie</span><span class="sep">&gt;&gt;</span>
-      <span>Pwn</span><span class="sep">&gt;&gt;</span>
-      <span>Réseau</span><span class="sep">&gt;&gt;</span>
-      <span>Hardware</span><span class="sep">&gt;&gt;</span>
-    </div>
+    <div class="ticker-item"><span>Web Exploitation</span><span class="sep">//</span><span>Reverse Engineering</span><span class="sep">//</span><span>Binary Exploitation</span><span class="sep">//</span><span>Cryptographie</span><span class="sep">//</span><span>Forensics</span><span class="sep">//</span><span>OSINT</span><span class="sep">//</span><span>Stéganographie</span><span class="sep">//</span><span>Pwn</span><span class="sep">//</span><span>Réseau</span><span class="sep">//</span><span>Hardware</span><span class="sep">//</span></div>
+    <div class="ticker-item" aria-hidden="true"><span>Web Exploitation</span><span class="sep">//</span><span>Reverse Engineering</span><span class="sep">//</span><span>Binary Exploitation</span><span class="sep">//</span><span>Cryptographie</span><span class="sep">//</span><span>Forensics</span><span class="sep">//</span><span>OSINT</span><span class="sep">//</span><span>Stéganographie</span><span class="sep">//</span><span>Pwn</span><span class="sep">//</span><span>Réseau</span><span class="sep">//</span><span>Hardware</span><span class="sep">//</span></div>
   </div>
 </div>
 
-<!-- ── ABOUT ── -->
+<!-- ABOUT -->
 <section id="about">
-
-  <!-- Mission -->
-  <div class="about-header reveal">
-    <div class="sec-tag">À propos</div>
-    <h2 class="sec-title">Notre mission</h2>
+  <div class="reveal">
+    <div class="section-tag">À propos</div>
+    <h2 class="section-title">Né de la passion, construit pour durer.</h2>
+    <p class="section-sub">On est une bande de passionnés qui en avait marre de voir la cybersécurité réservée à ceux qui peuvent se payer des formations. Alors on a construit la nôtre.</p>
   </div>
-
-  <div class="about-mission">
-    <div class="about-mission-text reveal">
-      <p>WolfDefansy est une association qui vise principalement à aider les lycéens et les jeunes étudiants du monde entier à accéder gratuitement à l'apprentissage de la cybersécurité.</p>
-      <p>Notre objectif est de fournir une plateforme de formation et de CTF accessible à tous, en construisant un environnement polyvalent, centralisé et bienveillant.</p>
-      <p>Aucun objectif commercial : notre mission est de partager notre passion pour faire émerger de nouveaux passionnés.</p>
+  <div class="about-grid">
+    <div class="about-text reveal-l">
+      <p>WolfDefansy, c'est une association portée par <strong>plus de 25 bénévoles</strong> — développeurs, pentesters, designers — tous réunis par la même conviction : apprendre la cybersécurité ne devrait pas coûter un centime.</p>
+      <p>On cible les <strong>lycéens, étudiants et autodidactes</strong> qui veulent entrer dans le domaine sans trouver de porte. Notre plateforme couvre l'intégralité du spectre CTF, du niveau zéro aux techniques avancées, avec un moteur de challenges entièrement développé en interne.</p>
+      <p>Pas d'abonnement, pas de freemium, pas de publicité. Juste du contenu de qualité, une communauté qui s'entraide et l'envie de faire émerger la prochaine génération.</p>
     </div>
-
-    <div class="about-stats reveal">
-      <div class="a-stat">
-        <div class="a-stat-num">25+</div>
-        <div class="a-stat-lbl">Bénévoles engagés</div>
-      </div>
-      <div class="a-stat">
-        <div class="a-stat-num">100%</div>
-        <div class="a-stat-lbl">Gratuit, toujours</div>
-      </div>
-      <div class="a-stat">
-        <div class="a-stat-num">5</div>
-        <div class="a-stat-lbl">Équipes actives</div>
-      </div>
+    <div class="about-stats reveal-r">
+      <div class="stat-row"><div class="stat-num">25+</div><div class="stat-lbl">Bénévoles engagés</div></div>
+      <div class="stat-row"><div class="stat-num">100%</div><div class="stat-lbl">Gratuit, toujours</div></div>
+      <div class="stat-row"><div class="stat-num">5</div><div class="stat-lbl">Équipes actives</div></div>
+      <div class="stat-row" style="border-bottom:none;"><div class="stat-num">10+</div><div class="stat-lbl">Catégories CTF couvertes</div></div>
     </div>
   </div>
 
-  <!-- Values grid -->
-  <div class="values-grid">
-    <div class="val-card reveal">
-      <span class="val-index">[01]</span>
-      <span class="val-tag">Solidarity</span>
-      <span class="val-title">Solidarité</span>
-      <p class="val-desc">WolfDefansy rend l'apprentissage accessible et gratuit pour tous. Notre mission est d'accompagner les étudiants avec un parcours complet et un soutien humain.</p>
-    </div>
-    <div class="val-card reveal">
-      <span class="val-index">[02]</span>
-      <span class="val-tag">Passion</span>
-      <span class="val-title">Passion</span>
-      <p class="val-desc">Porté par plus de 25 bénévoles engagés — développeurs, pentesters, designers — tous unis par la volonté de construire quelque chose d'utile et d'innovant.</p>
-    </div>
-    <div class="val-card reveal">
-      <span class="val-index">[03]</span>
-      <span class="val-tag">Rigor</span>
-      <span class="val-title">Rigueur</span>
-      <p class="val-desc">Cinq équipes encadrées par des responsables expérimentés. La qualité est au cœur de notre démarche, portée par des méthodes précises et des outils adaptés.</p>
-    </div>
-    <div class="val-card reveal">
-      <span class="val-index">[04]</span>
-      <span class="val-tag">Ambition</span>
-      <span class="val-title">Ambition</span>
-      <p class="val-desc">Amélioration continue, technique et opérationnelle. Notre ambition à long terme : s'étendre à l'international et permettre aux étudiants de progresser ensemble.</p>
+  <div class="img-expand-wrap reveal">
+    <div class="img-expand" data-expand>
+      <img src="modules.png" alt="Aperçu des modules WolfDefansy">
     </div>
   </div>
 
+  <div class="values-grid reveal" style="margin-top:5rem;">
+    <div class="val-card"><span class="val-idx">01</span><span class="val-tag-label">Solidarity</span><span class="val-name">Solidarité</span><p class="val-desc">Personne ne reste bloqué seul. Parcours guidé, hints progressifs, communauté réactive.</p></div>
+    <div class="val-card"><span class="val-idx">02</span><span class="val-tag-label">Passion</span><span class="val-name">Passion</span><p class="val-desc">25+ bénévoles qui bossent le soir et le week-end parce qu'ils y croient vraiment.</p></div>
+    <div class="val-card"><span class="val-idx">03</span><span class="val-tag-label">Rigor</span><span class="val-name">Rigueur</span><p class="val-desc">Cinq équipes structurées. Des responsables expérimentés. Un moteur CTF développé de A à Z.</p></div>
+    <div class="val-card"><span class="val-idx">04</span><span class="val-tag-label">Ambition</span><span class="val-name">Ambition</span><p class="val-desc">Partenariats universitaires, expansion internationale, contenu pédagogique de référence.</p></div>
+  </div>
 </section>
 
-<!-- ── JOIN ── -->
-<section id="join">
-  <div class="join-layout">
+<!-- ENGINE -->
+<section id="engine">
+  <div class="reveal">
+    <div class="section-tag">Moteur</div>
+    <h2 class="section-title">BlackWolf — notre moteur CTF maison.</h2>
+    <p class="section-sub">On n'a pas pris une solution existante. On a tout construit. BlackWolf couvre aujourd'hui l'intégralité des fonctionnalités de TryHackMe et approche celles de HackTheBox.</p>
+  </div>
+  <div class="engine-split">
+    <div class="engine-left reveal-l">
+      <p>Le moteur est <strong>presque fonctionnel à 100%</strong>. L'infrastructure est en capacité d'accueillir des challenges dès maintenant — les tests en accès restreint sont déjà envisageables.</p>
+      <p>Ce qui manque encore ? Pas la coquille — elle est solide. C'est le <strong>contenu pédagogique</strong>. C'est précisément pour ça qu'on recrute des chall makers et qu'on cherche à tisser des partenariats avec des universités et des profs de BTS.</p>
+      <p>L'interface est aménagée pour un lancement progressif par fonctionnalité. On ne va pas tout ouvrir d'un coup — on va le faire bien.</p>
+    </div>
+    <div class="engine-features reveal-r">
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Challenges dynamiques</strong><span>Instances dédiées par utilisateur, reset automatique, scoring temps réel.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Système de hints</strong><span>Indices progressifs qui ne cassent pas la progression — ils la guident.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Write-ups intégrés</strong><span>Débriefing complet post-résolution rédigé par la communauté.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>10+ catégories</strong><span>Web, reverse, pwn, crypto, forensics, OSINT, stéga, réseau, hardware et plus.</span></div></div>
+      <div class="ef-row" style="border-bottom:none;"><div class="ef-icon">▸</div><div class="ef-text"><strong>Leaderboard & events</strong><span>Classements, événements temporaires, CTF compétitifs pour dynamiser la communauté.</span></div></div>
+    </div>
+  </div>
+  <div class="img-expand-wrap reveal" style="margin-top:4rem;">
+    <div class="img-expand" data-expand>
+      <img src="wolfdefansy_engine.png" alt="WolfDefansy Engine — BlackWolf">
+    </div>
+  </div>
+</section>
 
+<!-- PARTENARIATS -->
+<section id="partners">
+  <div class="reveal">
+    <div class="section-tag">Partenariats</div>
+    <h2 class="section-title">Construire avec l'académique.</h2>
+    <p class="section-sub">La prochaine étape de Wolfdefansy passe par des collaborations avec les universités, les IUT et les profs de BTS. On cherche des partenaires qui partagent notre envie de démocratiser la cybersécurité.</p>
+  </div>
+  <div class="partners-intro">
+    <div class="reveal-l">
+      <p>L'idée est simple : les établissements apportent leur expertise pédagogique et leurs étudiants talentueux, on leur offre une <strong>plateforme clé en main</strong>, des challenges à leur image et un espace où leurs apprenants peuvent progresser en dehors des cours.</p>
+      <p>Pour les profs de BTS et les enseignants-chercheurs qui cherchent à créer des <strong>modules pratiques de cybersécurité</strong>, on propose une collaboration directe dans la conception du contenu. Vous connaissez la pédagogie, on connaît le moteur.</p>
+      <p>Ces partenariats ne sont pas symboliques — ils alimentent directement la plateforme en contenu de qualité et permettent aux établissements d'offrir un accès à des ressources qu'ils ne pourraient pas construire seuls.</p>
+    </div>
+    <div class="partners-call reveal-r">
+      <div class="pc-title">Vous êtes enseignant, responsable pédagogique ou directeur de formation ?</div>
+      <p class="pc-body">On cherche des profils qui veulent co-construire des modules de cybersécurité adaptés au niveau BTS, licence ou master. <strong>Zéro contrainte commerciale</strong>, la plateforme reste gratuite pour vos étudiants. Contactez-nous sur Discord ou par mail — on répond vite.</p>
+      <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
+        <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-primary">Discord</a>
+        <a href="mailto:wolfdefansy@proton.me" class="btn-outline">Envoyer un mail</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="partner-types reveal">
+    <div class="pt-card">
+      <span class="pt-tag">Universités & IUT</span>
+      <span class="pt-title">Modules pratiques pour vos filières cyber</span>
+      <p class="pt-body">Intégration de parcours CTF dans vos cursus. Challenges calibrés pour vos niveaux, suivi des progressions, événements exclusifs pour vos étudiants.</p>
+    </div>
+    <div class="pt-card">
+      <span class="pt-tag">BTS SIO & lycées</span>
+      <span class="pt-title">Ressources pédagogiques gratuites</span>
+      <p class="pt-body">Contenu aligné sur les référentiels BTS SIO. Des défis conçus avec vos profs, accessibles à vos élèves dès le premier jour, sans compte payant.</p>
+    </div>
+    <div class="pt-card">
+      <span class="pt-tag">Chall Makers indépendants</span>
+      <span class="pt-title">Créez, publiez, transmettez</span>
+      <p class="pt-body">Experts en sécurité, étudiants avancés, enseignants : proposez vos challenges sur notre moteur. On s'occupe de l'infra, vous vous concentrez sur le contenu.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CHALL MAKERS -->
+<section id="challmakers">
+  <div class="reveal">
+    <div class="section-tag">Chall Makers</div>
+    <h2 class="section-title">On recrute des créateurs de défis.</h2>
+    <p class="section-sub">La qualité d'une plateforme CTF repose sur ses challenges. On lance une campagne de recrutement active pour construire un catalogue solide dès le lancement.</p>
+  </div>
+  <div class="cm-grid">
+    <div class="cm-left reveal-l">
+      <p>Le moteur est prêt. L'infra tourne. Ce qui manque encore, <strong>c'est le contenu</strong> — et c'est la partie la plus importante. Un moteur vide n'a aucune valeur, même le meilleur du monde.</p>
+      <p>On cherche des gens capables de <strong>créer des challenges de qualité</strong> dans toutes les catégories CTF. Débutants avec de bonnes idées, experts avec des scénarios retors : tout le monde a sa place si la motivation est là.</p>
+      <p>Les meilleurs chall makers verront leurs responsabilités grandir. On envisage de confier des postes de <strong>directeur pédagogique par catégorie</strong> à ceux qui s'investissent sur la durée.</p>
+    </div>
+    <div class="cm-steps reveal-r">
+      <div class="cm-step">
+        <div class="cm-step-n">01</div>
+        <div>
+          <div class="cm-step-title">Rejoindre le Discord</div>
+          <div class="cm-step-body">Présente-toi dans le channel dédié, montre ce que tu sais faire. Pas besoin de CV — juste une envie de créer.</div>
+        </div>
+      </div>
+      <div class="cm-step">
+        <div class="cm-step-n">02</div>
+        <div>
+          <div class="cm-step-title">Formation au moteur BlackWolf</div>
+          <div class="cm-step-body">On te forme sur l'outil de création de challenges. Pas de barrière technique — si tu comprends la sécu, tu vas t'en sortir.</div>
+        </div>
+      </div>
+      <div class="cm-step">
+        <div class="cm-step-n">03</div>
+        <div>
+          <div class="cm-step-title">Créer des événements temporaires</div>
+          <div class="cm-step-body">Les premiers challenges serviront à alimenter des events dynamiques. Cadre, deadline, adrénaline — exactement comme un vrai CTF.</div>
+        </div>
+      </div>
+      <div class="cm-step" style="border-bottom:none;">
+        <div class="cm-step-n">04</div>
+        <div>
+          <div class="cm-step-title">Évoluer vers la direction pédagogique</div>
+          <div class="cm-step-body">Après quelques mois, les profils qui s'investissent peuvent prendre en main une catégorie entière. On cherche des gens qui restent, pas des passages.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section id="features">
+  <div class="features-header reveal">
+    <div class="section-tag">Plateforme</div>
+    <h2 class="section-title">Ce que la plateforme offre, concrètement.</h2>
+  </div>
+  <div class="features-grid">
+    <div class="feat-card reveal">
+      <span class="feat-tag">Formation</span>
+      <span class="feat-title">Parcours structurés du niveau zéro à l'expert</span>
+      <p class="feat-body">Modules organisés par catégorie et niveau. Challenges progressifs, write-ups communautaires, hints intelligents qui guident sans gâcher.</p>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-tag">Challenges CTF</span>
+      <span class="feat-title">Toutes les catégories, un débriefing après chaque flag</span>
+      <p class="feat-body">Web, reverse, pwn, crypto, forensics, OSINT, stéga et plus. Chaque résolution donne accès à une explication complète pour ancrer les apprentissages.</p>
+    </div>
+    <div class="feat-card reveal">
+      <span class="feat-tag">Communauté</span>
+      <span class="feat-title">Discord actif, entraide permanente, events réguliers</span>
+      <p class="feat-body">Plus de 25 bénévoles disponibles pour répondre, des sessions live régulières et une ambiance où personne n'est jugé pour ses questions.</p>
+    </div>
+  </div>
+</section>
+
+<!-- JOIN -->
+<section id="join">
+  <div class="join-grid">
     <div class="join-left">
-      <div class="sec-tag reveal">Rejoindre</div>
-      <h2 class="reveal">Prêt à<br/>chasser ?</h2>
-      <p class="reveal">Que tu sois débutant curieux ou expert aguerri, Wolfdefansy t'accueille. Rejoins le Discord, présente-toi, et plonge dans tes premiers challenges.</p>
+      <div class="section-tag reveal">Rejoindre</div>
+      <h2 class="reveal">Prêt à chasser ?</h2>
+      <p class="reveal">Que tu sois là pour apprendre, pour créer des challenges ou pour construire quelque chose avec nous — il y a une place pour toi dans Wolfdefansy.</p>
       <div class="join-ctas reveal">
         <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-discord">
-          <svg class="discord-svg" viewBox="0 0 127.14 96.36" xmlns="http://www.w3.org/2000/svg">
-            <path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/>
-          </svg>
+          <svg class="discord-svg" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
           Discord — Rejoindre
         </a>
-        <a href="mailto:wolfdefansy@proton.me" class="btn-ghost">Nous contacter</a>
+        <a href="mailto:wolfdefansy@proton.me" class="btn-outline">Nous contacter</a>
       </div>
     </div>
-
-    <div class="join-right reveal">
-      <div class="terminal-box">
-        <div class="terminal-bar">
-          <div class="t-dot r"></div>
-          <div class="t-dot"></div>
-          <div class="t-dot"></div>
-        </div>
-        <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">whoami</span></div>
-        <div class="terminal-line"><span class="c-red">&gt;</span> Un passionné de cybersécurité</div>
-        <div class="terminal-line">&nbsp;</div>
-        <div class="terminal-line"><span class="c-red">$</span> <span class="c-wht">join wolfdefansy --free</span></div>
-        <div class="terminal-line"><span class="c-red">&gt;</span> Bienvenue, Wolf.<span class="cursor-blink"> _</span></div>
+    <div class="reveal-r">
+      <div class="terminal">
+        <div class="t-bar"><div class="t-dot red"></div><div class="t-dot"></div><div class="t-dot"></div></div>
+        <div class="t-line"><span class="c-r">$</span> <span class="c-w">whoami</span></div>
+        <div class="t-line"><span class="c-r">›</span> Un passionné de cybersécurité</div>
+        <div class="t-line">&nbsp;</div>
+        <div class="t-line"><span class="c-r">$</span> <span class="c-w">join wolfdefansy --free --forever</span></div>
+        <div class="t-line"><span class="c-r">›</span> Bienvenue dans la meute, Wolf.<span class="cursor-blink"> _</span></div>
+        <div class="t-line">&nbsp;</div>
+        <div class="t-line"><span class="c-r">$</span> <span class="c-w">./blackwolf --start</span></div>
+        <div class="t-line"><span class="c-r">›</span> Moteur démarré. Bonne chasse.</div>
       </div>
     </div>
-
   </div>
 </section>
 
-<!-- ── FOOTER ── -->
 <footer>
   <div class="f-logo"><em>Wolf</em>defansy</div>
   <ul class="f-links">
     <li><a href="#about">À propos</a></li>
+    <li><a href="#engine">Moteur</a></li>
+    <li><a href="#partners">Partenariats</a></li>
     <li><a href="https://discord.gg/aXywbBkpf8" target="_blank">Discord</a></li>
     <li><a href="#" id="rgpdBtn">RGPD</a></li>
   </ul>
   <div class="f-copy">© 2026 Wolfdefansy · All flags reserved</div>
 </footer>
 
-<!-- ── RGPD POPUP ── -->
-<div id="rgpdOverlay" style="display:none; position:fixed; inset:0; background:rgba(7,7,7,0.85); backdrop-filter:blur(6px); z-index:9000; align-items:center; justify-content:center; padding:1.5rem;">
-  <div style="background:var(--surface); border:1px solid var(--border); max-width:520px; width:100%; position:relative;">
-    <!-- top bar -->
-    <div style="display:flex; justify-content:space-between; align-items:center; padding:1.2rem 1.5rem; border-bottom:1px solid var(--border-soft);">
-      <span style="font-family:var(--vt); font-size:1rem; letter-spacing:0.18em; text-transform:uppercase; color:var(--red);">// RGPD</span>
-      <button id="rgpdClose" style="background:none; border:1px solid var(--border-soft); color:var(--text-muted); font-family:var(--vt); font-size:1.4rem; width:36px; height:36px; cursor:pointer; display:flex; align-items:center; justify-content:center; transition:border-color 0.15s, color 0.15s;" onmouseover="this.style.borderColor='var(--red)';this.style.color='var(--red)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.06)';this.style.color='var(--text-muted)'">✕</button>
+<div id="rgpd-overlay">
+  <div class="rgpd-box">
+    <div class="rgpd-head">
+      <span>// RGPD</span>
+      <button class="rgpd-close" id="rgpdClose">✕</button>
     </div>
-    <!-- content -->
-    <div style="padding:2rem 1.5rem; display:flex; flex-direction:column; gap:1.4rem;">
-      <div style="display:flex; gap:1rem; align-items:flex-start;">
-        <span style="font-family:var(--pixel); font-size:0.38rem; color:var(--red); flex-shrink:0; padding-top:0.3rem;">[01]</span>
-        <div>
-          <div style="font-family:var(--pixel); font-size:0.45rem; color:var(--text); margin-bottom:0.6rem;">Données personnelles</div>
-          <p style="font-family:var(--vt); font-size:1.15rem; line-height:1.8; color:var(--text-mid);">Nous ne collectons aucune donnée personnelle. Aucun cookie de tracking, aucune analytics, aucun formulaire d'inscription. Votre visite est entièrement anonyme.</p>
-        </div>
-      </div>
-      <div style="height:1px; background:var(--border-soft);"></div>
-      <div style="display:flex; gap:1rem; align-items:flex-start;">
-        <span style="font-family:var(--pixel); font-size:0.38rem; color:var(--red); flex-shrink:0; padding-top:0.3rem;">[02]</span>
-        <div>
-          <div style="font-family:var(--pixel); font-size:0.45rem; color:var(--text); margin-bottom:0.6rem;">Hébergement</div>
-          <p style="font-family:var(--vt); font-size:1.15rem; line-height:1.8; color:var(--text-mid);">Le code source est hébergé sur <strong style="color:var(--text);">GitHub</strong>. Le site est déployé et servi via <strong style="color:var(--text);">Vercel</strong>. Ces plateformes peuvent collecter des logs techniques basiques (IP, user-agent) conformément à leurs propres politiques de confidentialité.</p>
-        </div>
-      </div>
+    <div class="rgpd-body">
+      <div class="rgpd-item"><span class="rgpd-idx">[01]</span><div><div class="rgpd-item-title">Données personnelles</div><p>Aucune donnée collectée. Pas de cookies de tracking, pas d'analytics, pas de formulaire. Visite entièrement anonyme.</p></div></div>
+      <div class="rgpd-divider"></div>
+      <div class="rgpd-item"><span class="rgpd-idx">[02]</span><div><div class="rgpd-item-title">Hébergement</div><p>Code source sur <strong>GitHub</strong>, déployé via <strong>Vercel</strong>. Ces plateformes peuvent collecter des logs techniques conformément à leurs propres politiques.</p></div></div>
     </div>
   </div>
 </div>
 
 <script>
-  /* ── Cursor ── */
-  const cur = document.getElementById('cur');
-  const curR = document.getElementById('cur-r');
-  document.addEventListener('mousemove', e => {
-    cur.style.left = e.clientX + 'px'; cur.style.top = e.clientY + 'px';
-    curR.style.left = e.clientX + 'px'; curR.style.top = e.clientY + 'px';
+/* ── NAV ── */
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobileMenu');
+const mmClose = document.getElementById('mmClose');
+const mainNav = document.getElementById('main-nav');
+const openMenu = () => { mobileMenu.classList.add('open'); hamburger.classList.add('open'); document.body.style.overflow='hidden'; };
+const closeMenu = () => { mobileMenu.classList.remove('open'); hamburger.classList.remove('open'); document.body.style.overflow=''; };
+hamburger.addEventListener('click', () => mobileMenu.classList.contains('open') ? closeMenu() : openMenu());
+mmClose.addEventListener('click', closeMenu);
+document.querySelectorAll('.mobile-link').forEach(l => l.addEventListener('click', closeMenu));
+window.addEventListener('scroll', () => mainNav.classList.toggle('scrolled', window.scrollY > 60), { passive: true });
+
+/* ── FLAG CAPTURE ── */
+let flagCaptured = false;
+const heroAccent = document.getElementById('hero-accent');
+const heroVideo = document.getElementById('hero-video');
+
+function triggerFlagCapture() {
+  if (flagCaptured) return;
+  flagCaptured = true;
+  const cv = document.getElementById('hero-canvas');
+  cv.style.animation = 'flag-shake 0.35s ease';
+  setTimeout(() => cv.style.animation = '', 350);
+  heroVideo.play().catch(() => {});
+  heroVideo.classList.add('active');
+  heroAccent.style.animation = 'title-flash 1s ease forwards';
+  const orig = heroAccent.textContent;
+  const newText = 'Bêta bientôt !';
+  let i = orig.length;
+  const erase = setInterval(() => {
+    i--;
+    heroAccent.textContent = orig.slice(0, i) + (i % 2 === 0 ? '█' : '▌');
+    if (i <= 0) {
+      clearInterval(erase);
+      heroAccent.textContent = '';
+      let j = 0;
+      const type = setInterval(() => {
+        heroAccent.textContent = newText.slice(0, j) + '█';
+        j++;
+        if (j > newText.length) { clearInterval(type); heroAccent.textContent = newText; heroAccent.style.color = '#ff2a45'; heroAccent.style.textShadow = '0 0 60px rgba(192,0,26,0.9)'; }
+      }, 65);
+    }
+  }, 35);
+}
+
+/* ── PLATFORMER ── */
+(function() {
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let W, H, raf;
+  const GRAVITY = 0.44;
+  const JUMP_FORCE = -17;  /* sauts plus hauts */
+  const SPEED = 3.4;
+  const CR = '#c0001a';
+  const CRG = 'rgba(192,0,26,';
+  const CW = 'rgba(237,232,227,';
+  const CG = 'rgba(192,0,26,0.03)';
+
+  const keys = { left:false, right:false, jump:false };
+  let inputReceived = false;
+  window.addEventListener('keydown', e => {
+    if (e.key==='ArrowLeft'||e.key==='a') { keys.left=true; inputReceived=true; }
+    if (e.key==='ArrowRight'||e.key==='d') { keys.right=true; inputReceived=true; }
+    if (['ArrowUp','z',' ','w'].includes(e.key)) { keys.jump=true; inputReceived=true; }
   });
-
-  /* ── Hamburger / Mobile menu ── */
-  const hamburger = document.getElementById('hamburger');
-  const mobileMenu = document.getElementById('mobileMenu');
-  const mmClose = document.getElementById('mmClose');
-  const mainNav = document.querySelector('nav');
-
-  function openMenu() {
-    mobileMenu.classList.add('open');
-    hamburger.classList.add('open');
-    hamburger.setAttribute('aria-expanded', true);
-    document.body.style.overflow = 'hidden';
-    mainNav.style.display = 'none';
-    mmClose.classList.add('visible');
-  }
-  function closeMenu() {
-    mobileMenu.classList.remove('open');
-    hamburger.classList.remove('open');
-    hamburger.setAttribute('aria-expanded', false);
-    document.body.style.overflow = '';
-    mainNav.style.display = '';
-    mmClose.classList.remove('visible');
-  }
-
-  hamburger.addEventListener('click', () => {
-    mobileMenu.classList.contains('open') ? closeMenu() : openMenu();
+  window.addEventListener('keyup', e => {
+    if (e.key==='ArrowLeft'||e.key==='a') keys.left=false;
+    if (e.key==='ArrowRight'||e.key==='d') keys.right=false;
+    if (['ArrowUp','z',' ','w'].includes(e.key)) keys.jump=false;
   });
-  mmClose.addEventListener('click', closeMenu);
-  document.querySelectorAll('.mobile-link').forEach(link => {
-    link.addEventListener('click', closeMenu);
-  });
+  let tx0=null, ty0=null;
+  canvas.addEventListener('touchstart', e => { tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; inputReceived=true; }, {passive:true});
+  canvas.addEventListener('touchmove', e => {
+    if(!tx0) return;
+    const dx=e.touches[0].clientX-tx0, dy=e.touches[0].clientY-ty0;
+    keys.left=dx<-20; keys.right=dx>20; keys.jump=dy<-30;
+  }, {passive:true});
+  canvas.addEventListener('touchend', () => { keys.left=keys.right=keys.jump=false; tx0=null; });
 
-  /* ── Countdown ── */
-  const LAUNCH_DATE = null;
-  function pad(n) { return String(n).padStart(2, '0'); }
-  function updateCountdown() {
-    document.getElementById('cd-days').textContent  = '--';
-    document.getElementById('cd-hours').textContent = '--';
-    document.getElementById('cd-mins').textContent  = '--';
+  /* Platforms: [xPct, yPct, wPct, h, isGround] */
+  const PDEFS = [
+    [0,    1.0,  1.0,  4, true ],
+    [0.05, 0.76, 0.15, 4, false],
+    [0.25, 0.63, 0.12, 4, false],
+    [0.45, 0.52, 0.15, 4, false],
+    [0.65, 0.40, 0.17, 4, false],
+    [0.12, 0.46, 0.11, 4, false],
+    [0.32, 0.32, 0.10, 4, false],
+    [0.52, 0.20, 0.17, 4, false], /* FLAG */
+    [0.72, 0.60, 0.14, 4, false],
+    [0.80, 0.78, 0.12, 4, false],
+  ];
+  const FLAG_IDX = 7;
+
+  let platforms = [], collapsing = [], bgParts = [], fParts = [];
+  let flagWave = 0, flagDone = false;
+
+  /* Mobile platform: moves horizontally on the LEFT side */
+  let mobileX = 0, mobileY = 0, mobileW = 0, mobileDir = 1;
+  const MOBILE_SPEED = 1.2;
+  const MOBILE_LEFT_LIMIT_PCT = 0.02;
+  const MOBILE_RIGHT_LIMIT_PCT = 0.22;
+
+  /* Spawn platform: top-left area, disappears on first input */
+  let spawnPlat = null;
+  let spawnVisible = true;
+
+  const P = { x:0, y:0, vx:0, vy:0, w:13, h:20, onGround:false, jumpHeld:false, dir:1, frame:0, frameT:0, dead:false, deadT:0 };
+
+  function buildWorld() {
+    W = canvas.width  = canvas.offsetWidth;
+    H = canvas.height = canvas.offsetHeight;
+
+    platforms = PDEFS.map(d => ({
+      x: d[0]*W, y: d[4] ? H : d[1]*H,
+      w: d[2]*W, h: d[3], ground: d[4], alive: true
+    }));
+
+    /* spawn platform: left side, high up */
+    const spY = H * 0.30;
+    spawnPlat = { x: W*0.06, y: spY, w: 80, h: 4 };
+    spawnVisible = true;
+
+    /* player starts on spawn platform */
+    P.x = spawnPlat.x + spawnPlat.w/2 - P.w/2;
+    P.y = spawnPlat.y - P.h - 1;
+    P.vx=0; P.vy=0; P.onGround=true;
+    P.dead=false; P.dir=1; P.frame=0;
+
+    /* mobile platform: left side */
+    mobileW = W * 0.13;
+    mobileX = W * MOBILE_LEFT_LIMIT_PCT;
+    mobileY = H * 0.60;
+    mobileDir = 1;
+
+    flagDone=false; collapsing=[]; fParts=[];
+
+    bgParts = Array.from({length:34}, () => ({
+      x: Math.random()*W, y: Math.random()*H,
+      r: Math.random()*1.1+0.3,
+      vx: (Math.random()-0.5)*0.24, vy: -Math.random()*0.32-0.06,
+      a: Math.random()*0.3+0.04
+    }));
   }
-  updateCountdown();
 
-  /* ── Scroll reveals ── */
-  const obs = new IntersectionObserver((entries) => {
-    entries.forEach((e, i) => {
-      if (e.isIntersecting) {
-        setTimeout(() => e.target.classList.add('on'), i * 90);
-        obs.unobserve(e.target);
+  function spawnJumpP() {
+    for(let i=0;i<4;i++) fParts.push({x:P.x+P.w/2,y:P.y+P.h,vx:(Math.random()-0.5)*2.5,vy:Math.random()*1.5+0.5,life:1,decay:Math.random()*0.08+0.04,r:Math.random()*2+0.4,flag:false});
+  }
+  function spawnFlagBurst(fx,fy) {
+    for(let i=0;i<22;i++){const a=(Math.PI*2*i)/22,sp=Math.random()*4+1.5;fParts.push({x:fx,y:fy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-1.5,life:1,decay:Math.random()*0.02+0.012,r:Math.random()*4+1,flag:true});}
+  }
+  function startCollapse() {
+    platforms.forEach((pl,i) => {
+      if(pl.ground||!pl.alive) return;
+      setTimeout(() => {
+        pl.alive=false;
+        collapsing.push({x:pl.x,y:pl.y,w:pl.w,h:pl.h,vy:Math.random()*2+1,vr:(Math.random()-0.5)*0.06,rot:0,opacity:1});
+      }, i*75+Math.random()*100);
+    });
+    spawnVisible=false;
+    setTimeout(() => mobileDir=0, 400); /* stop mobile plat */
+  }
+  function ovlp(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by;}
+
+  function update() {
+    flagWave++;
+
+    bgParts.forEach(p => {
+      p.x+=p.vx; p.y+=p.vy;
+      if(p.y<-5)p.y=H+5; if(p.x<-5)p.x=W+5; if(p.x>W+5)p.x=-5;
+    });
+
+    /* update mobile platform */
+    if(mobileDir !== 0) {
+      mobileX += MOBILE_SPEED * mobileDir;
+      if(mobileX + mobileW > W * MOBILE_RIGHT_LIMIT_PCT) mobileDir = -1;
+      if(mobileX < W * MOBILE_LEFT_LIMIT_PCT) mobileDir = 1;
+    }
+
+    collapsing.forEach(c => { c.y+=c.vy; c.vy+=0.25; c.rot+=c.vr; c.opacity-=0.013; });
+    collapsing = collapsing.filter(c=>c.opacity>0);
+
+    if(inputReceived && spawnVisible) spawnVisible=false;
+
+    if(P.dead) { P.deadT--; if(P.deadT<=0){P.dead=false;P.x=W*0.08;P.y=H-60;P.vx=0;P.vy=0;} return; }
+
+    if(keys.left){P.vx=-SPEED;P.dir=-1;} else if(keys.right){P.vx=SPEED;P.dir=1;} else P.vx*=0.75;
+
+    if(keys.jump&&P.onGround&&!P.jumpHeld){P.vy=JUMP_FORCE;P.jumpHeld=true;spawnJumpP();}
+    if(!keys.jump)P.jumpHeld=false;
+
+    P.vy=Math.min(P.vy+GRAVITY,20);
+    P.x+=P.vx; P.y+=P.vy;
+    if(P.x+P.w<0)P.x=W; if(P.x>W)P.x=-P.w;
+    if(P.y>H+60){P.dead=true;P.deadT=36;return;}
+
+    P.onGround=false;
+
+    /* spawn platform collision */
+    if(spawnVisible && spawnPlat) {
+      const sp=spawnPlat;
+      if(ovlp(P.x,P.y,P.w,P.h,sp.x,sp.y,sp.w,sp.h)){
+        if(P.vy>=0&&P.y+P.h-P.vy<=sp.y+2){P.y=sp.y-P.h;P.vy=0;P.onGround=true;}
+      }
+    }
+
+    /* mobile platform collision */
+    if(ovlp(P.x,P.y,P.w,P.h,mobileX,mobileY,mobileW,4)){
+      if(P.vy>=0&&P.y+P.h-P.vy<=mobileY+2){
+        P.y=mobileY-P.h; P.vy=0; P.onGround=true;
+        if(mobileDir!==0) P.x+=MOBILE_SPEED*mobileDir;
+      }
+    }
+
+    /* static platforms */
+    platforms.forEach(pl=>{
+      if(!pl.alive)return;
+      if(ovlp(P.x,P.y,P.w,P.h,pl.x,pl.y,pl.w,pl.h)){
+        if(P.vy>=0&&P.y+P.h-P.vy<=pl.y+2){P.y=pl.y-P.h;P.vy=0;P.onGround=true;}
+        else if(P.vy<0&&P.y-P.vy>=pl.y+pl.h-2){P.y=pl.y+pl.h;P.vy=0;}
       }
     });
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 
-  /* ── RGPD popup ── */
-  const rgpdOverlay = document.getElementById('rgpdOverlay');
-  document.getElementById('rgpdBtn').addEventListener('click', e => {
-    e.preventDefault();
-    rgpdOverlay.style.display = 'flex';
-    document.body.style.overflow = 'hidden';
-  });
-  document.getElementById('rgpdClose').addEventListener('click', () => {
-    rgpdOverlay.style.display = 'none';
-    document.body.style.overflow = '';
-  });
-  rgpdOverlay.addEventListener('click', e => {
-    if (e.target === rgpdOverlay) {
-      rgpdOverlay.style.display = 'none';
-      document.body.style.overflow = '';
+    /* flag check */
+    if(!flagDone){
+      const fp=platforms[FLAG_IDX];
+      if(fp&&fp.alive){
+        const fx=fp.x+fp.w*0.5, fy=fp.y-28;
+        if(Math.hypot(P.x+P.w/2-fx,P.y+P.h/2-fy)<26){
+          flagDone=true; spawnFlagBurst(fx,fy); triggerFlagCapture(); setTimeout(startCollapse,300);
+        }
+      }
     }
-  });
-  const vid = document.querySelector('#hero video');
-  if (vid && vid.readyState > 0) {
-    document.getElementById('videofallback').style.display = 'none';
+
+    fParts.forEach(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=0.12;p.life-=p.decay;});
+    fParts=fParts.filter(p=>p.life>0);
+
+    if(Math.abs(P.vx)>0.3&&P.onGround){P.frameT++;if(P.frameT>7){P.frame=(P.frame+1)%4;P.frameT=0;}} else P.frame=0;
   }
+
+  function drawPlat(x,y,w,h,alpha=1){
+    ctx.globalAlpha=alpha;
+    ctx.fillStyle='rgba(13,13,13,0.88)'; ctx.fillRect(x,y,w,h);
+    ctx.fillStyle=CR; ctx.fillRect(x,y,w,2);
+    const g=ctx.createLinearGradient(x,y-14,x,y+h);
+    g.addColorStop(0,CRG+'0.07)'); g.addColorStop(1,'transparent');
+    ctx.fillStyle=g; ctx.fillRect(x,y-14,w,18);
+    ctx.fillStyle=CR; ctx.fillRect(x,y-3,3,3); ctx.fillRect(x+w-3,y-3,3,3);
+    ctx.globalAlpha=1;
+  }
+
+  function drawMobilePlat(){
+    ctx.fillStyle='rgba(13,13,13,0.88)'; ctx.fillRect(mobileX,mobileY,mobileW,4);
+    /* purple accent for mobile platform */
+    ctx.fillStyle='#5865F2'; ctx.fillRect(mobileX,mobileY,mobileW,2);
+    const g=ctx.createLinearGradient(mobileX,mobileY-14,mobileX,mobileY+4);
+    g.addColorStop(0,'rgba(88,101,242,0.08)'); g.addColorStop(1,'transparent');
+    ctx.fillStyle=g; ctx.fillRect(mobileX,mobileY-14,mobileW,18);
+    ctx.fillStyle='#5865F2'; ctx.fillRect(mobileX,mobileY-3,3,3); ctx.fillRect(mobileX+mobileW-3,mobileY-3,3,3);
+    /* direction arrow */
+    ctx.fillStyle='rgba(88,101,242,0.6)';
+    ctx.font='10px sans-serif'; ctx.textAlign='center';
+    ctx.fillText(mobileDir>=0?'→':'←', mobileX+mobileW/2, mobileY-6);
+    ctx.textAlign='left';
+  }
+
+  function drawSpawnPlat(){
+    ctx.globalAlpha=0.9;
+    ctx.fillStyle='rgba(13,13,13,0.8)'; ctx.fillRect(spawnPlat.x,spawnPlat.y,spawnPlat.w,spawnPlat.h);
+    ctx.fillStyle='#5865F2'; ctx.fillRect(spawnPlat.x,spawnPlat.y,spawnPlat.w,2);
+    const pulse=Math.sin(flagWave*0.1)*0.3+0.7;
+    ctx.globalAlpha=pulse;
+    ctx.fillStyle='#5865F2'; ctx.font='9px sans-serif'; ctx.textAlign='center';
+    ctx.fillText('▼', spawnPlat.x+spawnPlat.w/2, spawnPlat.y-5);
+    ctx.textAlign='left';
+    ctx.globalAlpha=1;
+  }
+
+  function drawFlag(x,y){
+    const w1=Math.sin(flagWave*0.08)*3.5, w2=Math.sin(flagWave*0.08+0.7)*2.5;
+    ctx.strokeStyle=CW+'0.7)'; ctx.lineWidth=1.5;
+    ctx.beginPath(); ctx.moveTo(x,y); ctx.lineTo(x,y-30); ctx.stroke();
+    const gr=ctx.createRadialGradient(x+7,y-22,0,x+7,y-22,16+Math.sin(flagWave*0.055)*3);
+    gr.addColorStop(0,CRG+'0.28)'); gr.addColorStop(1,'transparent');
+    ctx.fillStyle=gr; ctx.beginPath(); ctx.arc(x+7,y-22,18,0,Math.PI*2); ctx.fill();
+    ctx.fillStyle=CR;
+    ctx.beginPath(); ctx.moveTo(x,y-27); ctx.lineTo(x+9+w1,y-23+w2); ctx.lineTo(x+13+w2,y-19+w1); ctx.lineTo(x+9+w1,y-15+w2); ctx.lineTo(x,y-19); ctx.closePath(); ctx.fill();
+    ctx.fillStyle='rgba(237,232,227,0.9)'; ctx.font='4px "Press Start 2P",monospace';
+    ctx.fillText('F',x+2+w1*0.4,y-20+w2*0.3);
+  }
+
+  function drawPlayer(px,py,dir,frame,onGround){
+    const pw=P.w,ph=P.h;
+    ctx.save();
+    ctx.translate(px+pw/2,py+ph/2); ctx.scale(dir,1); ctx.translate(-pw/2,-ph/2);
+    const f=(x,y,w,h,c)=>{ctx.fillStyle=c;ctx.fillRect(x,y,w,h);};
+    ctx.globalAlpha=0.15; f(1,ph+1,pw-2,2,'#000'); ctx.globalAlpha=1;
+    f(2,7,9,8,CW+'0.92)');
+    const arm=onGround&&frame%2===0?1:0;
+    f(0,8+arm,2,6,CW+'0.7)'); f(11,8-arm,2,6,CW+'0.7)');
+    const ll=onGround?(frame%2===0?2:0):4, lr=onGround?(frame%2===0?0:2):4;
+    f(3,15+ll,3,5,CW+'0.78)'); f(7,15+lr,3,5,CW+'0.78)');
+    f(2,19+ll,4,2,CR); f(6,19+lr,4,2,CR);
+    f(2,0,9,7,CW+'0.95)');
+    f(2,0,9,2,'rgba(20,20,20,0.95)'); f(1,0,1,4,'rgba(20,20,20,0.7)');
+    f(7,2,2,2,CR); f(4,9,5,2,CR);
+    ctx.restore();
+  }
+
+  function draw(){
+    ctx.clearRect(0,0,W,H);
+    /* grid */
+    ctx.strokeStyle=CG; ctx.lineWidth=0.5;
+    const GS=46;
+    for(let x=0;x<W;x+=GS){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+    for(let y=0;y<H;y+=GS){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+    /* bg particles */
+    bgParts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=CW+p.a+')';ctx.fill();});
+    /* collapsing */
+    collapsing.forEach(c=>{
+      ctx.save(); ctx.globalAlpha=Math.max(0,c.opacity);
+      ctx.translate(c.x+c.w/2,c.y+c.h/2); ctx.rotate(c.rot);
+      ctx.fillStyle='rgba(13,13,13,0.8)'; ctx.fillRect(-c.w/2,-c.h/2,c.w,c.h);
+      ctx.fillStyle=CR; ctx.fillRect(-c.w/2,-c.h/2,c.w,2);
+      ctx.restore();
+    });
+    /* static platforms */
+    platforms.forEach((pl,i)=>{
+      if(pl.ground||!pl.alive) return;
+      drawPlat(pl.x,pl.y,pl.w,pl.h);
+      if(i===FLAG_IDX&&!flagDone) drawFlag(pl.x+pl.w*0.5,pl.y);
+    });
+    /* mobile platform */
+    if(!flagDone) drawMobilePlat();
+    /* spawn platform */
+    if(spawnVisible&&spawnPlat) drawSpawnPlat();
+    /* particles */
+    fParts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life)*(p.flag?0.95:0.7);ctx.fillStyle=CR;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();});
+    ctx.globalAlpha=1;
+    if(!P.dead) drawPlayer(P.x,P.y,P.dir,P.frame,P.onGround);
+  }
+
+  function loop(){update();draw();raf=requestAnimationFrame(loop);}
+
+  function start(){
+    if(raf) cancelAnimationFrame(raf);
+    inputReceived=false; fParts=[]; flagDone=false; flagCaptured=false;
+    heroAccent.textContent='pour tous';
+    heroAccent.style.color=''; heroAccent.style.textShadow=''; heroAccent.style.animation='';
+    heroVideo.pause(); heroVideo.classList.remove('active');
+    buildWorld(); loop();
+  }
+
+  window.addEventListener('resize', start);
+  start();
+
+  document.getElementById('replayBtn').addEventListener('click', () => {
+    start();
+    document.querySelectorAll('.hero-tag,.hero-title,.hero-sub,.hero-stats-row,.hero-ctas')
+      .forEach(el=>{el.style.animation='none';el.offsetHeight;el.style.animation='';});
+  });
+})();
+
+/* ── SCROLL REVEAL ── */
+const revObs = new IntersectionObserver((entries) => {
+  entries.forEach((e, i) => {
+    if(e.isIntersecting){ setTimeout(()=>e.target.classList.add('on'), i*75); revObs.unobserve(e.target); }
+  });
+}, {threshold:0.1});
+document.querySelectorAll('.reveal,.reveal-l,.reveal-r').forEach(el=>revObs.observe(el));
+
+/* ── IMG EXPAND ── */
+(function(){
+  function ease(t){return 1-Math.pow(1-t,5);}
+  function update(){
+    const vw=document.documentElement.clientWidth, vh=window.innerHeight;
+    document.querySelectorAll('[data-expand]').forEach(el=>{
+      const wrap=el.parentElement;
+      const rect=wrap.getBoundingClientRect();
+      const center=rect.top+rect.height/2;
+      let t=1-Math.abs(center-vh/2)/(vh*0.85);
+      t=Math.max(0,Math.min(1,t));
+      const e=ease(t);
+      const natW=rect.width, offL=rect.left, offR=vw-(rect.left+natW);
+      const eL=offL*e, eR=offR*e;
+      el.style.width=(natW+eL+eR)+'px';
+      el.style.marginLeft=(-eL)+'px';
+      el.style.borderRadius=(8*(1-e))+'px';
+    });
+  }
+  window.addEventListener('scroll',update,{passive:true});
+  window.addEventListener('resize',update);
+  requestAnimationFrame(update);
+})();
+
+/* ── RGPD ── */
+const ov=document.getElementById('rgpd-overlay');
+document.getElementById('rgpdBtn').addEventListener('click',e=>{e.preventDefault();ov.style.display='flex';document.body.style.overflow='hidden';});
+document.getElementById('rgpdClose').addEventListener('click',()=>{ov.style.display='none';document.body.style.overflow='';});
+ov.addEventListener('click',e=>{if(e.target===ov){ov.style.display='none';document.body.style.overflow='';}});
 </script>
+<script src="https://cdn.jsdelivr.net/gh/adryd325/oneko.js@1.2.1/oneko.js"></script>
 </body>
 </html>
