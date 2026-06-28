@@ -17,7 +17,6 @@
       --border-soft: rgba(255,255,255,0.07);
       --text: #eae5e0;
       --text-muted: #7a7570;
-      --text-mid: #b0ab a5;
       --pixel: 'Press Start 2P', monospace;
       --mono: 'Space Mono', monospace;
       --sans: 'Inter', system-ui, sans-serif;
@@ -40,12 +39,12 @@
       transition: padding 0.3s;
     }
     nav.scrolled { padding: 0.8rem 4rem; }
-    .nav-logo { font-family: 'Press Start 2P', monospace; font-size: 0.58rem; text-decoration: none; color: #eae5e0; letter-spacing: 0.04em; }
+    .nav-logo { font-family: 'Press Start 2P', monospace; font-size: 0.65rem; text-decoration: none; color: #eae5e0; letter-spacing: 0.04em; }
     .nav-logo em { color: #c0001a; font-style: normal; }
     .nav-links { display: flex; gap: 2.5rem; list-style: none; }
-    .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.2s; }
+    .nav-links a { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.2s; }
     .nav-links a:hover { color: #eae5e0; }
-    .nav-cta { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 1.2rem; border: 1px solid #c0001a; color: #c0001a; background: transparent; text-decoration: none; transition: background 0.2s, color 0.2s; }
+    .nav-cta { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.5rem 1.2rem; border: 1px solid #c0001a; color: #c0001a; background: transparent; text-decoration: none; transition: background 0.2s, color 0.2s; }
     .nav-cta:hover { background: #c0001a; color: #fff; }
     .hamburger { display: none; flex-direction: column; gap: 5px; cursor: pointer; background: none; border: none; padding: 0.3rem; }
     .hamburger span { display: block; width: 22px; height: 2px; background: #eae5e0; transition: transform 0.3s, opacity 0.3s; }
@@ -55,76 +54,109 @@
     .mobile-menu { display: none; position: fixed; inset: 0; background: #070707; z-index: 600; flex-direction: column; }
     .mobile-menu.open { display: flex; }
     .mm-header { display: flex; justify-content: space-between; align-items: center; padding: 1.1rem 1.4rem; border-bottom: 1px solid rgba(192,0,26,0.18); }
-    .mm-logo { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; text-decoration: none; color: #eae5e0; }
+    .mm-logo { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; text-decoration: none; color: #eae5e0; }
     .mm-logo em { color: #c0001a; font-style: normal; }
     .mm-close { background: none; border: 1px solid rgba(255,255,255,0.07); color: #7a7570; font-size: 1.2rem; width: 36px; height: 36px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .mm-links { flex: 1; display: flex; flex-direction: column; padding: 3rem 1.8rem 0; }
     .mm-link { font-family: 'Space Mono', monospace; font-size: 1.3rem; letter-spacing: 0.06em; text-transform: uppercase; text-decoration: none; color: #7a7570; border-bottom: 1px solid rgba(255,255,255,0.07); padding: 1.2rem 0; display: flex; justify-content: space-between; }
     .mm-link::after { content: '→'; color: #c0001a; }
     .mm-footer { padding: 2rem 1.8rem; }
-    .mm-cta-b { font-family: 'Space Mono', monospace; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 1rem 1.4rem; background: #c0001a; color: #fff; text-decoration: none; display: block; text-align: center; }
+    .mm-cta-b { font-family: 'Space Mono', monospace; font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; padding: 1rem 1.4rem; background: #c0001a; color: #fff; text-decoration: none; display: block; text-align: center; }
 
     /* HERO */
     #hero { position: relative; min-height: 100vh; display: flex; flex-direction: column; justify-content: center; padding: 0 4rem; overflow: hidden; }
     #hero-canvas { position: absolute; inset: 0; z-index: 0; width: 100%; height: 100%; }
     #hero-video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; z-index: 0; opacity: 0; transition: opacity 1.4s ease; pointer-events: none; }
-    #hero-video.active { opacity: 0.2; }
+    #hero-video.active { opacity: 0.15; }
     .hero-vignette {
       position: absolute; inset: 0; z-index: 1; pointer-events: none;
-      background: linear-gradient(to right, rgba(7,7,7,0.98) 0%, rgba(7,7,7,0.75) 45%, rgba(7,7,7,0.15) 100%);
+      background: linear-gradient(to right, rgba(7,7,7,0.82) 0%, rgba(7,7,7,0.45) 50%, rgba(7,7,7,0.08) 100%);
     }
     .hero-corner { position: absolute; top: 0; right: 0; z-index: 3; width: 260px; height: 260px; border-bottom: 1px solid rgba(192,0,26,0.18); border-left: 1px solid rgba(192,0,26,0.18); pointer-events: none; }
     .hero-corner::after { content: ''; position: absolute; top: 22px; right: 22px; width: 6px; height: 6px; background: #c0001a; animation: dot-pulse 2.4s ease-in-out infinite; }
     .hero-content { position: relative; z-index: 4; max-width: 780px; }
-    .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; opacity: 0; animation: up 0.6s 0.1s forwards; }
+    .hero-tag { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: flex; align-items: center; gap: 0.8rem; margin-bottom: 2rem; opacity: 0; animation: up 0.6s 0.1s forwards; }
     .hero-tag::before { content: ''; width: 26px; height: 1px; background: #c0001a; }
-    .hero-title { font-family: 'Press Start 2P', monospace; font-size: clamp(1.3rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.28; opacity: 0; animation: up 0.7s 0.22s forwards; color: #eae5e0; }
+    .hero-title { font-family: 'Press Start 2P', monospace; font-size: clamp(1.4rem, 3.5vw, 3rem); font-weight: 400; line-height: 1.28; opacity: 0; animation: up 0.7s 0.22s forwards; color: #eae5e0; }
     .hero-title .accent { color: #c0001a; display: block; margin-top: 0.18em; text-shadow: 0 0 28px rgba(192,0,26,0.28); }
-    .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.75; color: #aaA5a0; max-width: 480px; margin-top: 1.6rem; opacity: 0; animation: up 0.7s 0.38s forwards; }
+    .hero-sub { font-family: 'Inter', sans-serif; font-size: 1.15rem; line-height: 1.75; color: #c8c3be; max-width: 480px; margin-top: 1.6rem; opacity: 0; animation: up 0.7s 0.38s forwards; }
     .cursor-blink { color: #c0001a; animation: blink 1s step-end infinite; }
     .hero-stats-row { display: flex; gap: 2.5rem; margin-top: 2.2rem; align-items: baseline; opacity: 0; animation: up 0.7s 0.5s forwards; }
     .hs { display: flex; flex-direction: column; gap: 0.25rem; }
     .hs-n { font-family: 'Press Start 2P', monospace; font-size: 1rem; color: #eae5e0; }
     .hs-n b { color: #c0001a; font-weight: 400; }
-    .hs-l { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
+    .hs-l { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
     .hs-div { width: 1px; height: 34px; background: rgba(255,255,255,0.07); align-self: center; }
     .hero-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; align-items: center; flex-wrap: wrap; opacity: 0; animation: up 0.7s 0.65s forwards; }
-    .btn-primary { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #c0001a; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-block; }
+    .btn-primary { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #c0001a; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-block; }
     .btn-primary:hover { background: #8a0012; transform: translateY(-2px); }
-    .btn-outline { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.4rem; background: rgb(100, 3, 211); color: #ffffff; border: 1px solid rgba(255,255,255,0.07); text-decoration: none; transition: color 0.18s, border-color 0.18s; display: inline-block; }
+    .btn-outline { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.4rem; background: rgb(100, 3, 211); color: #ffffff; border: 1px solid rgba(255,255,255,0.07); text-decoration: none; transition: color 0.18s, border-color 0.18s; display: inline-block; }
     .btn-outline:hover { color: #eae5e0; border-color: rgba(192,0,26,0.3); }
     .btn-outline::after { content: ' →'; }
-    .game-hint { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); z-index: 5; font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 0.7rem; background: rgba(7,7,7,0.8); border: 1px solid rgba(192,0,26,0.18); padding: 0.4rem 1rem; animation: hint-fade 3s ease-in-out infinite; }
-    .hint-key { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid rgba(192,0,26,0.4); font-family: 'Press Start 2P', monospace; font-size: 0.28rem; color: #c0001a; background: rgba(192,0,26,0.07); }
+
+    /* MOBILE GAME CONTROLS */
+    .game-controls {
+      display: none;
+      position: absolute;
+      bottom: 4rem;
+      left: 0;
+      right: 0;
+      z-index: 10;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 1.6rem;
+      pointer-events: none;
+    }
+    .gc-dpad { display: flex; gap: 0.5rem; pointer-events: all; }
+    .gc-btn {
+      width: 56px; height: 56px;
+      background: rgba(7,7,7,0.75);
+      border: 1px solid rgba(192,0,26,0.4);
+      color: #c0001a;
+      font-size: 1.3rem;
+      display: flex; align-items: center; justify-content: center;
+      border-radius: 6px;
+      cursor: pointer;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: none;
+      font-family: 'Space Mono', monospace;
+      transition: background 0.1s, border-color 0.1s;
+    }
+    .gc-btn:active, .gc-btn.pressed { background: rgba(192,0,26,0.25); border-color: #c0001a; }
+    .gc-jump { width: 64px; height: 64px; background: rgba(192,0,26,0.18); border: 1px solid rgba(192,0,26,0.55); border-radius: 50%; font-size: 1.5rem; pointer-events: all; }
+
+    .game-hint { position: absolute; bottom: 1.6rem; left: 50%; transform: translateX(-50%); z-index: 5; font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; pointer-events: none; white-space: nowrap; display: flex; align-items: center; gap: 0.7rem; background: rgba(7,7,7,0.8); border: 1px solid rgba(192,0,26,0.18); padding: 0.4rem 1rem; animation: hint-fade 3s ease-in-out infinite; }
+    .hint-key { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; border: 1px solid rgba(192,0,26,0.4); font-family: 'Press Start 2P', monospace; font-size: 0.3rem; color: #c0001a; background: rgba(192,0,26,0.07); }
     .hint-sep { color: rgba(255,255,255,0.15); }
     .hint-goal { color: #c0001a; }
-    .replay-btn { position: absolute; bottom: 5rem; right: 4rem; z-index: 10; font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.42rem 0.85rem; border: 1px solid rgba(192,0,26,0.18); color: #7a7570; background: rgba(7,7,7,0.7); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: border-color 0.15s, color 0.15s; }
+    .replay-btn { position: absolute; bottom: 5rem; right: 4rem; z-index: 10; font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; padding: 0.42rem 0.85rem; border: 1px solid rgba(192,0,26,0.18); color: #7a7570; background: rgba(7,7,7,0.7); cursor: pointer; display: flex; align-items: center; gap: 0.5rem; transition: border-color 0.15s, color 0.15s; }
     .replay-btn:hover { border-color: #c0001a; color: #c0001a; }
     .replay-btn svg { width: 12px; height: 12px; fill: none; stroke: currentColor; stroke-width: 2; }
 
     /* TICKER */
     .ticker { border-top: 1px solid rgba(192,0,26,0.18); border-bottom: 1px solid rgba(192,0,26,0.18); overflow: hidden; padding: 0.55rem 0; background: #0d0d0d; }
     .ticker-track { display: flex; width: max-content; animation: marquee 30s linear infinite; }
-    .ticker-item { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7570; white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; }
+    .ticker-item { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.12em; text-transform: uppercase; color: #7a7570; white-space: nowrap; padding: 0 2rem; display: flex; align-items: center; gap: 1.5rem; }
     .ticker-item .sep { color: #c0001a; opacity: 0.7; }
 
     /* SECTIONS COMMUNES */
     section { padding: 8rem 4rem; }
-    .section-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
+    .section-tag { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.18em; text-transform: uppercase; color: #c0001a; display: inline-flex; align-items: center; gap: 0.6rem; margin-bottom: 1rem; }
     .section-tag::before { content: '//'; }
-    .section-title { font-family: 'Press Start 2P', monospace; font-size: clamp(0.9rem, 2vw, 1.55rem); font-weight: 400; line-height: 1.42; color: #eae5e0; }
-    .section-sub { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.8; color: #aaa5a0; margin-top: 0.8rem; max-width: 580px; }
+    .section-title { font-family: 'Press Start 2P', monospace; font-size: clamp(1rem, 2vw, 1.55rem); font-weight: 400; line-height: 1.42; color: #eae5e0; }
+    .section-sub { font-family: 'Inter', sans-serif; font-size: 1.1rem; line-height: 1.8; color: #aaa5a0; margin-top: 0.8rem; max-width: 580px; }
 
     /* ABOUT */
     #about { background: #070707; }
     .about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; margin-bottom: 6rem; }
-    .about-text p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .about-text p { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
     .about-text strong { color: #eae5e0; font-weight: 600; }
     .about-stats { display: flex; flex-direction: column; }
     .stat-row { display: flex; align-items: baseline; gap: 1.2rem; padding: 1.35rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
     .stat-row:first-child { padding-top: 0; }
     .stat-num { font-family: 'Press Start 2P', monospace; font-size: 1.1rem; color: #c0001a; flex-shrink: 0; min-width: 4.5ch; }
-    .stat-lbl { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
+    .stat-lbl { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7a7570; }
 
     /* VALUES */
     .values-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
@@ -132,10 +164,10 @@
     .val-card:hover { background: #141414; transform: translateY(-3px); }
     .val-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #c0001a; transform: scaleX(0); transform-origin: left; transition: transform 0.3s cubic-bezier(.16,1,.3,1); }
     .val-card:hover::before { transform: scaleX(1); }
-    .val-idx { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: #7a7570; display: block; margin-bottom: 1.4rem; }
-    .val-tag-label { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.5rem; }
-    .val-name { font-family: 'Press Start 2P', monospace; font-size: 0.38rem; color: #eae5e0; display: block; margin-bottom: 1rem; }
-    .val-desc { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.78; color: #7a7570; }
+    .val-idx { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: #7a7570; display: block; margin-bottom: 1.4rem; }
+    .val-tag-label { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.5rem; }
+    .val-name { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #eae5e0; display: block; margin-bottom: 1rem; }
+    .val-desc { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.78; color: #7a7570; }
 
     /* IMG EXPAND */
     .img-expand-wrap { position: relative; width: 100%; margin: 4rem 0 0; }
@@ -143,28 +175,28 @@
     .img-expand img { width: 100%; display: block; filter: brightness(0.8) saturate(0.9); transition: filter 0.4s; }
     .img-expand:hover img { filter: brightness(1) saturate(1); }
     .img-placeholder { width: 100%; min-height: 240px; background: #0d0d0d; display: flex; align-items: center; justify-content: center; }
-    .img-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.68rem; color: #7a7570; letter-spacing: 0.1em; opacity: 0.5; }
+    .img-placeholder span { font-family: 'Space Mono', monospace; font-size: 0.75rem; color: #7a7570; letter-spacing: 0.1em; opacity: 0.5; }
 
-    /* MOTEUR SECTION */
+    /* ENGINE */
     #engine { background: #0d0d0d; }
     .engine-split { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
-    .engine-left p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .engine-left p { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
     .engine-left strong { color: #eae5e0; font-weight: 600; }
     .engine-features { display: flex; flex-direction: column; gap: 0; }
     .ef-row { display: flex; align-items: flex-start; gap: 1.2rem; padding: 1.2rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); }
     .ef-row:first-child { padding-top: 0; }
-    .ef-icon { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
-    .ef-text strong { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; display: block; margin-bottom: 0.3rem; }
-    .ef-text span { font-family: 'Inter', sans-serif; font-size: 0.9rem; color: #7a7570; line-height: 1.65; }
+    .ef-icon { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .ef-text strong { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; display: block; margin-bottom: 0.3rem; }
+    .ef-text span { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #7a7570; line-height: 1.65; }
 
-    /* PARTENARIATS */
+    /* PARTNERS */
     #partners { background: #070707; }
     .partners-intro { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; margin-bottom: 5rem; }
-    .partners-intro p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .partners-intro p { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
     .partners-intro strong { color: #eae5e0; font-weight: 600; }
     .partners-call { background: #0d0d0d; border: 1px solid rgba(192,0,26,0.18); padding: 2.4rem 2.2rem; }
-    .pc-title { font-family: 'Press Start 2P', monospace; font-size: 0.45rem; color: #eae5e0; margin-bottom: 1.2rem; line-height: 1.6; }
-    .pc-body { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.8; color: #aaa5a0; }
+    .pc-title { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #eae5e0; margin-bottom: 1.2rem; line-height: 1.6; }
+    .pc-body { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.8; color: #aaa5a0; }
     .pc-body strong { color: #eae5e0; }
 
     .partner-types { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); }
@@ -172,71 +204,71 @@
     .pt-card:hover { background: #141414; }
     .pt-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: #c0001a; transform: scaleX(0); transform-origin: left; transition: transform 0.3s; }
     .pt-card:hover::before { transform: scaleX(1); }
-    .pt-tag { font-family: 'Space Mono', monospace; font-size: 0.6rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
-    .pt-title { font-family: 'Press Start 2P', monospace; font-size: 0.4rem; color: #eae5e0; display: block; margin-bottom: 0.9rem; line-height: 1.6; }
-    .pt-body { font-family: 'Inter', sans-serif; font-size: 0.88rem; line-height: 1.75; color: #7a7570; }
+    .pt-tag { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
+    .pt-title { font-family: 'Press Start 2P', monospace; font-size: 0.48rem; color: #eae5e0; display: block; margin-bottom: 0.9rem; line-height: 1.6; }
+    .pt-body { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.75; color: #7a7570; }
 
     /* CHALL MAKERS */
     #challmakers { background: #0d0d0d; }
     .cm-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: start; margin-top: 4rem; }
-    .cm-left p { font-family: 'Inter', sans-serif; font-size: 1.04rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
+    .cm-left p { font-family: 'Inter', sans-serif; font-size: 1.08rem; line-height: 1.85; color: #aaa5a0; margin-bottom: 1.1rem; }
     .cm-left strong { color: #eae5e0; font-weight: 600; }
     .cm-steps { display: flex; flex-direction: column; gap: 0; }
     .cm-step { display: flex; gap: 1.4rem; padding: 1.5rem 0; border-bottom: 1px solid rgba(255,255,255,0.07); align-items: flex-start; }
     .cm-step:first-child { padding-top: 0; }
-    .cm-step-n { font-family: 'Press Start 2P', monospace; font-size: 0.6rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
-    .cm-step-title { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.35rem; }
-    .cm-step-body { font-family: 'Inter', sans-serif; font-size: 0.88rem; color: #7a7570; line-height: 1.65; }
+    .cm-step-n { font-family: 'Press Start 2P', monospace; font-size: 0.65rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .cm-step-title { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.35rem; }
+    .cm-step-body { font-family: 'Inter', sans-serif; font-size: 0.95rem; color: #7a7570; line-height: 1.65; }
 
-    /* FEATURES / PLATEFORME */
+    /* FEATURES */
     #features { background: #0d0d0d; }
     .features-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: rgba(255,255,255,0.05); margin-top: 3.5rem; }
     .feat-card { background: #070707; padding: 2.4rem 2rem; position: relative; transition: background 0.22s; }
     .feat-card:hover { background: #0a0a0a; }
     .feat-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.07); transition: background 0.3s; }
     .feat-card:hover::before { background: #c0001a; }
-    .feat-tag { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
-    .feat-title { font-family: 'Press Start 2P', monospace; font-size: 0.4rem; color: #eae5e0; display: block; margin-bottom: 1.1rem; line-height: 1.65; }
-    .feat-body { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.8; color: #7a7570; }
+    .feat-tag { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: #c0001a; display: block; margin-bottom: 0.9rem; }
+    .feat-title { font-family: 'Press Start 2P', monospace; font-size: 0.48rem; color: #eae5e0; display: block; margin-bottom: 1.1rem; line-height: 1.65; }
+    .feat-body { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.8; color: #7a7570; }
 
     /* JOIN */
     #join { background: #0d0d0d; position: relative; overflow: hidden; }
     #join::after { content: 'JOIN'; position: absolute; font-family: 'Press Start 2P', monospace; font-size: 11rem; color: rgba(120,0,16,0.18); bottom: -2rem; right: -1rem; pointer-events: none; line-height: 1; white-space: nowrap; }
     .join-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 7rem; align-items: start; }
-    .join-left h2 { font-family: 'Press Start 2P', monospace; font-size: clamp(0.9rem, 2.3vw, 1.6rem); font-weight: 400; line-height: 1.42; color: #eae5e0; margin-top: 1.2rem; }
-    .join-left p { font-family: 'Inter', sans-serif; font-size: 1rem; line-height: 1.8; color: #aaa5a0; margin-top: 1.5rem; max-width: 440px; }
+    .join-left h2 { font-family: 'Press Start 2P', monospace; font-size: clamp(1rem, 2.3vw, 1.6rem); font-weight: 400; line-height: 1.42; color: #eae5e0; margin-top: 1.2rem; }
+    .join-left p { font-family: 'Inter', sans-serif; font-size: 1.05rem; line-height: 1.8; color: #aaa5a0; margin-top: 1.5rem; max-width: 440px; }
     .join-ctas { display: flex; gap: 1rem; margin-top: 2.5rem; flex-wrap: wrap; align-items: center; }
-    .btn-discord { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #5865F2; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.6rem; }
+    .btn-discord { font-family: 'Space Mono', monospace; font-size: 0.78rem; letter-spacing: 0.06em; text-transform: uppercase; padding: 0.85rem 1.6rem; background: #5865F2; color: #fff; text-decoration: none; transition: background 0.18s, transform 0.15s; display: inline-flex; align-items: center; gap: 0.6rem; }
     .btn-discord:hover { background: #4752c4; transform: translateY(-2px); }
     .discord-svg { width: 15px; height: 15px; fill: #fff; flex-shrink: 0; }
     .terminal { background: #070707; border: 1px solid rgba(192,0,26,0.18); padding: 1.8rem 2rem; }
     .t-bar { display: flex; gap: 0.4rem; margin-bottom: 1.4rem; }
     .t-dot { width: 9px; height: 9px; background: #7a7570; border-radius: 50%; }
     .t-dot.red { background: #c0001a; }
-    .t-line { font-family: 'Space Mono', monospace; font-size: 0.85rem; line-height: 2.15; color: #aaa5a0; }
+    .t-line { font-family: 'Space Mono', monospace; font-size: 0.92rem; line-height: 2.15; color: #aaa5a0; }
     .t-line .c-r { color: #c0001a; }
     .t-line .c-w { color: #eae5e0; }
 
     /* FOOTER */
     footer { background: #070707; border-top: 1px solid rgba(192,0,26,0.18); padding: 2rem 4rem; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1.2rem; }
-    .f-logo { font-family: 'Press Start 2P', monospace; font-size: 0.5rem; color: #eae5e0; }
+    .f-logo { font-family: 'Press Start 2P', monospace; font-size: 0.55rem; color: #eae5e0; }
     .f-logo em { color: #c0001a; font-style: normal; }
     .f-links { display: flex; gap: 1.8rem; list-style: none; }
-    .f-links a { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.15s; }
+    .f-links a { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; color: #7a7570; transition: color 0.15s; }
     .f-links a:hover { color: #c0001a; }
-    .f-copy { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #7a7570; }
+    .f-copy { font-family: 'Space Mono', monospace; font-size: 0.72rem; color: #7a7570; }
 
     /* RGPD */
     #rgpd-overlay { display: none; position: fixed; inset: 0; background: rgba(7,7,7,0.9); backdrop-filter: blur(8px); z-index: 9000; align-items: center; justify-content: center; padding: 1.5rem; }
     .rgpd-box { background: #0d0d0d; border: 1px solid rgba(192,0,26,0.18); max-width: 500px; width: 100%; }
     .rgpd-head { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem 1.5rem; border-bottom: 1px solid rgba(255,255,255,0.07); }
-    .rgpd-head span { font-family: 'Space Mono', monospace; font-size: 0.68rem; letter-spacing: 0.16em; text-transform: uppercase; color: #c0001a; }
+    .rgpd-head span { font-family: 'Space Mono', monospace; font-size: 0.75rem; letter-spacing: 0.16em; text-transform: uppercase; color: #c0001a; }
     .rgpd-close { background: none; border: 1px solid rgba(255,255,255,0.07); color: #7a7570; font-size: 1.1rem; width: 34px; height: 34px; cursor: pointer; display: flex; align-items: center; justify-content: center; }
     .rgpd-body { padding: 1.8rem 1.5rem; display: flex; flex-direction: column; gap: 1.2rem; }
     .rgpd-item { display: flex; gap: 1rem; align-items: flex-start; }
-    .rgpd-idx { font-family: 'Space Mono', monospace; font-size: 0.58rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
-    .rgpd-item-title { font-family: 'Space Mono', monospace; font-size: 0.62rem; letter-spacing: 0.08em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.5rem; }
-    .rgpd-item p { font-family: 'Inter', sans-serif; font-size: 0.9rem; line-height: 1.7; color: #aaa5a0; }
+    .rgpd-idx { font-family: 'Space Mono', monospace; font-size: 0.65rem; color: #c0001a; flex-shrink: 0; padding-top: 0.1rem; }
+    .rgpd-item-title { font-family: 'Space Mono', monospace; font-size: 0.72rem; letter-spacing: 0.08em; text-transform: uppercase; color: #eae5e0; margin-bottom: 0.5rem; }
+    .rgpd-item p { font-family: 'Inter', sans-serif; font-size: 0.95rem; line-height: 1.7; color: #aaa5a0; }
     .rgpd-item strong { color: #eae5e0; }
     .rgpd-divider { height: 1px; background: rgba(255,255,255,0.07); }
 
@@ -259,9 +291,11 @@
       nav { padding: 1rem 1.4rem; } .nav-links, .nav-cta { display: none; } .hamburger { display: flex; }
       section { padding: 5rem 1.4rem; }
       #hero { padding: 0 1.4rem; padding-top: 5rem; min-height: 100svh; }
-      .hero-title { font-size: clamp(0.9rem, 5vw, 1.3rem); }
+      .hero-title { font-size: clamp(1rem, 5vw, 1.4rem); }
       .hero-stats-row { gap: 1.4rem; }
-      .replay-btn { bottom: 3.5rem; right: 1.4rem; } .game-hint { font-size: 0.55rem; bottom: 4rem; }
+      .replay-btn { bottom: 10rem; right: 1.4rem; }
+      .game-hint { display: none; }
+      .game-controls { display: flex; }
       .about-grid, .engine-split, .partners-intro, .cm-grid, .join-grid { grid-template-columns: 1fr; gap: 2.5rem; }
       .values-grid, .features-grid, .partner-types { grid-template-columns: 1fr; }
       #join::after { display: none; }
@@ -300,8 +334,8 @@
   <div class="mm-footer"><a href="#join" class="mm-cta-b mobile-link">Nous rejoindre →</a></div>
 </div>
 
-<video id="hero-video" muted loop playsinline>
-  <source src="https://www.pexels.com/fr-fr/download/video/7317794/" type="video/mp4">
+<video id="hero-video" muted playsinline>
+  <source src="theater.mp4" type="video/mp4">
 </video>
 
 <section id="hero">
@@ -309,12 +343,12 @@
   <div class="hero-vignette"></div>
   <div class="hero-corner"></div>
   <div class="hero-content">
-    <div class="hero-tag">CTF · Cybersécurité · 100% gratuit</div>
+    <div class="hero-tag">CTF · Cybersécurité · 100 % gratuit</div>
     <h1 class="hero-title">
-      L'apprentissage cyber<br>
-      <span class="accent" id="hero-accent">pour tout le monde.</span>
+      La cybersécurité,<br>
+      <span class="accent" id="hero-accent">accessible à tous.</span>
     </h1>
-    <p class="hero-sub">Formation CTF de qualité, moteur de challenge maison, communauté active. Zéro barrière, zéro frais — juste la passion du hack.<span class="cursor-blink">_</span></p>
+    <p class="hero-sub">Des formations CTF de qualité, un moteur de challenges développé en interne, une communauté engagée. Sans abonnement, sans frais — portés uniquement par la passion du hack.<span class="cursor-blink">_</span></p>
     <div class="hero-stats-row">
       <div class="hs"><span class="hs-n">100<b>%</b></span><span class="hs-l">Gratuit</span></div>
       <div class="hs-div"></div>
@@ -325,12 +359,22 @@
       <div class="hs"><span class="hs-n"><b>∞</b></span><span class="hs-l">Challenges</span></div>
     </div>
     <div class="hero-ctas">
-      <a href=" https://framaforms.org/recrutement-challmaker-1782483656" target="_blank" class="btn-primary">Créer Des Challs</a>
+      <a href="https://framaforms.org/recrutement-challmaker-1782483656" target="_blank" class="btn-primary">Créer des challenges</a>
       <a href="#partners" class="btn-primary">Partenariats</a>
-      <a href="https://framaforms.org/inscription-beta-privee-wolfdefansy-1782466963" target="_blank" class="btn-primary">Beta-Test</a>
+      <a href="https://framaforms.org/inscription-beta-privee-wolfdefansy-1782466963" target="_blank" class="btn-primary">Bêta-test</a>
       <a href="https://discord.gg/aXywbBkpf8" class="btn-outline">Discord</a>
     </div>
   </div>
+
+  <!-- Contrôles mobiles -->
+  <div class="game-controls" id="gameControls">
+    <div class="gc-dpad">
+      <button class="gc-btn" id="gc-left" aria-label="Gauche">←</button>
+      <button class="gc-btn" id="gc-right" aria-label="Droite">→</button>
+    </div>
+    <button class="gc-btn gc-jump" id="gc-jump" aria-label="Sauter">↑</button>
+  </div>
+
   <button class="replay-btn" id="replayBtn">
     <svg viewBox="0 0 24 24"><polyline points="1 4 1 10 7 10"/><path d="M3.51 15a9 9 0 1 0 .49-3.5"/></svg>
     Rejouer
@@ -356,17 +400,17 @@
   <div class="reveal">
     <div class="section-tag">À propos</div>
     <h2 class="section-title">Né de la passion, construit pour durer.</h2>
-    <p class="section-sub">On est une bande de passionnés qui en avait marre de voir la cybersécurité réservée à ceux qui peuvent se payer des formations. Alors on a construit la nôtre.</p>
+    <p class="section-sub">Nous sommes un collectif de passionnés qui refusait de voir la cybersécurité réservée à ceux qui peuvent se payer des formations. Alors nous avons construit la nôtre.</p>
   </div>
   <div class="about-grid">
     <div class="about-text reveal-l">
-      <p>WolfDefansy, c'est une association portée par <strong>plus de 25 bénévoles</strong> — développeurs, pentesters, designers — tous réunis par la même conviction : apprendre la cybersécurité ne devrait pas coûter un centime.</p>
-      <p>On cible les <strong>lycéens, étudiants et autodidactes</strong> qui veulent entrer dans le domaine sans trouver de porte. Notre plateforme couvre l'intégralité du spectre CTF, du niveau zéro aux techniques avancées, avec un moteur de challenges entièrement développé en interne.</p>
-      <p>Pas d'abonnement, pas de freemium, pas de publicité. Juste du contenu de qualité, une communauté qui s'entraide et l'envie de faire émerger la prochaine génération.</p>
+      <p>Wolfdefansy est une association portée par <strong>plus de 25 bénévoles</strong> — développeurs, pentesters, designers — tous animés par la même conviction : apprendre la cybersécurité ne devrait pas coûter un centime.</p>
+      <p>Nous ciblons les <strong>lycéens, étudiants et autodidactes</strong> qui cherchent à entrer dans le domaine sans trouver de porte d'entrée. Notre plateforme couvre l'intégralité du spectre CTF, du niveau débutant aux techniques avancées, grâce à un moteur de challenges entièrement développé en interne.</p>
+      <p>Pas d'abonnement, pas de modèle freemium, pas de publicité. Uniquement du contenu de qualité, une communauté solidaire et la volonté de faire émerger la prochaine génération de professionnels.</p>
     </div>
     <div class="about-stats reveal-r">
       <div class="stat-row"><div class="stat-num">25+</div><div class="stat-lbl">Bénévoles engagés</div></div>
-      <div class="stat-row"><div class="stat-num">100%</div><div class="stat-lbl">Gratuit, toujours</div></div>
+      <div class="stat-row"><div class="stat-num">100%</div><div class="stat-lbl">Gratuit, sans exception</div></div>
       <div class="stat-row"><div class="stat-num">5</div><div class="stat-lbl">Équipes actives</div></div>
       <div class="stat-row" style="border-bottom:none;"><div class="stat-num">10+</div><div class="stat-lbl">Catégories CTF couvertes</div></div>
     </div>
@@ -374,15 +418,15 @@
 
   <div class="img-expand-wrap reveal">
     <div class="img-expand" data-expand>
-      <img src="modules.png" alt="Aperçu des modules WolfDefansy">
+      <img src="modules.png" alt="Aperçu des modules Wolfdefansy">
     </div>
   </div>
 
   <div class="values-grid reveal" style="margin-top:5rem;">
-    <div class="val-card"><span class="val-idx">01</span><span class="val-tag-label">Solidarity</span><span class="val-name">Solidarité</span><p class="val-desc">Personne ne reste bloqué seul. Parcours guidé, hints progressifs, communauté réactive.</p></div>
-    <div class="val-card"><span class="val-idx">02</span><span class="val-tag-label">Passion</span><span class="val-name">Passion</span><p class="val-desc">25+ bénévoles qui bossent le soir et le week-end parce qu'ils y croient vraiment.</p></div>
-    <div class="val-card"><span class="val-idx">03</span><span class="val-tag-label">Rigor</span><span class="val-name">Rigueur</span><p class="val-desc">Cinq équipes structurées. Des responsables expérimentés. Un moteur CTF développé de A à Z.</p></div>
-    <div class="val-card"><span class="val-idx">04</span><span class="val-tag-label">Ambition</span><span class="val-name">Ambition</span><p class="val-desc">Partenariats universitaires, expansion internationale, contenu pédagogique de référence.</p></div>
+    <div class="val-card"><span class="val-idx">01</span><span class="val-tag-label">Solidarity</span><span class="val-name">Solidarité</span><p class="val-desc">Personne ne reste bloqué seul. Parcours guidé, indices progressifs, communauté réactive à chaque étape.</p></div>
+    <div class="val-card"><span class="val-idx">02</span><span class="val-tag-label">Passion</span><span class="val-name">Passion</span><p class="val-desc">Plus de 25 bénévoles qui travaillent le soir et le week-end parce qu'ils y croient profondément.</p></div>
+    <div class="val-card"><span class="val-idx">03</span><span class="val-tag-label">Rigor</span><span class="val-name">Rigueur</span><p class="val-desc">Cinq équipes structurées, des responsables expérimentés et un moteur CTF développé de A à Z.</p></div>
+    <div class="val-card"><span class="val-idx">04</span><span class="val-tag-label">Ambition</span><span class="val-name">Ambition</span><p class="val-desc">Partenariats universitaires, expansion internationale et contenu pédagogique de référence.</p></div>
   </div>
 </section>
 
@@ -391,48 +435,48 @@
   <div class="reveal">
     <div class="section-tag">Moteur</div>
     <h2 class="section-title">BlackWolf — notre moteur CTF maison.</h2>
-    <p class="section-sub">On n'a pas pris une solution existante. On a tout construit. BlackWolf couvre aujourd'hui l'intégralité des fonctionnalités de TryHackMe et approche celles de HackTheBox.</p>
+    <p class="section-sub">Nous n'avons pas adopté une solution existante. Nous avons tout conçu. BlackWolf couvre aujourd'hui l'intégralité des fonctionnalités de TryHackMe et approche celles de HackTheBox.</p>
   </div>
   <div class="engine-split">
     <div class="engine-left reveal-l">
-      <p>Le moteur est <strong>presque fonctionnel à 100%</strong>. L'infrastructure est en capacité d'accueillir des challenges dès maintenant — les tests en accès restreint sont déjà envisageables.</p>
-      <p>Ce qui manque encore ? Pas la coquille — elle est solide. C'est le <strong>contenu pédagogique</strong>. C'est précisément pour ça qu'on recrute des chall makers et qu'on cherche à tisser des partenariats avec des universités et des profs de BTS.</p>
-      <p>L'interface est aménagée pour un lancement progressif par fonctionnalité. On ne va pas tout ouvrir d'un coup — on va le faire bien.</p>
+      <p>Le moteur est <strong>quasi-fonctionnel à 100 %</strong>. L'infrastructure est d'ores et déjà en mesure d'accueillir des challenges — les tests en accès restreint sont envisageables dès maintenant.</p>
+      <p>Ce qui manque encore ? Pas la structure — elle est solide. C'est le <strong>contenu pédagogique</strong>. C'est précisément pour cette raison que nous recrutons des chall makers et que nous cherchons à nouer des partenariats avec des universités et des enseignants de BTS.</p>
+      <p>L'interface est conçue pour un lancement progressif, fonctionnalité par fonctionnalité. Nous ne souhaitions pas tout ouvrir d'un coup — nous voulons le faire correctement.</p>
     </div>
     <div class="engine-features reveal-r">
-      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Challenges dynamiques</strong><span>Instances dédiées par utilisateur, reset automatique, scoring temps réel.</span></div></div>
-      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Système de hints</strong><span>Indices progressifs qui ne cassent pas la progression — ils la guident.</span></div></div>
-      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Write-ups intégrés</strong><span>Débriefing complet post-résolution rédigé par la communauté.</span></div></div>
-      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>10+ catégories</strong><span>Web, reverse, pwn, crypto, forensics, OSINT, stéga, réseau, hardware et plus.</span></div></div>
-      <div class="ef-row" style="border-bottom:none;"><div class="ef-icon">▸</div><div class="ef-text"><strong>Leaderboard & events</strong><span>Classements, événements temporaires, CTF compétitifs pour dynamiser la communauté.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Challenges dynamiques</strong><span>Instances dédiées par utilisateur, réinitialisation automatique et scoring en temps réel.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Système d'indices</strong><span>Des indices progressifs qui guident la progression sans la compromettre.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>Write-ups intégrés</strong><span>Débriefing complet post-résolution, rédigé et validé par la communauté.</span></div></div>
+      <div class="ef-row"><div class="ef-icon">▸</div><div class="ef-text"><strong>10+ catégories</strong><span>Web, reverse, pwn, crypto, forensics, OSINT, stéga, réseau, hardware et bien d'autres.</span></div></div>
+      <div class="ef-row" style="border-bottom:none;"><div class="ef-icon">▸</div><div class="ef-text"><strong>Classements & événements</strong><span>Leaderboards, événements temporaires et CTF compétitifs pour animer la communauté.</span></div></div>
     </div>
   </div>
   <div class="img-expand-wrap reveal" style="margin-top:4rem;">
     <div class="img-expand" data-expand>
-      <img src="wolfdefansy_engine.png" alt="WolfDefansy Engine — BlackWolf">
+      <img src="wolfdefansy_engine.png" alt="Wolfdefansy Engine — BlackWolf">
     </div>
   </div>
 </section>
 
-<!-- PARTENARIATS -->
+<!-- PARTNERS -->
 <section id="partners">
   <div class="reveal">
     <div class="section-tag">Partenariats</div>
-    <h2 class="section-title">Construire avec l'académique.</h2>
-    <p class="section-sub">La prochaine étape de Wolfdefansy passe par des collaborations avec les universités, les IUT et les profs de BTS. On cherche des partenaires qui partagent notre envie de démocratiser la cybersécurité.</p>
+    <h2 class="section-title">Construire avec le monde académique.</h2>
+    <p class="section-sub">La prochaine étape de Wolfdefansy passe par des collaborations avec des universités, des IUT et des enseignants de BTS. Nous cherchons des partenaires partageant notre ambition de démocratiser la cybersécurité.</p>
   </div>
   <div class="partners-intro">
     <div class="reveal-l">
-      <p>L'idée est simple : les établissements apportent leur expertise pédagogique et leurs étudiants talentueux, on leur offre une <strong>plateforme clé en main</strong>, des challenges à leur image et un espace où leurs apprenants peuvent progresser en dehors des cours.</p>
-      <p>Pour les profs de BTS et les enseignants-chercheurs qui cherchent à créer des <strong>modules pratiques de cybersécurité</strong>, on propose une collaboration directe dans la conception du contenu. Vous connaissez la pédagogie, on connaît le moteur.</p>
-      <p>Ces partenariats ne sont pas symboliques — ils alimentent directement la plateforme en contenu de qualité et permettent aux établissements d'offrir un accès à des ressources qu'ils ne pourraient pas construire seuls.</p>
+      <p>Le principe est simple : les établissements apportent leur expertise pédagogique et leurs étudiants talentueux ; en retour, nous leur offrons une <strong>plateforme clé en main</strong>, des challenges adaptés à leur niveau et un espace où leurs apprenants peuvent progresser en dehors des cours.</p>
+      <p>Pour les enseignants de BTS et les enseignants-chercheurs souhaitant créer des <strong>modules pratiques de cybersécurité</strong>, nous proposons une collaboration directe dans la conception du contenu. Vous apportez l'expertise pédagogique, nous apportons le moteur.</p>
+      <p>Ces partenariats ne sont pas symboliques — ils alimentent directement la plateforme en contenu de qualité et permettent aux établissements d'offrir à leurs étudiants des ressources qu'ils ne pourraient pas construire seuls.</p>
     </div>
     <div class="partners-call reveal-r">
       <div class="pc-title">Vous êtes enseignant, responsable pédagogique ou directeur de formation ?</div>
-      <p class="pc-body">On cherche des profils qui veulent co-construire des modules de cybersécurité adaptés au niveau BTS, licence ou master. <strong>Zéro contrainte commerciale</strong>, la plateforme reste gratuite pour vos étudiants. Contactez-nous sur Discord ou par mail — on répond vite.</p>
+      <p class="pc-body">Nous recherchons des profils souhaitant co-construire des modules de cybersécurité adaptés aux niveaux BTS, licence ou master. <strong>Aucune contrainte commerciale</strong> — la plateforme reste entièrement gratuite pour vos étudiants. Contactez-nous sur Discord ou par e-mail, nous répondons rapidement.</p>
       <div style="margin-top:1.5rem;display:flex;gap:0.8rem;flex-wrap:wrap;">
         <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-primary">Discord</a>
-        <a href="mailto:wolfdefansy@proton.me" class="btn-outline">Envoyer un mail</a>
+        <a href="mailto:wolfdefansy@proton.me" class="btn-outline">Envoyer un e-mail</a>
       </div>
     </div>
   </div>
@@ -441,17 +485,17 @@
     <div class="pt-card">
       <span class="pt-tag">Universités & IUT</span>
       <span class="pt-title">Modules pratiques pour vos filières cyber</span>
-      <p class="pt-body">Intégration de parcours CTF dans vos cursus. Challenges calibrés pour vos niveaux, suivi des progressions, événements exclusifs pour vos étudiants.</p>
+      <p class="pt-body">Intégration de parcours CTF dans vos cursus. Challenges calibrés par niveau, suivi des progressions et événements exclusifs pour vos étudiants.</p>
     </div>
     <div class="pt-card">
       <span class="pt-tag">BTS SIO & lycées</span>
       <span class="pt-title">Ressources pédagogiques gratuites</span>
-      <p class="pt-body">Contenu aligné sur les référentiels BTS SIO. Des défis conçus avec vos profs, accessibles à vos élèves dès le premier jour, sans compte payant.</p>
+      <p class="pt-body">Contenu aligné sur les référentiels BTS SIO. Des défis conçus avec vos enseignants, accessibles dès le premier jour, sans compte payant.</p>
     </div>
     <div class="pt-card">
       <span class="pt-tag">Chall Makers indépendants</span>
-      <span class="pt-title">Créez, publiez, transmettez</span>
-      <p class="pt-body">Experts en sécurité, étudiants avancés, enseignants : proposez vos challenges sur notre moteur. On s'occupe de l'infra, vous vous concentrez sur le contenu.</p>
+      <span class="pt-title">Créer, publier, transmettre</span>
+      <p class="pt-body">Experts en sécurité, étudiants avancés, enseignants : proposez vos challenges sur notre moteur. Nous gérons l'infrastructure, vous vous concentrez sur le contenu.</p>
     </div>
   </div>
 </section>
@@ -460,42 +504,42 @@
 <section id="challmakers">
   <div class="reveal">
     <div class="section-tag">Chall Makers</div>
-    <h2 class="section-title">On recrute des créateurs de défis.</h2>
-    <p class="section-sub">La qualité d'une plateforme CTF repose sur ses challenges. On lance une campagne de recrutement active pour construire un catalogue solide dès le lancement.</p>
+    <h2 class="section-title">Nous recrutons des créateurs de défis.</h2>
+    <p class="section-sub">La qualité d'une plateforme CTF repose avant tout sur ses challenges. Nous lançons une campagne de recrutement active pour constituer un catalogue solide dès le lancement.</p>
   </div>
   <div class="cm-grid">
     <div class="cm-left reveal-l">
-      <p>Le moteur est prêt. L'infra tourne. Ce qui manque encore, <strong>c'est le contenu</strong> — et c'est la partie la plus importante. Un moteur vide n'a aucune valeur, même le meilleur du monde.</p>
-      <p>On cherche des gens capables de <strong>créer des challenges de qualité</strong> dans toutes les catégories CTF. Débutants avec de bonnes idées, experts avec des scénarios retors : tout le monde a sa place si la motivation est là.</p>
-      <p>Les meilleurs chall makers verront leurs responsabilités grandir. On envisage de confier des postes de <strong>directeur pédagogique par catégorie</strong> à ceux qui s'investissent sur la durée.</p>
+      <p>Le moteur est opérationnel. L'infrastructure tourne. Ce qui manque encore, <strong>c'est le contenu</strong> — et c'est précisément la partie la plus importante. Un moteur vide n'a aucune valeur, même le meilleur du monde.</p>
+      <p>Nous recherchons des personnes capables de <strong>créer des challenges de qualité</strong> dans toutes les catégories CTF. Débutants avec de bonnes idées, experts avec des scénarios élaborés : chacun a sa place, pourvu que la motivation soit au rendez-vous.</p>
+      <p>Les meilleurs chall makers verront leurs responsabilités s'élargir. Nous envisageons de confier des postes de <strong>directeur pédagogique par catégorie</strong> à ceux qui s'investissent sur la durée.</p>
     </div>
     <div class="cm-steps reveal-r">
       <div class="cm-step">
         <div class="cm-step-n">01</div>
         <div>
           <div class="cm-step-title">Rejoindre le Discord</div>
-          <div class="cm-step-body">Présente-toi dans le channel dédié, montre ce que tu sais faire. Pas besoin de CV — juste une envie de créer.</div>
+          <div class="cm-step-body">Présentez-vous dans le canal dédié et montrez ce que vous savez faire. Pas de CV requis — uniquement l'envie de créer.</div>
         </div>
       </div>
       <div class="cm-step">
         <div class="cm-step-n">02</div>
         <div>
           <div class="cm-step-title">Formation au moteur BlackWolf</div>
-          <div class="cm-step-body">On te forme sur l'outil de création de challenges. Pas de barrière technique — si tu comprends la sécu, tu vas t'en sortir.</div>
+          <div class="cm-step-body">Nous vous formons sur l'outil de création de challenges. Pas de barrière technique — si vous maîtrisez la sécurité, vous vous en sortirez facilement.</div>
         </div>
       </div>
       <div class="cm-step">
         <div class="cm-step-n">03</div>
         <div>
-          <div class="cm-step-title">Créer des événements temporaires</div>
-          <div class="cm-step-body">Les premiers challenges serviront à alimenter des events dynamiques. Cadre, deadline, adrénaline — exactement comme un vrai CTF.</div>
+          <div class="cm-step-title">Créer pour des événements temporaires</div>
+          <div class="cm-step-body">Les premiers challenges alimenteront des événements dynamiques. Un cadre, une deadline, de l'adrénaline — exactement comme un vrai CTF.</div>
         </div>
       </div>
       <div class="cm-step" style="border-bottom:none;">
         <div class="cm-step-n">04</div>
         <div>
           <div class="cm-step-title">Évoluer vers la direction pédagogique</div>
-          <div class="cm-step-body">Après quelques mois, les profils qui s'investissent peuvent prendre en main une catégorie entière. On cherche des gens qui restent, pas des passages.</div>
+          <div class="cm-step-body">Après quelques mois d'engagement, les profils investis peuvent prendre en charge une catégorie entière. Nous cherchons des collaborateurs qui s'inscrivent dans la durée.</div>
         </div>
       </div>
     </div>
@@ -512,17 +556,17 @@
     <div class="feat-card reveal">
       <span class="feat-tag">Formation</span>
       <span class="feat-title">Parcours structurés du niveau zéro à l'expert</span>
-      <p class="feat-body">Modules organisés par catégorie et niveau. Challenges progressifs, write-ups communautaires, hints intelligents qui guident sans gâcher.</p>
+      <p class="feat-body">Modules organisés par catégorie et par niveau. Challenges progressifs, write-ups communautaires et indices intelligents qui guident sans révéler la solution.</p>
     </div>
     <div class="feat-card reveal">
       <span class="feat-tag">Challenges CTF</span>
       <span class="feat-title">Toutes les catégories, un débriefing après chaque flag</span>
-      <p class="feat-body">Web, reverse, pwn, crypto, forensics, OSINT, stéga et plus. Chaque résolution donne accès à une explication complète pour ancrer les apprentissages.</p>
+      <p class="feat-body">Web, reverse, pwn, crypto, forensics, OSINT, stéganographie et bien d'autres. Chaque résolution donne accès à une explication complète pour ancrer durablement les apprentissages.</p>
     </div>
     <div class="feat-card reveal">
       <span class="feat-tag">Communauté</span>
-      <span class="feat-title">Discord actif, entraide permanente, events réguliers</span>
-      <p class="feat-body">Plus de 25 bénévoles disponibles pour répondre, des sessions live régulières et une ambiance où personne n'est jugé pour ses questions.</p>
+      <span class="feat-title">Discord actif, entraide permanente, événements réguliers</span>
+      <p class="feat-body">Plus de 25 bénévoles disponibles pour répondre, des sessions live régulières et une ambiance bienveillante où aucune question n'est jugée.</p>
     </div>
   </div>
 </section>
@@ -533,7 +577,7 @@
     <div class="join-left">
       <div class="section-tag reveal">Rejoindre</div>
       <h2 class="reveal">Prêt à chasser ?</h2>
-      <p class="reveal">Que tu sois là pour apprendre, pour créer des challenges ou pour construire quelque chose avec nous — il y a une place pour toi dans Wolfdefansy.</p>
+      <p class="reveal">Que vous soyez là pour apprendre, pour créer des challenges ou pour construire quelque chose avec nous — il y a une place pour vous au sein de Wolfdefansy.</p>
       <div class="join-ctas reveal">
         <a href="https://discord.gg/aXywbBkpf8" target="_blank" class="btn-discord">
           <svg class="discord-svg" viewBox="0 0 127.14 96.36"><path d="M107.7,8.07A105.15,105.15,0,0,0,81.47,0a72.06,72.06,0,0,0-3.36,6.83A97.68,97.68,0,0,0,49,6.83,72.37,72.37,0,0,0,45.64,0,105.89,105.89,0,0,0,19.39,8.09C2.79,32.65-1.71,56.6.54,80.21h0A105.73,105.73,0,0,0,32.71,96.36,77.7,77.7,0,0,0,39.6,85.25a68.42,68.42,0,0,1-10.85-5.18c.91-.66,1.8-1.34,2.66-2a75.57,75.57,0,0,0,64.32,0c.87.71,1.76,1.39,2.66,2a68.68,68.68,0,0,1-10.87,5.19,77,77,0,0,0,6.89,11.1A105.25,105.25,0,0,0,126.6,80.22h0C129.24,52.84,122.09,29.11,107.7,8.07ZM42.45,65.69C36.18,65.69,31,60,31,53s5-12.74,11.43-12.74S54,46,53.89,53,48.84,65.69,42.45,65.69Zm42.24,0C78.41,65.69,73.25,60,73.25,53s5-12.74,11.44-12.74S96.23,46,96.12,53,91.08,65.69,84.69,65.69Z"/></svg>
@@ -577,9 +621,9 @@
       <button class="rgpd-close" id="rgpdClose">✕</button>
     </div>
     <div class="rgpd-body">
-      <div class="rgpd-item"><span class="rgpd-idx">[01]</span><div><div class="rgpd-item-title">Données personnelles</div><p>Aucune donnée collectée. Pas de cookies de tracking, pas d'analytics, pas de formulaire. Visite entièrement anonyme.</p></div></div>
+      <div class="rgpd-item"><span class="rgpd-idx">[01]</span><div><div class="rgpd-item-title">Données personnelles</div><p>Aucune donnée collectée. Pas de cookies de suivi, pas d'analytique, pas de formulaire. La visite est entièrement anonyme.</p></div></div>
       <div class="rgpd-divider"></div>
-      <div class="rgpd-item"><span class="rgpd-idx">[02]</span><div><div class="rgpd-item-title">Hébergement</div><p>Code source sur <strong>GitHub</strong>, déployé via <strong>Vercel</strong>. Ces plateformes peuvent collecter des logs techniques conformément à leurs propres politiques.</p></div></div>
+      <div class="rgpd-item"><span class="rgpd-idx">[02]</span><div><div class="rgpd-item-title">Hébergement</div><p>Code source sur <strong>GitHub</strong>, déployé via <strong>Vercel</strong>. Ces plateformes peuvent collecter des journaux techniques conformément à leurs propres politiques de confidentialité.</p></div></div>
     </div>
   </div>
 </div>
@@ -636,7 +680,7 @@ function triggerFlagCapture() {
   const ctx = canvas.getContext('2d');
   let W, H, raf;
   const GRAVITY = 0.44;
-  const JUMP_FORCE = -17;  /* sauts plus hauts */
+  const JUMP_FORCE = -17;
   const SPEED = 3.4;
   const CR = '#c0001a';
   const CRG = 'rgba(192,0,26,';
@@ -655,14 +699,33 @@ function triggerFlagCapture() {
     if (e.key==='ArrowRight'||e.key==='d') keys.right=false;
     if (['ArrowUp','z',' ','w'].includes(e.key)) keys.jump=false;
   });
+
+  /* Touch controls via canvas swipe */
   let tx0=null, ty0=null;
-  canvas.addEventListener('touchstart', e => { tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; inputReceived=true; }, {passive:true});
+  canvas.addEventListener('touchstart', e => { tx0=e.touches[0].clientX; ty0=e.touches[0].clientY; inputReceived=true; e.preventDefault(); }, {passive:false});
   canvas.addEventListener('touchmove', e => {
     if(!tx0) return;
     const dx=e.touches[0].clientX-tx0, dy=e.touches[0].clientY-ty0;
     keys.left=dx<-20; keys.right=dx>20; keys.jump=dy<-30;
-  }, {passive:true});
+    e.preventDefault();
+  }, {passive:false});
   canvas.addEventListener('touchend', () => { keys.left=keys.right=keys.jump=false; tx0=null; });
+
+  /* On-screen buttons */
+  function bindBtn(id, keyName) {
+    const btn = document.getElementById(id);
+    if (!btn) return;
+    const setOn = () => { keys[keyName]=true; inputReceived=true; btn.classList.add('pressed'); };
+    const setOff = () => { keys[keyName]=false; btn.classList.remove('pressed'); };
+    btn.addEventListener('touchstart', e => { setOn(); e.stopPropagation(); }, {passive:true});
+    btn.addEventListener('touchend', e => { setOff(); e.stopPropagation(); }, {passive:true});
+    btn.addEventListener('mousedown', e => { setOn(); e.stopPropagation(); });
+    btn.addEventListener('mouseup', e => { setOff(); e.stopPropagation(); });
+    btn.addEventListener('mouseleave', () => setOff());
+  }
+  bindBtn('gc-left', 'left');
+  bindBtn('gc-right', 'right');
+  bindBtn('gc-jump', 'jump');
 
   /* Platforms: [xPct, yPct, wPct, h, isGround] */
   const PDEFS = [
@@ -682,13 +745,12 @@ function triggerFlagCapture() {
   let platforms = [], collapsing = [], bgParts = [], fParts = [];
   let flagWave = 0, flagDone = false;
 
-  /* Mobile platform: moves horizontally on the LEFT side */
   let mobileX = 0, mobileY = 0, mobileW = 0, mobileDir = 1;
   const MOBILE_SPEED = 1.2;
   const MOBILE_LEFT_LIMIT_PCT = 0.02;
   const MOBILE_RIGHT_LIMIT_PCT = 0.22;
 
-  /* Spawn platform: top-left area, disappears on first input */
+  /* Spawn platform: right side, high up — player starts here */
   let spawnPlat = null;
   let spawnVisible = true;
 
@@ -703,18 +765,17 @@ function triggerFlagCapture() {
       w: d[2]*W, h: d[3], ground: d[4], alive: true
     }));
 
-    /* spawn platform: left side, high up */
-    const spY = H * 0.30;
-    spawnPlat = { x: W*0.06, y: spY, w: 80, h: 4 };
+    /* spawn platform: right side, high up */
+    const spY = H * 0.28;
+    spawnPlat = { x: W*0.80, y: spY, w: 90, h: 4 };
     spawnVisible = true;
 
-    /* player starts on spawn platform */
+    /* player starts on right spawn platform, facing left */
     P.x = spawnPlat.x + spawnPlat.w/2 - P.w/2;
     P.y = spawnPlat.y - P.h - 1;
     P.vx=0; P.vy=0; P.onGround=true;
-    P.dead=false; P.dir=1; P.frame=0;
+    P.dead=false; P.dir=-1; P.frame=0;
 
-    /* mobile platform: left side */
     mobileW = W * 0.13;
     mobileX = W * MOBILE_LEFT_LIMIT_PCT;
     mobileY = H * 0.60;
@@ -745,7 +806,7 @@ function triggerFlagCapture() {
       }, i*75+Math.random()*100);
     });
     spawnVisible=false;
-    setTimeout(() => mobileDir=0, 400); /* stop mobile plat */
+    setTimeout(() => mobileDir=0, 400);
   }
   function ovlp(ax,ay,aw,ah,bx,by,bw,bh){return ax<bx+bw&&ax+aw>bx&&ay<by+bh&&ay+ah>by;}
 
@@ -757,7 +818,6 @@ function triggerFlagCapture() {
       if(p.y<-5)p.y=H+5; if(p.x<-5)p.x=W+5; if(p.x>W+5)p.x=-5;
     });
 
-    /* update mobile platform */
     if(mobileDir !== 0) {
       mobileX += MOBILE_SPEED * mobileDir;
       if(mobileX + mobileW > W * MOBILE_RIGHT_LIMIT_PCT) mobileDir = -1;
@@ -769,7 +829,7 @@ function triggerFlagCapture() {
 
     if(inputReceived && spawnVisible) spawnVisible=false;
 
-    if(P.dead) { P.deadT--; if(P.deadT<=0){P.dead=false;P.x=W*0.08;P.y=H-60;P.vx=0;P.vy=0;} return; }
+    if(P.dead) { P.deadT--; if(P.deadT<=0){P.dead=false;P.x=W*0.82;P.y=H-60;P.vx=0;P.vy=0;P.dir=-1;} return; }
 
     if(keys.left){P.vx=-SPEED;P.dir=-1;} else if(keys.right){P.vx=SPEED;P.dir=1;} else P.vx*=0.75;
 
@@ -783,7 +843,6 @@ function triggerFlagCapture() {
 
     P.onGround=false;
 
-    /* spawn platform collision */
     if(spawnVisible && spawnPlat) {
       const sp=spawnPlat;
       if(ovlp(P.x,P.y,P.w,P.h,sp.x,sp.y,sp.w,sp.h)){
@@ -791,7 +850,6 @@ function triggerFlagCapture() {
       }
     }
 
-    /* mobile platform collision */
     if(ovlp(P.x,P.y,P.w,P.h,mobileX,mobileY,mobileW,4)){
       if(P.vy>=0&&P.y+P.h-P.vy<=mobileY+2){
         P.y=mobileY-P.h; P.vy=0; P.onGround=true;
@@ -799,7 +857,6 @@ function triggerFlagCapture() {
       }
     }
 
-    /* static platforms */
     platforms.forEach(pl=>{
       if(!pl.alive)return;
       if(ovlp(P.x,P.y,P.w,P.h,pl.x,pl.y,pl.w,pl.h)){
@@ -808,7 +865,6 @@ function triggerFlagCapture() {
       }
     });
 
-    /* flag check */
     if(!flagDone){
       const fp=platforms[FLAG_IDX];
       if(fp&&fp.alive){
@@ -838,13 +894,11 @@ function triggerFlagCapture() {
 
   function drawMobilePlat(){
     ctx.fillStyle='rgba(13,13,13,0.88)'; ctx.fillRect(mobileX,mobileY,mobileW,4);
-    /* purple accent for mobile platform */
     ctx.fillStyle='#5865F2'; ctx.fillRect(mobileX,mobileY,mobileW,2);
     const g=ctx.createLinearGradient(mobileX,mobileY-14,mobileX,mobileY+4);
     g.addColorStop(0,'rgba(88,101,242,0.08)'); g.addColorStop(1,'transparent');
     ctx.fillStyle=g; ctx.fillRect(mobileX,mobileY-14,mobileW,18);
     ctx.fillStyle='#5865F2'; ctx.fillRect(mobileX,mobileY-3,3,3); ctx.fillRect(mobileX+mobileW-3,mobileY-3,3,3);
-    /* direction arrow */
     ctx.fillStyle='rgba(88,101,242,0.6)';
     ctx.font='10px sans-serif'; ctx.textAlign='center';
     ctx.fillText(mobileDir>=0?'→':'←', mobileX+mobileW/2, mobileY-6);
@@ -896,14 +950,11 @@ function triggerFlagCapture() {
 
   function draw(){
     ctx.clearRect(0,0,W,H);
-    /* grid */
     ctx.strokeStyle=CG; ctx.lineWidth=0.5;
     const GS=46;
     for(let x=0;x<W;x+=GS){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
     for(let y=0;y<H;y+=GS){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-    /* bg particles */
     bgParts.forEach(p=>{ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fillStyle=CW+p.a+')';ctx.fill();});
-    /* collapsing */
     collapsing.forEach(c=>{
       ctx.save(); ctx.globalAlpha=Math.max(0,c.opacity);
       ctx.translate(c.x+c.w/2,c.y+c.h/2); ctx.rotate(c.rot);
@@ -911,17 +962,13 @@ function triggerFlagCapture() {
       ctx.fillStyle=CR; ctx.fillRect(-c.w/2,-c.h/2,c.w,2);
       ctx.restore();
     });
-    /* static platforms */
     platforms.forEach((pl,i)=>{
       if(pl.ground||!pl.alive) return;
       drawPlat(pl.x,pl.y,pl.w,pl.h);
       if(i===FLAG_IDX&&!flagDone) drawFlag(pl.x+pl.w*0.5,pl.y);
     });
-    /* mobile platform */
     if(!flagDone) drawMobilePlat();
-    /* spawn platform */
     if(spawnVisible&&spawnPlat) drawSpawnPlat();
-    /* particles */
     fParts.forEach(p=>{ctx.globalAlpha=Math.max(0,p.life)*(p.flag?0.95:0.7);ctx.fillStyle=CR;ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);ctx.fill();});
     ctx.globalAlpha=1;
     if(!P.dead) drawPlayer(P.x,P.y,P.dir,P.frame,P.onGround);
@@ -932,7 +979,7 @@ function triggerFlagCapture() {
   function start(){
     if(raf) cancelAnimationFrame(raf);
     inputReceived=false; fParts=[]; flagDone=false; flagCaptured=false;
-    heroAccent.textContent='pour tous';
+    heroAccent.textContent='accessible à tous.';
     heroAccent.style.color=''; heroAccent.style.textShadow=''; heroAccent.style.animation='';
     heroVideo.pause(); heroVideo.classList.remove('active');
     buildWorld(); loop();
